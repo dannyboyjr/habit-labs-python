@@ -4,8 +4,8 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
-class Todo(db.Model, UserMixin):
-    __tablename__ = 'todos'
+class Habit(db.Model, UserMixin):
+    __tablename__ = 'habits'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -14,12 +14,13 @@ class Todo(db.Model, UserMixin):
     name = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
     amount = db.Column(db.Numeric(10,2), nullable=False)
-    due_date = db.Column(db.DateTime, nullable=False)
-    late_fee = db.Column(db.Numeric(10,2), nullable=False)
+    cadence = db.Column(db.Integer, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    isBuild = db.Column(db.Boolean, nullable=False, default=True)
     sicko_mode = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user = db.relationship("User", back_populates="todo")
+    user = db.relationship("User", back_populates="habit")
 
 
     def to_dict(self):
@@ -29,6 +30,5 @@ class Todo(db.Model, UserMixin):
             "name": self.name,
             "amount": self.amount,
             "due_date": self.due_date,
-            "late_fee": self.late_fee,
-            "sicko_mode": self.sicko_mode
+            "late_fee": self.late_fee
         }
