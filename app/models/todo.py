@@ -20,6 +20,9 @@ class Todo(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="todo")
+    check_in = db.relationship('Check_In', back_populates='todo', cascade='all, delete-orphan')
+    incomplete_log = db.relationship('Incomplete_Log', back_populates='todo', cascade='all, delete-orphan')
+    journal = db.relationship('Journal', back_populates='todo', cascade='all, delete-orphan')
 
 
     def to_dict(self):

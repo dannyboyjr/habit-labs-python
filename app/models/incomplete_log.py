@@ -18,6 +18,10 @@ class Incomplete_Log(db.Model, UserMixin):
     sicko_mode = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    user = db.relationship("User", back_populates="incomplete_log")
+    todo = db.relationship("Todo", back_populates="incomplete_log")
+    habit = db.relationship("Habit", back_populates="incomplete_log")
+
 
     def to_dict(self):
         return {

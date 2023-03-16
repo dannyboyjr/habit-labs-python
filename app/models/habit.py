@@ -21,9 +21,9 @@ class Habit(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="habit")
-    checkIn = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
-    incompleteTally = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
-    channel = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
+    check_in = db.relationship('Check_In', back_populates='habit', cascade='all, delete-orphan')
+    incomplete_log = db.relationship('Incomplete_Log', back_populates='habit', cascade='all, delete-orphan')
+    journal = db.relationship('Journal', back_populates='habit', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {

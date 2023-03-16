@@ -18,6 +18,9 @@ class Check_In(db.Model, UserMixin):
     is_late = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    user = db.relationship("User", back_populates="check_in")
+    todo = db.relationship("Todo", back_populates="check_in")
+    habit = db.relationship("Habit", back_populates="check_in")
 
     def to_dict(self):
         return {

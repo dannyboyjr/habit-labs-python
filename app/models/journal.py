@@ -18,6 +18,10 @@ class Journal(db.Model, UserMixin):
     future_action = db.Column(db.String(280))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    user = db.relationship("User", back_populates="journal")
+    todo = db.relationship("Todo", back_populates="journal")
+    habit = db.relationship("Habit", back_populates="journal")
+
 
     def to_dict(self):
         return {
