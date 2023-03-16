@@ -4,8 +4,8 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
-class IncompleteTally(db.Model, UserMixin):
-    __tablename__ = 'incompleteTally'
+class Check_In(db.Model, UserMixin):
+    __tablename__ = 'Check_Ins'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -14,8 +14,8 @@ class IncompleteTally(db.Model, UserMixin):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
     habit_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('habits.id')))
     todo_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('todos.id')))
-    amount = db.Column(db.Numeric(10,2), nullable=False)
-    sicko_mode = db.Column(db.Boolean, nullable=False, default=False)
+    check_in = db.Column(db.Boolean, default=False, nullable=False)
+    is_late = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -25,7 +25,7 @@ class IncompleteTally(db.Model, UserMixin):
             "user_id": self.user_id,
             "habit_id": self.habit_id,
             "todo_id": self.todo_id,
-            "amount": self.amount,
-            "sicko_mode": self.sicko_mode,
+            "check_in": self.checkIn,
+            "is_late": self.isLate,
             "created_at": self.created_at
         }

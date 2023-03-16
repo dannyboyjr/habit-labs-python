@@ -16,12 +16,14 @@ class Habit(db.Model, UserMixin):
     amount = db.Column(db.Numeric(10,2), nullable=False)
     cadence = db.Column(db.Integer, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    isBuild = db.Column(db.Boolean, nullable=False, default=True)
+    is_build = db.Column(db.Boolean, nullable=False, default=True)
     sicko_mode = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="habit")
-
+    checkIn = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
+    incompleteTally = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
+    channel = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
@@ -31,7 +33,7 @@ class Habit(db.Model, UserMixin):
             "amount": self.amount,
             "cadence": self.cadence,
             "end_date": self.end_date,
-            "isBuild": self.isBuild,
+            "is_build": self.is_build,
             "sicko_mode": self.sicko_mode,
             "created_at": self.created_at
         }
