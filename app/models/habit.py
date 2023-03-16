@@ -29,6 +29,9 @@ class Habit(db.Model, UserMixin):
             'user_id': self.user_id,
             "name": self.name,
             "amount": self.amount,
-            "due_date": self.due_date,
-            "late_fee": self.late_fee
+            "cadence": self.cadence,
+            "end_date": self.end_date,
+            "isBuild": self.isBuild,
+            "sicko_mode": self.sicko_mode,
+            "created_at": self.created_at
         }
