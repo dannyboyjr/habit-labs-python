@@ -1,10 +1,9 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
 from datetime import datetime
 
 
-class Journal(db.Model, UserMixin):
+class Journal(db.Model):
     __tablename__ = 'journals'
 
     if environment == "production":

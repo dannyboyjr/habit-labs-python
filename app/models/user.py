@@ -21,8 +21,8 @@ class User(db.Model, UserMixin):
     #relationships
     habits = db.relationship('Habit', back_populates='user', cascade='all, delete-orphan')
     todos = db.relationship('Todo', back_populates='user', cascade='all, delete-orphan')
-    check_in = db.relationship('Check_In', back_populates='user', cascade='all, delete-orphan')
-    incomplete_log = db.relationship('Incomplete_Log', back_populates='user', cascade='all, delete-orphan')
+    check_in = db.relationship('CheckIn', back_populates='user', cascade='all, delete-orphan')
+    incomplete_log = db.relationship('IncompleteLog', back_populates='user', cascade='all, delete-orphan')
     journal = db.relationship('Journal', back_populates='user', cascade='all, delete-orphan')
 
     @property

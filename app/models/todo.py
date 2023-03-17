@@ -1,10 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
 from datetime import datetime
 
 
-class Todo(db.Model, UserMixin):
+class Todo(db.Model):
     __tablename__ = 'todos'
 
     if environment == "production":
@@ -20,8 +18,8 @@ class Todo(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="todo")
-    check_in = db.relationship('Check_In', back_populates='todo', cascade='all, delete-orphan')
-    incomplete_log = db.relationship('Incomplete_Log', back_populates='todo', cascade='all, delete-orphan')
+    check_in = db.relationship('CheckIn', back_populates='todo', cascade='all, delete-orphan')
+    incomplete_log = db.relationship('IncompleteLog', back_populates='todo', cascade='all, delete-orphan')
     journal = db.relationship('Journal', back_populates='todo', cascade='all, delete-orphan')
 
 

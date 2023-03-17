@@ -1,10 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
 from datetime import datetime
 
 
-class Incomplete_Log(db.Model, UserMixin):
+class IncompleteLog(db.Model):
     __tablename__ = 'incomplete_logs'
 
     if environment == "production":

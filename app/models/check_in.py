@@ -1,11 +1,9 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
 from datetime import datetime
 
 
-class Check_In(db.Model, UserMixin):
-    __tablename__ = 'Check_Ins'
+class CheckIn(db.Model):
+    __tablename__ = 'check_ins'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
