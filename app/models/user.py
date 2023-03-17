@@ -19,8 +19,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     #relationships
-    habits = db.relationship('Habit', back_populates='user', cascade='all, delete-orphan')
-    todos = db.relationship('Todo', back_populates='user', cascade='all, delete-orphan')
+    habit = db.relationship('Habit', back_populates='user', cascade='all, delete-orphan')
+    todo = db.relationship('Todo', back_populates='user', cascade='all, delete-orphan')
     check_in = db.relationship('CheckIn', back_populates='user', cascade='all, delete-orphan')
     incomplete_log = db.relationship('IncompleteLog', back_populates='user', cascade='all, delete-orphan')
     journal = db.relationship('Journal', back_populates='user', cascade='all, delete-orphan')
