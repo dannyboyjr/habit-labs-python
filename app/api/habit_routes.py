@@ -96,3 +96,24 @@ def edit_habit(habit_id):
 
     db.session.commit()
     return jsonify(habit.to_dict()), 200
+
+
+@habit_routes.route('/<int:habit_id>', methods=["DELETE"])
+@login_required
+def delete_habit(habit_id):
+    """
+    DELETE: HABIT BY TODO_ID
+    """
+    habit = Habit.query.get(habit_id)
+
+    if habit:
+        if habit.user_id != current_user.id:
+            return jsonify({"error": "unauthorized"}), 403 
+        if habit.sicko_mode:
+            return jsonify({"error": "You cannot delete a sicko mode habit"}), 403 
+        else:
+            db.session.delete(habit)
+            db.session.commit()
+            return jsonify({"message": "habit deleted successfully"})
+    else:
+        return jsonify({"error": "habit not found"}), 404

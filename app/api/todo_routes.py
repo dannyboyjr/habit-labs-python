@@ -45,6 +45,8 @@ def get_todo_by_id(todo_id):
 
     return jsonify(todo.to_dict()), 200
 
+
+
 @todo_routes.route('/', methods=['POST'])
 @login_required
 def create_todo():
@@ -85,7 +87,7 @@ def edit_todo(todo_id):
     
     #rejects user from editing todo when in sicko mode
     if todo.sicko_mode:
-        return jsonify({'error': 'you are in Sicko Mode. Cannot edit Todo. Must complete task'}), 403
+        return jsonify({'error': 'You cannot edit a sicko mode Todo'}), 403
 
 
     data = request.get_json()
@@ -100,3 +102,25 @@ def edit_todo(todo_id):
 
     db.session.commit()
     return jsonify(todo.to_dict()), 200
+
+
+
+@todo_routes.route('/<int:todo_id>', methods=["DELETE"])
+@login_required
+def delete_todo(todo_id):
+    """
+    DELETE: TODO BY TODO_ID
+    """
+    todo = Todo.query.get(todo_id)
+
+    if todo:
+        if todo.user_id != current_user.id:
+            return jsonify({"error": "unauthorized"}), 403 
+        if todo.sicko_mode:
+            return jsonify({"error": "You cannot delete a sicko mode Todo"}), 403 
+        else:
+            db.session.delete(todo)
+            db.session.commit()
+            return jsonify({"message": "Todo deleted successfully"})
+    else:
+        return jsonify({"error": "Todo not found"}), 404
