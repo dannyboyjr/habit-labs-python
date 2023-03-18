@@ -5,12 +5,13 @@ from datetime import datetime
 
 habit_routes = Blueprint('habit', __name__)
 
-#get all habits of current user
+
+
 @habit_routes.route('/current', methods=["GET"])
 @login_required
 def get_current_user_habits():
     """
-    get all habits of current user
+    GET: ALL HABITS OF CURRENT_USER.ID
     """
     user_id = current_user.id
     habits = Habit.query.filter_by(user_id=user_id).all() 
@@ -18,11 +19,77 @@ def get_current_user_habits():
 
 
 
+@habit_routes.route('/<int:habit_id>', methods=["GET"])
+@login_required
+def get_habit_by_id(habit_id):
+    """
+    GET: HABIT BY HABIT_ID
+    """
+    habit = Habit.query.filter_by(id=habit_id, user_id=current_user.id).first()
+    if habit:
+        return jsonify(habit.to_dict())
+    else:
+        return jsonify({"error": "Habit not found"}), 404
+
+
+
 @habit_routes.route('/<int:habit_id>/journals', methods=['GET'])
 @login_required
 def get_all_journals_by_habit_id(habit_id):
     """
-    Get all journal entries by habit id
+    GET: ALL JOURNAL ENTRIES BY HABIT_ID
     """
     journals = Journal.query.filter_by(habit_id=habit_id, user_id=current_user.id).all()
     return jsonify([journal.to_dict() for journal in journals])
+
+
+
+@habit_routes.route('/', methods=["POST"])
+@login_required
+def create_habit():
+    """
+    POST: CREATE HABIT
+    """
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "missing request body"}), 400
+
+    habit = Habit(
+        name=data.get('name'),
+        user_id=current_user.id,
+        amount=data.get('amount'),
+        cadence=data.get('cadence'),
+        end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d'),
+        is_build=data.get('is_build', True),
+        sicko_mode=data.get('sicko_mode', False),
+    )
+
+    db.session.add(habit)
+    db.session.commit()
+    return jsonify(habit.to_dict()), 201
+
+
+
+@habit_routes.route('/<int:habit_id>', methods=["PUT"])
+@login_required
+def edit_habit(habit_id):
+    """
+    PUT: EDIT HABIT
+    """
+    habit = Habit.query.filter_by(id=habit_id, user_id=current_user.id).first()
+    if not Habit:
+        return jsonify({'error': 'Habit not found'}), 404
+
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Missing request body'}), 400
+
+    habit.name = data.get('name', habit.name)
+    habit.amount = data.get('amount', habit.amount)
+    habit.cadence = data.get('cadence', habit.cadence)
+    habit.end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
+    habit.is_build = data.get('is_build', habit.is_build)
+    habit.sicko_mode = data.get('sicko_mode', habit.sicko_mode)
+
+    db.session.commit()
+    return jsonify(habit.to_dict()), 200
