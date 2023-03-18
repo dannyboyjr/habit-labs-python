@@ -114,6 +114,6 @@ def delete_habit(habit_id):
         else:
             db.session.delete(habit)
             db.session.commit()
-            return jsonify({"message": "habit deleted successfully"})
+            return jsonify({"message": "habit deleted successfully"}), 200
     else:
         return jsonify({"error": "habit not found"}), 404

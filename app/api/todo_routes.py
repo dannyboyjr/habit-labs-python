@@ -121,6 +121,6 @@ def delete_todo(todo_id):
         else:
             db.session.delete(todo)
             db.session.commit()
-            return jsonify({"message": "Todo deleted successfully"})
+            return jsonify({"message": "Todo deleted successfully"}), 200
     else:
         return jsonify({"error": "Todo not found"}), 404
