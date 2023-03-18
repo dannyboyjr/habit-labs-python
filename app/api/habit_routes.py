@@ -54,7 +54,7 @@ def create_habit():
     if not data:
         return jsonify({"error": "missing request body"}), 400
 
-    habit = Habit(
+    new_habit = Habit(
         name=data.get('name'),
         user_id=current_user.id,
         amount=data.get('amount'),
@@ -64,9 +64,9 @@ def create_habit():
         sicko_mode=data.get('sicko_mode', False),
     )
 
-    db.session.add(habit)
+    db.session.add(new_habit)
     db.session.commit()
-    return jsonify(habit.to_dict()), 201
+    return jsonify(new_habit.to_dict()), 201
 
 
 
