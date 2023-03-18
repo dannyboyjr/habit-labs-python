@@ -6,28 +6,15 @@ from datetime import datetime
 habit_routes = Blueprint('habit', __name__)
 
 
-@habit_routes.route('/current/build', methods=["GET"])
+@habit_routes.route('/current', methods=["GET"])
 @login_required
-def get_current_user_build_habits():
+def get_current_user_habits():
     """
-    GET: ALL BUILD HABITS OF CURRENT_USER.ID
+    GET: ALL HABITS OF CURRENT_USER.ID
     """
     user_id = current_user.id
-    habits = Habit.query.filter_by(user_id=user_id, is_build=True).all() 
+    habits = Habit.query.filter_by(user_id=user_id).all() 
     return jsonify([habit.to_dict() for habit in habits])
-
-
-
-@habit_routes.route('/current/break', methods=["GET"])
-@login_required
-def get_current_user_break_habits():
-    """
-    GET: ALL BREAK HABITS OF CURRENT_USER.ID
-    """
-    user_id = current_user.id
-    habits = Habit.query.filter_by(user_id=user_id, is_build=False).all() 
-    return jsonify([habit.to_dict() for habit in habits])
-
 
 
 @habit_routes.route('/<int:habit_id>', methods=["GET"])
