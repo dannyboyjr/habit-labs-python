@@ -77,8 +77,11 @@ def edit_habit(habit_id):
     PUT: EDIT HABIT
     """
     habit = Habit.query.filter_by(id=habit_id, user_id=current_user.id).first()
-    if not Habit:
+    if not habit:
         return jsonify({'error': 'Habit not found'}), 404
+    if habit.sicko_mode:
+        return jsonify({'error': 'you are in Sicko Mode. Cannot edit habit. Must complete task'}), 403
+
 
     data = request.get_json()
     if not data:

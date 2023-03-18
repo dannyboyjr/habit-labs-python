@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify, request, db
-from app.models import Todo, Journal
+from flask import Blueprint, jsonify, request
+from app.models import Todo, Journal, db
 from flask_login import login_required, current_user
 from datetime import datetime
 
@@ -62,9 +62,41 @@ def create_todo():
         user_id = current_user.id,
         amount = data['amount'],
         late_fee = data['late_fee'],
-        due_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d'),
+        due_date=datetime.strptime(data.get('due_date'), '%Y-%m-%d'),
         sicko_mode=data.get('sicko_mode', False),
     )
+    db.session.add(new_todo)
+    db.session.commit()
 
-    db.session.commit(new_todo)
     return jsonify(new_todo.to_dict())
+
+
+
+
+@todo_routes.route('/<int:todo_id>', methods=["PUT"])
+@login_required
+def edit_todo(todo_id):
+    """
+    PUT: EDIT TODO
+    """
+    todo = Todo.query.filter_by(id=todo_id, user_id=current_user.id).first()
+    if not todo:
+        return jsonify({'error': 'Todo not found'}), 404
+    
+    #rejects user from editing todo when in sicko mode
+    if todo.sicko_mode:
+        return jsonify({'error': 'you are in Sicko Mode. Cannot edit Todo. Must complete task'}), 403
+
+
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Missing request body'}), 400
+
+    todo.name = data.get('name', todo.name)
+    todo.amount = data.get('amount', todo.amount)
+    todo.late_fee = data.get('late_fee', todo.late_fee)
+    todo.due_date = datetime.strptime(data.get('due_date'), '%Y-%m-%d')
+    todo.sicko_mode = data.get('sicko_mode', todo.sicko_mode)
+
+    db.session.commit()
+    return jsonify(todo.to_dict()), 200
