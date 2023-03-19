@@ -1,9 +1,19 @@
+import {useState, useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import StatsBar from "../components/StatsBar/StatsBar";
 import BreakHabitContainer from "../components/BreakHabitContainer/BreakHabitContainer";
 import BuildhabitContainer from "../components/BuildHabitContainer/BuildHabitContainer";
 import TodosContainer from "../components/TodosContainer/TodosContainer";
+import {getAllUserHabits} from "../store/habit";
 import "./Home.css";
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+		dispatch(getAllUserHabits()).then(()=>setIsLoaded(true))
+	}, [dispatch])
+
   return (
     <div className="home-page-container">
       <StatsBar />
