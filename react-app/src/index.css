@@ -1,8 +1,8 @@
 /* TODO Add site wide styles */
 
 .general-task-container{
-    width: 373px;
-    height: 441px;
+    min-width: 373px;
+    min-height: 441px;
     background: #E8E8E8;
     border-radius: 5px;
     margin: 15px;

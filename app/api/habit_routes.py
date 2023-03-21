@@ -52,16 +52,24 @@ def create_habit():
     if not data:
         return jsonify({"error": "missing request body"}), 400
 
+    
+    end_date = None
+    cadence = None
+    if data.get('is_build') == True:
+        cadence = data.get('cadence')
+        end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
 
     new_habit = Habit(
         name=data.get('name'),
         user_id=current_user.id,
         amount=data.get('amount'),
-        cadence=data.get('cadence'),
-        end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d'),
+        cadence=cadence,
+        end_date=end_date,
         is_build=data.get('is_build', True),
         sicko_mode=data.get('sicko_mode', False),
     )
+
+    
 
     db.session.add(new_habit)
     db.session.commit()
