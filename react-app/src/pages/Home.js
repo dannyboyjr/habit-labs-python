@@ -5,6 +5,8 @@ import BreakHabitContainer from "../components/BreakHabitContainer/BreakHabitCon
 import BuildhabitContainer from "../components/BuildHabitContainer/BuildHabitContainer";
 import TodosContainer from "../components/TodosContainer/TodosContainer";
 import {getAllUserHabits} from "../store/habit";
+import {getAllHabitCheckins} from '../store/checkin'
+import { getAllUserTodos } from '../store/todo'
 import "./Home.css";
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -13,7 +15,8 @@ const HomePage = () => {
   const habitsArray = Object.values(habits)
 
   useEffect(() => {
-  
+    dispatch(getAllHabitCheckins())
+    dispatch(getAllUserTodos())
     dispatch(getAllUserHabits()).then(()=>setIsLoaded(true))
 	}, [dispatch])
 

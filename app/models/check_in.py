@@ -26,7 +26,7 @@ class CheckIn(db.Model):
             "user_id": self.user_id,
             "habit_id": self.habit_id,
             "todo_id": self.todo_id,
-            "check_in": self.checkIn,
-            "is_late": self.isLate,
+            "check_in": self.check_in,
+            "is_late": self.is_late,
             "created_at": self.created_at
         }

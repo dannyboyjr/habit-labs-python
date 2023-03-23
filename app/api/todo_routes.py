@@ -14,7 +14,7 @@ def get_current_user_todos():
     """
     user_id = current_user.id
     todos = Todo.query.filter_by(user_id=user_id).all()
-    return jsonify({'user todos': [todo.to_dict() for todo in todos]})
+    return jsonify([todo.to_dict() for todo in todos])
 
 
 

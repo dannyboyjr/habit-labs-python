@@ -2,21 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {createAHabit} from '../../store/habit'
 
-const BuildHabitForm = () => {
-
-    const cadenceOptions = [
-  { value: 1, label: "daily" },
-  { value: 8, label: "weekly" },
-  { value: 30, label: "monthly" },
-    ];
 
 
-
-    const getDefaultDate = () => {
-        const date = new Date();
-        date.setDate(date.getDate() + 66);
-        return date.toISOString().split("T")[0];
-      }
+const BreakHabitForm = () => {
+   
 
   const dispatch = useDispatch()
   const [showDropdown, setShowDropdown] = useState(false);
@@ -24,10 +13,8 @@ const BuildHabitForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     amount: 1.00,
-    cadence: 1,
-    end_date: getDefaultDate(),
     sickoMode: false,
-    is_build: true
+    is_build: false
   });
 
   const handleInputChange = (e) => {
@@ -54,17 +41,10 @@ const BuildHabitForm = () => {
     }));
   };
 
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.amount || !formData.cadence || !formData.end_date) {
+    if (!formData.name || !formData.amount) {
         setErrorMessage("all inputs are required");
       } else {
     //! Delete concole log
@@ -73,10 +53,8 @@ const BuildHabitForm = () => {
         setFormData({
             name: "",
             amount: 1.00,
-            cadence: 1,
-            end_date: getDefaultDate(),
             sickoMode: false,
-            is_build: true
+            is_build: false
           });
           setShowDropdown(false)
         })
@@ -86,8 +64,8 @@ const BuildHabitForm = () => {
   // Makes it so that the form collapses if you click outside of the form
   const formRef = useRef(null);
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (formRef.current && !formRef.current.contains(event.target)) {
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
     };
@@ -133,30 +111,6 @@ const BuildHabitForm = () => {
 
       {showDropdown && (
         <div>
-          {/* <div>
-            <label>Cadence:</label>
-            <select
-              name="cadence"
-              value={formData.cadence}
-              onChange={handleAmountChange}
-            >
-              <option value="">Select cadence</option>
-              {cadenceOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div> */}
-          <div>
-            <label>End Date</label>
-            <input
-              type="date"
-              name="end_date"
-              value={formData.end_date}
-              onChange={handleDateChange}
-            />
-          </div>
           <div>
             <label>Sicko Mode</label>
             <input
@@ -176,4 +130,4 @@ const BuildHabitForm = () => {
   );
 };
 
-export default BuildHabitForm;
+export default BreakHabitForm;

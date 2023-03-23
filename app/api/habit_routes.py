@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-from app.models import Habit,Journal, db
-from datetime import datetime
+from app.models import Habit,Journal, CheckIn, db
+from datetime import datetime, date
+from sqlalchemy import func
 
 habit_routes = Blueprint('habit', __name__)
 
@@ -124,3 +125,75 @@ def delete_habit(habit_id):
             return jsonify({"message": "habit deleted successfully"}), 200
     else:
         return jsonify({"error": "habit not found"}), 404
+    
+
+
+
+@habit_routes.route('/<int:habit_id>/checkin', methods=["POST"])
+@login_required
+def create_habit_checkin(habit_id):
+    """
+    POST: CREATE A CHECKIN FOR HABIT
+    """
+    habit = Habit.query.filter_by(id=habit_id, user_id=current_user.id).first()
+    if not habit:
+        return jsonify({'error': 'Habit not found'}), 404
+    
+    today = datetime.utcnow().date()
+    existing_checkin = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).filter(func.DATE(CheckIn.created_at)==today).first()
+    if existing_checkin:
+        return jsonify({'error': 'A check-in for this habit already exists today'}), 400
+
+
+    check_in = CheckIn(
+        user_id=current_user.id,
+        habit_id=habit_id,
+        check_in=True,
+        is_late=False,
+        created_at=datetime.utcnow(),
+    )
+
+    db.session.add(check_in)
+    db.session.commit()
+
+    return jsonify(check_in.to_dict()), 201
+
+
+
+@habit_routes.route('/checkins', methods=["GET"])
+@login_required
+def get_current_user_checkins():
+    """
+    GET: ALL CHECK-INS OF CURRENT_USER.ID for today
+    """
+    user_id = current_user.id
+    today = datetime.utcnow().date()
+    existing_checkin = CheckIn.query.filter_by(user_id=user_id).filter(func.DATE(CheckIn.created_at)==today).all()
+
+    return jsonify([checkin.to_dict() for checkin in existing_checkin])
+
+
+@habit_routes.route('/<int:habit_id>/checkins', methods=["GET"])
+@login_required
+def get_habit_checkins(habit_id):
+    """
+    GET: ALL CHECK-INS FOR A SPECIFIC HABIT
+    """
+    habit = Habit.query.filter_by(id=habit_id, user_id=current_user.id).first()
+    if not habit:
+        return jsonify({'error': 'Habit not found'}), 404
+
+    checkins = CheckIn.query.filter_by(habit_id=habit_id).all() 
+    return jsonify([checkin.to_dict() for checkin in checkins])
+
+
+
+
+
+
+
+
+
+
+
+

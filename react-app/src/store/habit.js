@@ -27,9 +27,9 @@ const loadHabitJournals = (habits) => ({
     habits
 });
 
-const deleteHabit = (habits) => ({
+const deleteHabit = (habit) => ({
     type: DELETE_HABIT,
-    habits
+    habit
 })
 
 export const getAllUserHabits = () => async (dispatch) => {
@@ -62,9 +62,17 @@ export const createAHabit = (habit) => async (dispatch) => {
     }
     return response
 };
-
 // ! editAHabit thunk (note: you can use the createHabit(line:20) and CREATE_HABIT(line:3))
 
+export const deleteHabitById = (id) => async (dispatch) => {
+    const response = await fetch(`/api/habits/${id}`, {
+        method: "DELETE",
+    });
+
+    if (response.ok) {
+        dispatch(deleteHabit(id))
+    }
+};
 
 
 
@@ -85,6 +93,11 @@ const habitsReducer = (state = initialState, action) => {
             newState = { ...state }
             newState[action.habit.id] = action.habit
             return newState;
+        case DELETE_HABIT:
+            newState = {...state}
+            delete newState[action.habit]
+            return newState
+
         default:
             return state;
         }

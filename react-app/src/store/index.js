@@ -2,10 +2,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import habitsReducer from './habit';
+import checkinReducer from './checkin';
+import todosReducer from './todo';
 
 const rootReducer = combineReducers({
   session,
-  habits: habitsReducer
+  habits: habitsReducer,
+  checkins: checkinReducer,
+  todos: todosReducer
 });
 
 

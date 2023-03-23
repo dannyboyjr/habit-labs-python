@@ -33,5 +33,5 @@ class Habit(db.Model):
             "end_date": self.end_date,
             "is_build": self.is_build,
             "sicko_mode": self.sicko_mode,
-            "created_at": self.created_at
+            "created_at": self.created_at,
         }

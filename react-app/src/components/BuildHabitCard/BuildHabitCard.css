@@ -1,1 +1,116 @@
+.habit-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    padding: 8px;
+    position: relative;
+  }
+  
+  .habit-card-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .habit-card-button {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    background-color: #ccc;
+    margin-right: 8px;
+  }
+  
+  .habit-card-details {
+    flex: 1;
+  }
+  
+  .habit-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    text-transform: capitalize;
+  }
+  
+  .habit-card-amount {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    text-transform: capitalize;
+  }
+  
+  .habit-card-line {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #999;
+  }
+  
+  .habit-card-time {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+  }
+  
+  .habit-card-dropdown-container {
+    position: relative;
+  }
+  
+  .habit-card-dropdown-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  cursor: pointer;
+}
 
+.habit-card-dropdown-icon {
+    width: 3px;
+    height:3px;
+    background-color: rgb(143, 141, 141);
+    border-radius: 50%;
+    margin: 1px;
+  }
+
+.habit-card-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.habit-card-dropdown-menu:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  border: 5px solid transparent;
+  border-bottom-color: #fff;
+}
+
+.habit-card-dropdown-item {
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+}
+
+.habit-card-dropdown-item:hover {
+  background-color: #eee;
+}
+
+.habit-card-dropdown-item.danger {
+  color: #ff0000;
+}
+
+.habit-card-dropdown-item.danger:hover {
+  background-color: #ff0000;
+  color: #fff;
+}
