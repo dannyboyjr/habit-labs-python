@@ -13,6 +13,8 @@ const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const habits = useSelector(state => state.habits)
   const habitsArray = Object.values(habits)
+  const todos = useSelector(state => state.todos)
+  const todoArray = Object.values(todos)
 
   useEffect(() => {
     dispatch(getAllHabitCheckins())
@@ -36,7 +38,7 @@ const HomePage = () => {
         </div>
         <div className="name-task-layout">
           <h3>Todos</h3>
-          <TodosContainer />
+          <TodosContainer todos={todoArray} />
         </div>
 
       </div>

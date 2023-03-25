@@ -4,6 +4,7 @@ import {createAHabit} from '../../store/habit'
 
 const BuildHabitForm = () => {
 
+  //! Not being used currently. only daily habits are enabled. once custom habits are enabled this will be relevant
     const cadenceOptions = [
   { value: 1, label: "daily" },
   { value: 8, label: "weekly" },
@@ -11,74 +12,95 @@ const BuildHabitForm = () => {
     ];
 
 
-
+    //set form date 66 days out
     const getDefaultDate = () => {
         const date = new Date();
         date.setDate(date.getDate() + 66);
         return date.toISOString().split("T")[0];
       }
 
+      // formats date for submition
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getUTCFullYear();
+        //padStart makes it so that there is a leading 0 if only "4" is entered, for example so 2023-4-1 -> 2023-04-01.
+        const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+        const day = String(date.getUTCDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
   const dispatch = useDispatch()
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    amount: 1.00,
-    cadence: 1,
-    end_date: getDefaultDate(),
-    sickoMode: false,
-    is_build: true
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   amount: 1.00,
+  //   cadence: 1,
+  //   end_date: getDefaultDate(),
+  //   sickoMode: false,
+  //   is_build: true
+  // });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState(1.00)
+  const [cadence, setCadence] = useState(1)
+  const [endDate, setEndDate] = useState(getDefaultDate())
+  const [sickoMode, setSickoMode] = useState(JSON.parse(false))
 
-  const handleAmountChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: parseFloat(value),
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleRadioChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: checked,
-    }));
-  };
+  // const handleAmountChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: parseFloat(value),
+  //   }));
+  // };
 
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  // const handleCheckedChange = (e) => {
+  //   const { name, checked } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: checked,
+  //   }));
+  // };
+
+  // const handleDateChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
+  const newhabit = {
+    name: name,
+    amount: amount,
+    cadence: cadence,
+    end_date: endDate,
+    is_build: true,
+    sicko_mode: sickoMode
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.amount || !formData.cadence || !formData.end_date) {
+    if (!newhabit.name || !newhabit.amount || !newhabit.cadence || !newhabit.end_date) {
         setErrorMessage("all inputs are required");
       } else {
-    //! Delete concole log
-    console.log(formData)
-    dispatch(createAHabit(formData)).then(()=>{
-        setFormData({
-            name: "",
-            amount: 1.00,
-            cadence: 1,
-            end_date: getDefaultDate(),
-            sickoMode: false,
-            is_build: true
-          });
-          setShowDropdown(false)
+   
+    dispatch(createAHabit(newhabit)).then(()=>{
+            setName("");
+            setAmount(1.00);
+            setCadence(1);
+            setEndDate(getDefaultDate());
+            setSickoMode(false);
+          setShowDropdown(false);
+
         })
     }
   };
@@ -107,28 +129,31 @@ const BuildHabitForm = () => {
       {/* name */}
       <div>
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <label>Name</label>
+
+        <label>
+          Name
         <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          onClick={toggleDropdown}
-          autoComplete="off"
-        />
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onClick={toggleDropdown}
+              required
+            />
+            </label>
       </div>
 
       {/* amount */}
       <div>
-        <label>Amount</label>
-        <input
-          type="number"
-          step="0.01"
-          name="amount"
-          value={formData.amount}
-          onChange={handleAmountChange}
-          onClick={toggleDropdown}
-        />
+      <label>
+            Amount
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              onClick={toggleDropdown}
+              required
+            />
+          </label>
       </div>
 
       {showDropdown && (
@@ -149,23 +174,24 @@ const BuildHabitForm = () => {
             </select>
           </div> */}
           <div>
-            <label>End Date</label>
+          <label>End Date</label>
             <input
               type="date"
               name="end_date"
-              value={formData.end_date}
-              onChange={handleDateChange}
+              value={endDate}
+              onChange={(e) => setEndDate(formatDate(e.target.value))}
+              
             />
           </div>
           <div>
-            <label>Sicko Mode</label>
+          <label>
+            Enable Sicko Mode
             <input
               type="checkbox"
-              id="sickoMode"
-              name="sickoMode"
-              checked={formData.sickoMode}
-              onChange={handleRadioChange}
+              value={sickoMode}
+              onChange={(e) => setSickoMode(e.target.checked)}
             />
+          </label>
           </div>
           <button type="submit">Create</button>
         </div>

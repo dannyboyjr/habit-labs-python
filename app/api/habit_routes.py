@@ -95,10 +95,16 @@ def edit_habit(habit_id):
     if not data:
         return jsonify({'error': 'Missing request body'}), 400
 
+    end_date = None
+    cadence = None
+    if data.get('is_build') == True:
+        cadence = data.get('cadence')
+        end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
+
     habit.name = data.get('name', habit.name)
     habit.amount = data.get('amount', habit.amount)
-    habit.cadence = data.get('cadence', habit.cadence)
-    habit.end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
+    cadence=cadence,
+    end_date=end_date,
     habit.is_build = data.get('is_build', habit.is_build)
     habit.sicko_mode = data.get('sicko_mode', habit.sicko_mode)
 

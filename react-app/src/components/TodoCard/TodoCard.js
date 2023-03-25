@@ -1,12 +1,12 @@
-import './BuildHabitCard.css'
+// import './TodoCard.css'
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { deleteHabitById } from '../../store/habit';
+// ! import { deleteHabitById } from '../../store/habit';
 import { createACheckin } from '../../store/checkin';
-import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
-import OpenModalButton from '../OpenModalButton/index'
+// ! import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
+// import OpenModalButton from '../OpenModalButton/index'
 
-const BuildHabitCard = ({ habit }) => {
+const TodoCard = ({ todo }) => {
   const dispatch = useDispatch()
   const checkIns = useSelector(state => state.checkins)
   const checkinArray = Object.values(checkIns)
@@ -17,13 +17,12 @@ const BuildHabitCard = ({ habit }) => {
   };
 
   const handleDelete = () => {
-    // Perform deletion logic here
-    dispatch(deleteHabitById(habit.id)).then(handleDropdownToggle())
+    // !dispatch(deleteHabitById(habit.id)).then(handleDropdownToggle())
   };
 
   const handleComplete = () => {
 
-    dispatch(createACheckin(habit.id))
+    // ! dispatch(createACheckin(todo.id))
   }
 
   const formRef = useRef(null);
@@ -41,19 +40,19 @@ const BuildHabitCard = ({ habit }) => {
   }, [formRef]);
 
 
-  const isCompleteFilter = checkinArray.find((item) => {
-    return habit.id == item.habit_id
-  })
+  //! need to work through logic on how to best only pull tasks that are due. not complete
+//   const isCompleteFilter = checkinArray.find((item) => {
+//     return habit.id == item.habit_id
+//   })
 
   return (
     <div>
-      { !isCompleteFilter && habit.is_build &&
     <div className="habit-card">
       <div className="habit-card-content">
         <div onClick={handleComplete} className="habit-card-button"></div>
         <div className="habit-card-details">
-          <h3 className="habit-card-title">{habit.name}</h3>
-          <p className="habit-card-amount">{habit.amount}</p>
+          <h3 className="habit-card-title">{todo.name}</h3>
+          <p className="habit-card-amount">{todo.amount}</p>
           <p className="habit-card-line">On the line</p>
           <div className="habit-card-time">time placeholder</div>
         </div>
@@ -69,11 +68,12 @@ const BuildHabitCard = ({ habit }) => {
           {showDropdown && (
             <div className="habit-card-dropdown-menu">
               <div className="habit-card-dropdown-item" >
-              <OpenModalButton
+                //! need to build edit todo modal
+              {/* <OpenModalButton
               buttonText="Edit"
               // onItemClick={closeMenu}
-              modalComponent={<EditBuildhabitModal habit={habit}/>}
-            />
+              modalComponent={<EditBuildhabitModal todo={todo}/>}
+            /> */}
               </div>
               <div
                 className="habit-card-dropdown-item danger"
@@ -86,9 +86,9 @@ const BuildHabitCard = ({ habit }) => {
         </div>
       </div>
     </div>
-    }
+    
     </div>
   );
 };
 
-export default BuildHabitCard;
+export default TodoCard;
