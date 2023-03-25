@@ -31,18 +31,6 @@ def get_habit_by_id(habit_id):
         return jsonify({"error": "Habit not found"}), 404
 
 
-
-@habit_routes.route('/<int:habit_id>/journals', methods=['GET'])
-@login_required
-def get_all_journals_by_habit_id(habit_id):
-    """
-    GET: ALL JOURNAL ENTRIES BY HABIT_ID
-    """
-    journals = Journal.query.filter_by(habit_id=habit_id, user_id=current_user.id).all()
-    return jsonify([journal.to_dict() for journal in journals])
-
-
-
 @habit_routes.route('/', methods=["POST"])
 @login_required
 def create_habit():

@@ -62,7 +62,18 @@ export const createATodo = (todo) => async (dispatch) => {
     }
     return response
 };
-// ! editAHabit thunk (note: you can use the createHabit(line:20) and CREATE_HABIT(line:3))
+
+export const editTodoById = (todo_id, todo) => async (dispatch) => {
+    const response = await fetch(`/api/todos/${todo_id}`, {
+        headers: { "Content-Type": "application/json" },
+        method: "PUT",
+        body: JSON.stringify(todo),
+    });
+    if (response.ok) {
+        const todo = await response.json();
+        dispatch(createTodo(todo));
+    }
+};
 
 export const deleteTodoById = (todo_id) => async (dispatch) => {
     const response = await fetch(`/api/todos/${todo_id}`, {

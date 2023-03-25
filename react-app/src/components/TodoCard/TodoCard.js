@@ -1,10 +1,10 @@
 // import './TodoCard.css'
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
-// ! import { deleteHabitById } from '../../store/habit';
+import { deleteTodoById } from '../../store/todo';
 import { createACheckin } from '../../store/checkin';
-// ! import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
-// import OpenModalButton from '../OpenModalButton/index'
+import EditTodoModal from '../EditTodoModal/EditTodoModal'
+import OpenModalButton from '../OpenModalButton/index'
 
 const TodoCard = ({ todo }) => {
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const TodoCard = ({ todo }) => {
   };
 
   const handleDelete = () => {
-    // !dispatch(deleteHabitById(habit.id)).then(handleDropdownToggle())
+    dispatch(deleteTodoById(todo.id)).then(handleDropdownToggle())
   };
 
   const handleComplete = () => {
@@ -68,12 +68,11 @@ const TodoCard = ({ todo }) => {
           {showDropdown && (
             <div className="habit-card-dropdown-menu">
               <div className="habit-card-dropdown-item" >
-                //! need to build edit todo modal
-              {/* <OpenModalButton
+              <OpenModalButton
               buttonText="Edit"
               // onItemClick={closeMenu}
-              modalComponent={<EditBuildhabitModal todo={todo}/>}
-            /> */}
+              modalComponent={<EditTodoModal todo={todo}/>}
+            />
               </div>
               <div
                 className="habit-card-dropdown-item danger"

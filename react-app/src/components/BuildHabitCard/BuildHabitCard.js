@@ -57,6 +57,8 @@ const BuildHabitCard = ({ habit }) => {
           <p className="habit-card-line">On the line</p>
           <div className="habit-card-time">time placeholder</div>
         </div>
+        {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
+        {!habit.sicko_mode && 
         <div ref={formRef} className="habit-card-dropdown-container">
           <div
             className="habit-card-dropdown-button"
@@ -66,7 +68,8 @@ const BuildHabitCard = ({ habit }) => {
             <div className="habit-card-dropdown-icon"></div>
             <div className="habit-card-dropdown-icon"></div>
           </div>
-          {showDropdown && (
+          {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
+          {!habit.sicko_mode && showDropdown && (
             <div className="habit-card-dropdown-menu">
               <div className="habit-card-dropdown-item" >
               <OpenModalButton
@@ -84,6 +87,7 @@ const BuildHabitCard = ({ habit }) => {
             </div>
           )}
         </div>
+}
       </div>
     </div>
     }

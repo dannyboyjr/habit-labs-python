@@ -1,46 +1,42 @@
-import React, { useState } from "react";
-import {editHabitById} from '../../store/habit'
+import { useState } from "react";
+import { editTodoById } from "../../store/todo";
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal'
 import { useParams } from 'react-router-dom';
 
-function EditBuildhabitModal({habit}) {
+function EditTodoModal({todo}) {
     const dispatch = useDispatch();
 
     const formatDate = (dateString) => {
-        if(habit.is_build){
         const date = new Date(dateString);
         const year = date.getUTCFullYear();
         const month = String(date.getUTCMonth() + 1).padStart(2, "0");
         const day = String(date.getUTCDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
-        }else{
-            return null
-        }
+
       }
 
-    const [name, setName] = useState(habit.name)
-    const [amount, setAmount] = useState(habit.amount)
-    const [endDate, setEndDate] = useState(formatDate(habit.end_date))
-    const [sickoMode, setSickoMode] = useState(JSON.parse(habit.sicko_mode))
+    const [name, setName] = useState(todo.name)
+    const [amount, setAmount] = useState(todo.amount)
+    const [dueDate, setDueDate] = useState(formatDate(todo.due_date))
+    const [sickoMode, setSickoMode] = useState(JSON.parse(todo.sicko_mode))
+    const [lateFee, setLateFee] = useState(todo.late_fee)
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
     
 
-    const updateHabit = {
+    const editedTodo = {
         name: name,
         amount: amount,
-        cadence: habit.cadence,
-        created_at: habit.created_at,
-        end_date: endDate,
-        is_build: habit.is_build,
+        late_fee: lateFee,
+        due_date: dueDate,
         sicko_mode: sickoMode,
-        user_id: habit.user_id
     }
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-        const data = await dispatch(editHabitById(habit.id, updateHabit))
+      //!Need to build out editAHabitThunk
+        const data = await dispatch(editTodoById(todo.id, editedTodo))
         if (data) {
             const {error} = await data.json()
             setErrors(error);
@@ -52,7 +48,7 @@ function EditBuildhabitModal({habit}) {
   
     return (
       <>
-        <h1>Edit Habit</h1>
+        <h1>Edit Todo</h1>
         <form onSubmit={handleSubmit}>
           <ul>
             {errors.map((error, idx) => (
@@ -79,16 +75,25 @@ function EditBuildhabitModal({habit}) {
               required
             />
           </label>
-          { habit.is_build &&
-          <label>End Date
+
+          <label>
+            Daily Late Fee
+            <input
+              type="number"
+              value={lateFee}
+              onChange={(e) => setLateFee(e.target.value)}
+              required
+            />
+          </label>
+
+          <label>Due Date
             <input
               type="date"
-              name="end_date"
-              value={endDate}
-              onChange={(e) => setEndDate(formatDate(e.target.value))}
+              name="due_date"
+              value={dueDate}
+              onChange={(e) => setDueDate(formatDate(e.target.value))}
             />
             </label>
-          }
           <label>
             Enable Sicko Mode
             <input
@@ -103,5 +108,5 @@ function EditBuildhabitModal({habit}) {
     );
   }
   
-  export default EditBuildhabitModal;
+  export default EditTodoModal;
   
