@@ -1,12 +1,7 @@
 const LOAD_USER_HABITS = "habits/loadUserHabits";
 const LOAD_HABIT_BY_ID = 'habits/loadHabitsById'
 const CREATE_HABIT = 'habits/createHabit'
-const EDIT_HABIT_BY_ID = 'habits/editHabitById'
 const DELETE_HABIT = 'habits/deleteHabit'
-const LOAD_JOURNALS_BY_HABIT_ID = 'habits/loadJournalsByHabitId'
-// ! const LOAD_JOURNAL_BY_ID = 'habits/loadJournalById'
-// ! const CREATE_JOURNAL = 'habits/createJournal'
-// ! const DELETE_JOURNAL = 'habits/deleteJournal'
 
 const loadUserhabits = (habits) => ({
     type: LOAD_USER_HABITS,
@@ -22,11 +17,6 @@ const createHabit = (habit) => ({
     type: CREATE_HABIT,
     habit
 })
-
-const loadHabitJournals = (habits) => ({
-    type: LOAD_JOURNALS_BY_HABIT_ID,
-    habits
-});
 
 const deleteHabit = (habit) => ({
     type: DELETE_HABIT,
@@ -63,7 +53,6 @@ export const createAHabit = (habit) => async (dispatch) => {
     }
     return response
 };
-// ! editAHabit thunk (note: you can use the createHabit(line:20) and CREATE_HABIT(line:3))
 
 export const editHabitById = (habit_id, habit) => async (dispatch) => {
     const response = await fetch(`/api/habits/${habit_id}`, {

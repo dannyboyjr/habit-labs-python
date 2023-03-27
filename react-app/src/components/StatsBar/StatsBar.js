@@ -1,5 +1,8 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 import './StatsBar.css'
+import { editJournalById } from '../../store/journal';
+
 
 const StatsBar = () => {
 return(
