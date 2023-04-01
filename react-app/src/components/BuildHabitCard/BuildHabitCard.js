@@ -11,6 +11,7 @@ const BuildHabitCard = ({ habit }) => {
   const checkIns = useSelector(state => state.checkins)
   const checkinArray = Object.values(checkIns)
   const [showDropdown, setShowDropdown] = useState(false);
+  const [countdown, setCountdown] = useState('');
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -26,6 +27,7 @@ const BuildHabitCard = ({ habit }) => {
     dispatch(createACheckin(habit.id))
   }
 
+  
   const formRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -41,6 +43,29 @@ const BuildHabitCard = ({ habit }) => {
   }, [formRef]);
 
 
+  useEffect(() => {
+    const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const userDate = new Date();
+    const userTime = userDate.toLocaleString('en-US', { timeZone: userTz });
+    const userMidnight = new Date(userTime);
+    userMidnight.setHours(24, 0, 0, 0);
+  
+    const countdownInterval = setInterval(() => {
+      const timeDiff = userMidnight - new Date();
+      const hoursLeft = Math.floor(timeDiff / 1000 / 60 / 60);
+      const minutesLeft = Math.floor((timeDiff / 1000 / 60) % 60);
+      const secondsLeft = Math.floor((timeDiff / 1000) % 60);
+      
+      setCountdown(
+        `${hoursLeft}:${minutesLeft}:${secondsLeft}`
+      );
+    }, 1000);
+  
+    return () => clearInterval(countdownInterval);
+  }, []);
+  
+  
+
   const isCompleteFilter = checkinArray.find((item) => {
     return habit.id == item.habit_id
   })
@@ -55,7 +80,7 @@ const BuildHabitCard = ({ habit }) => {
           <h3 className="habit-card-title">{habit.name}</h3>
           <p className="habit-card-amount">{habit.amount}</p>
           <p className="habit-card-line">On the line</p>
-          <div className="habit-card-time">time placeholder</div>
+          <div className="habit-card-time">{countdown}</div>
         </div>
         {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
         {!habit.sicko_mode && 
@@ -68,7 +93,7 @@ const BuildHabitCard = ({ habit }) => {
             <div className="habit-card-dropdown-icon"></div>
             <div className="habit-card-dropdown-icon"></div>
           </div>
-          {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
+          {habit.sicko_mode && <p className="">Sicko mode</p>}
           {!habit.sicko_mode && showDropdown && (
             <div className="habit-card-dropdown-menu">
               <div className="habit-card-dropdown-item" >

@@ -5,13 +5,15 @@ import habitsReducer from './habit';
 import checkinReducer from './checkin';
 import todosReducer from './todo';
 import journalsReducer from './journal';
+import incompleteLogsReducer from './incomplete_log';
 
 const rootReducer = combineReducers({
   session,
   habits: habitsReducer,
   checkins: checkinReducer,
   todos: todosReducer,
-  journals: journalsReducer
+  journals: journalsReducer,
+  incomplete_logs: incompleteLogsReducer
 });
 
 

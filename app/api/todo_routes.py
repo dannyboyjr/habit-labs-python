@@ -13,7 +13,7 @@ def get_current_user_todos():
     GET: ALL TODOS OF CURRENT USER
     """
     user_id = current_user.id
-    todos = Todo.query.filter_by(user_id=user_id).all()
+    todos = Todo.query.filter_by(user_id=user_id, is_complete=False).all()
     return jsonify([todo.to_dict() for todo in todos])
 
 
@@ -124,3 +124,19 @@ def delete_todo(todo_id):
             return jsonify({"message": "Todo deleted successfully"}), 200
     else:
         return jsonify({"error": "Todo not found"}), 404
+
+
+@todo_routes.route('/<int:todo_id>/complete', methods=["PATCH"])
+@login_required
+def complete_todo(todo_id):
+    """
+    PATCH: Mark Todo as complete
+    """
+    todo = Todo.query.filter_by(id=todo_id, user_id=current_user.id).first()
+    if not todo:
+        return jsonify({'error': 'Todo not found'}), 404
+
+    todo.is_complete = True
+
+    db.session.commit()
+    return jsonify(todo.to_dict()), 200

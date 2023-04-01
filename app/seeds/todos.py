@@ -9,6 +9,7 @@ def seed_todos():
         user_id=1, 
         amount=15.00,
         due_date=datetime.utcnow() + timedelta(days=2),
+        is_complete=False,
         late_fee=1.00)
 
     todo2 = Todo(
@@ -16,6 +17,7 @@ def seed_todos():
         user_id=1, 
         amount=20.00,
         due_date=datetime.utcnow() + timedelta(days=10), 
+        is_complete=False,
         late_fee=2.00)
 
     db.session.add(todo1)

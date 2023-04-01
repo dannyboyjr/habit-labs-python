@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired, Email, ValidationError
+from wtforms import StringField, SelectField
+from wtforms.validators import DataRequired, Email, ValidationError, AnyOf
 from app.models import User
+import pytz
+
+timezone_list = pytz.all_timezones
 
 
 def user_exists(form, field):
@@ -21,6 +24,8 @@ def username_exists(form, field):
 
 
 class SignUpForm(FlaskForm):
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])

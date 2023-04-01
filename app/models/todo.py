@@ -15,6 +15,7 @@ class Todo(db.Model):
     due_date = db.Column(db.DateTime, nullable=False)
     late_fee = db.Column(db.Numeric(10,2), nullable=False)
     sicko_mode = db.Column(db.Boolean, nullable=False, default=False)
+    is_complete = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="todo")
@@ -31,5 +32,6 @@ class Todo(db.Model):
             "amount": self.amount,
             "due_date": self.due_date,
             "late_fee": self.late_fee,
-            "sicko_mode": self.sicko_mode
+            "sicko_mode": self.sicko_mode,
+            "is_complete": self.is_complete
         }

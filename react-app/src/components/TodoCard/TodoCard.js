@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { deleteTodoById } from '../../store/todo';
 import { createACheckin } from '../../store/checkin';
+import { completeATodo } from "../../store/todo";
 import EditTodoModal from '../EditTodoModal/EditTodoModal'
 import OpenModalButton from '../OpenModalButton/index'
 
@@ -22,7 +23,7 @@ const TodoCard = ({ todo }) => {
 
   const handleComplete = () => {
 
-    // ! dispatch(createACheckin(todo.id))
+    dispatch(completeATodo(todo.id))
   }
 
   const formRef = useRef(null);

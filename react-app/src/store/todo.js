@@ -3,6 +3,7 @@ const LOAD_TODO_BY_ID = 'todos/loadTodoById'
 const CREATE_TODO = 'todos/createTodo'
 const DELETE_TODO = 'todos/deleteTodo'
 const LOAD_JOURNALS_BY_TODO_ID = 'todos/loadJournalsByTodoId'
+const COMPLETE_TODO = 'todos/completeTodo'
 // ! const LOAD_JOURNAL_BY_ID = 'todos/loadJournalById'
 // ! const CREATE_JOURNAL = 'todos/createJournal'
 // ! const DELETE_JOURNAL = 'todos/deleteJournal'
@@ -21,6 +22,11 @@ const createTodo = (todo) => ({
     type: CREATE_TODO,
     todo
 })
+const completeTodo = (todo) => ({
+    type: COMPLETE_TODO,
+    todo
+});
+
 
 const loadTodoJournals = (todos) => ({
     type: LOAD_JOURNALS_BY_TODO_ID,
@@ -75,6 +81,17 @@ export const editTodoById = (todo_id, todo) => async (dispatch) => {
     }
 };
 
+export const completeATodo = (todo_id) => async (dispatch) => {
+    const response = await fetch(`/api/todos/${todo_id}/complete`, {
+        headers: { "Content-Type": "application/json" },
+        method: "PATCH",
+    });
+    if (response.ok) {
+        const todo = await response.json();
+        dispatch(completeTodo(todo));
+    }
+};
+
 export const deleteTodoById = (todo_id) => async (dispatch) => {
     const response = await fetch(`/api/todos/${todo_id}`, {
         method: "DELETE",
@@ -91,7 +108,6 @@ const todosReducer = (state = initialState, action) => {
     let newState = {...state};
     switch(action.type) {
         case LOAD_USER_TODOS:
-            console.log("TESTTESTTEST")
             console.log(action.todos)
             action.todos.forEach(todo => {
                 newState[todo.id] = todo;
@@ -104,6 +120,11 @@ const todosReducer = (state = initialState, action) => {
             newState = { ...state }
             newState[action.todo.id] = action.todo
             return newState;
+        case COMPLETE_TODO:
+            newState = { ...state }
+            console.log(action.todo)
+            delete newState[action.todo.id] 
+            return newState
         case DELETE_TODO:
             newState = {...state}
             delete newState[action.todo]

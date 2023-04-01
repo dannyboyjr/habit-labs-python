@@ -7,6 +7,7 @@ import TodosContainer from "../components/TodosContainer/TodosContainer";
 import {getAllUserHabits} from "../store/habit";
 import {getAllHabitCheckins} from '../store/checkin'
 import { getAllUserTodos } from '../store/todo'
+import { getIncompleteLogs } from '../store/incomplete_log'
 import "./Home.css";
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getAllHabitCheckins())
     dispatch(getAllUserTodos())
+    dispatch(getIncompleteLogs())
     dispatch(getAllUserHabits()).then(()=>setIsLoaded(true))
 	}, [dispatch])
 

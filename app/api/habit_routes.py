@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
 from app.models import Habit,Journal, CheckIn, db
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
+from pytz import timezone
+import pytz
 from sqlalchemy import func
 
 habit_routes = Blueprint('habit', __name__)
@@ -137,7 +139,7 @@ def create_habit_checkin(habit_id):
     existing_checkin = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).filter(func.DATE(CheckIn.created_at)==today).first()
     if existing_checkin:
         return jsonify({'error': 'A check-in for this habit already exists today'}), 400
-
+    
 
     check_in = CheckIn(
         user_id=current_user.id,
@@ -161,10 +163,18 @@ def get_current_user_checkins():
     GET: ALL CHECK-INS OF CURRENT_USER.ID for today
     """
     user_id = current_user.id
-    today = datetime.utcnow().date()
-    existing_checkin = CheckIn.query.filter_by(user_id=user_id).filter(func.DATE(CheckIn.created_at)==today).all()
+    user_timezone = pytz.timezone(current_user.timezone)
+    today_local = datetime.now(user_timezone).date()
+    all_checkins = CheckIn.query.filter_by(user_id=user_id).all()
 
+    # existing_checkin = CheckIn.query.filter_by(user_id=user_id).filter(func.DATE(func.convert_tz(CheckIn.created_at,'+00:00',current_user.timezone))==today_local).all()
+    existing_checkin = [
+        checkin for checkin in all_checkins
+        if checkin.created_at.replace(tzinfo=pytz.UTC).astimezone(user_timezone).date() == today_local
+    ]
     return jsonify([checkin.to_dict() for checkin in existing_checkin])
+
+
 
 
 @habit_routes.route('/<int:habit_id>/checkins', methods=["GET"])

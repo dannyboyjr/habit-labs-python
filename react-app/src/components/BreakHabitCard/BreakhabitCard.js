@@ -2,13 +2,29 @@ import "./BreakHabitCard.css";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { deleteHabitById } from '../../store/habit';
+import { createIncompleteLog } from "../../store/incomplete_log";
 import OpenModalButton from '../OpenModalButton/index'
 import EditBuildhabitModal from "../EditBuildHabitModal/EditBuildHabitModal";
 import IncompleteIcon from '../../assets/IncompleteIcon.png'
+
 const BreakHabitCard = ({ habit }) => {
   // if (habit.is_build) {
   //     return null;
   //   }
+
+  const onBreakSubmit = (e) => {
+    e.preventDefault()
+    let slipUp = {
+      amount: habit.amount,
+      habit_id: habit.id,
+      todo_id: null,
+      sicko_mode: habit.sicko_mode
+    }
+    alert("Why didn't you complete your task?")
+    console.log(slipUp)
+    dispatch(createIncompleteLog(slipUp))
+
+  }
   const [showDropdown, setShowDropdown] = useState(false);
   const dispatch = useDispatch()
 
@@ -40,7 +56,7 @@ const BreakHabitCard = ({ habit }) => {
       {!habit.is_build && (
         <div className="habit-card">
           <div className="habit-card-content">
-            <img className="incompleteImg" src={IncompleteIcon} />
+            <img className="incompleteImg" onClick={onBreakSubmit} src={IncompleteIcon} />
             <div className="habit-card-details">
               <h3 className="habit-card-title">{habit.name}</h3>
               <p className="habit-card-amount">{habit.amount}</p>
