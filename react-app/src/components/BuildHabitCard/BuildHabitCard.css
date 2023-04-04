@@ -6,6 +6,9 @@
     height: 50px;
     padding: 8px;
     position: relative;
+    margin-top: 5px;
+    margin-left:3px;
+    margin-right:3px;
   }
   
   .habit-card-content {

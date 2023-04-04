@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {editHabitById} from '../../store/habit'
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal'
-import { useParams } from 'react-router-dom';
 
 function EditBuildhabitModal({habit}) {
     const dispatch = useDispatch();

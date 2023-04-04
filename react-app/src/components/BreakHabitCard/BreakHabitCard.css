@@ -1,4 +1,4 @@
-.incompleteImg{
-    height: 30px;
-    margin-right: 8px;
-}
+.break-habit-image {
+    width: 35px; /* Change to your desired width */
+    height: auto; /* Maintain aspect ratio */
+  }

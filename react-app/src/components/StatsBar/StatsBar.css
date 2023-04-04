@@ -1,5 +1,44 @@
-.stats-bar-container{
-width: 100%;
-height: 200px;
-background-color: #E6E6E6;
-}
+.stats-bar-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 1170px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    
+  }
+  
+  .money-on-the-line,
+  .money-lost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    max-height: 100px;
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  
+  .money-on-the-line div,
+  .money-lost div {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .money-on-the-line p,
+  .money-lost p {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  @media (max-width: 1170px) {
+    .stats-bar-container {
+      width: 100%;
+    }
+  }

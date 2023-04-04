@@ -9,9 +9,11 @@ import OpenModalButton from '../OpenModalButton/index'
 
 const TodoCard = ({ todo }) => {
   const dispatch = useDispatch()
+  const userTimezone = useSelector(state => state.session.user.timezone)
   const checkIns = useSelector(state => state.checkins)
   const checkinArray = Object.values(checkIns)
   const [showDropdown, setShowDropdown] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -40,11 +42,42 @@ const TodoCard = ({ todo }) => {
     };
   }, [formRef]);
 
+  const calculateTimeRemaining = () => {
+    const dueDate = new Date(todo.due_date);
+    const dueDateInUserTimezone = new Date(dueDate.toLocaleString('en-US', { timeZone: userTimezone }));
+    dueDateInUserTimezone.setDate(dueDateInUserTimezone.getDate());
+    dueDateInUserTimezone.setHours(23, 59, 59, 0);
 
-  //! need to work through logic on how to best only pull tasks that are due. not complete
-//   const isCompleteFilter = checkinArray.find((item) => {
-//     return habit.id == item.habit_id
-//   })
+  const now = new Date();
+  
+
+  const nowInUserTimezone = new Date(now.toLocaleString('en-US', { timeZone: userTimezone }));
+
+  const difference = dueDateInUserTimezone - nowInUserTimezone;
+
+  // if (difference < 0) {
+  //   setTimeRemaining('time has expired! hurry, your late fee is due tonight!');
+  //   return;
+  // }
+
+    
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    if (days > 0) {
+      setTimeRemaining(`due in ${days}${days === 1 ? ' day' : ' days'}`);
+    } else {
+      setTimeRemaining(`due in ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`);
+    }
+  };
+  useEffect(() => {
+    calculateTimeRemaining();
+    
+    const timerId = setInterval(calculateTimeRemaining, 1000);
+    return () => clearInterval(timerId);
+  }, []);
 
   return (
     <div>
@@ -55,8 +88,11 @@ const TodoCard = ({ todo }) => {
           <h3 className="habit-card-title">{todo.name}</h3>
           <p className="habit-card-amount">{todo.amount}</p>
           <p className="habit-card-line">On the line</p>
-          <div className="habit-card-time">time placeholder</div>
+          <div className="habit-card-time">{timeRemaining}</div>
         </div>
+        
+        {todo.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
+        {!todo.sicko_mode && 
         <div ref={formRef} className="habit-card-dropdown-container">
           <div
             className="habit-card-dropdown-button"
@@ -66,7 +102,9 @@ const TodoCard = ({ todo }) => {
             <div className="habit-card-dropdown-icon"></div>
             <div className="habit-card-dropdown-icon"></div>
           </div>
-          {showDropdown && (
+          {todo.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
+          {todo.sicko_mode && <p className="">Sicko mode</p>}
+          {!todo.sicko_mode && showDropdown && (
             <div className="habit-card-dropdown-menu">
               <div className="habit-card-dropdown-item" >
               <OpenModalButton
@@ -84,6 +122,10 @@ const TodoCard = ({ todo }) => {
             </div>
           )}
         </div>
+}
+
+
+
       </div>
     </div>
     

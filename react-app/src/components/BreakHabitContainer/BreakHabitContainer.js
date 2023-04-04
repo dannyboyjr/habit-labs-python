@@ -9,7 +9,7 @@ const BreakHabitContainer = ({habits}) => {
 
             {
                 habits.map((habit) => (
-                <BreakHabitCard habit={habit}/>
+                <BreakHabitCard key={habit.id} habit={habit}/>
                 ))
             }
         </div>

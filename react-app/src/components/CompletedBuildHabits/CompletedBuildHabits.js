@@ -1,12 +1,13 @@
-import './BuildHabitCard.css'
+
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { deleteHabitById } from '../../store/habit';
 import { createACheckin } from '../../store/checkin';
 import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
 import OpenModalButton from '../OpenModalButton/index'
+import './CompletedBuildHabits.css'
 
-const BuildHabitCard = ({ habit }) => {
+const CompletedBuildHabits = ({ habit }) => {
   const dispatch = useDispatch()
   const checkIns = useSelector(state => state.checkins)
   const checkinArray = Object.values(checkIns)
@@ -22,12 +23,12 @@ const BuildHabitCard = ({ habit }) => {
     dispatch(deleteHabitById(habit.id)).then(handleDropdownToggle())
   };
 
-  const handleComplete = () => {
+  const markIncomplete = () => {
 
-    dispatch(createACheckin(habit.id))
+    // dispatch(createACheckin(habit.id))
   }
 
-  //use to 
+  //use to calculate days remaining
   const calculateDays = (habit) => {
     const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   
@@ -48,7 +49,6 @@ const BuildHabitCard = ({ habit }) => {
       totalDays,
     };
   };
-
   const { daysComplete, totalDays } = calculateDays(habit);
 
 
@@ -67,7 +67,7 @@ const BuildHabitCard = ({ habit }) => {
     };
   }, [formRef]);
 
-
+//counts down time left today
   useEffect(() => {
     const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const userDate = new Date();
@@ -100,10 +100,12 @@ const BuildHabitCard = ({ habit }) => {
 
   return (
     <div>
-      { !isCompleteFilter && habit.is_build &&
+      { isCompleteFilter && habit.is_build &&
     <div className="habit-card">
       <div className="habit-card-content">
-        <div onClick={handleComplete} className="habit-card-button"></div>
+      <div onClick={markIncomplete} className="habit-card-button">
+        <span className="checkmark">&#x2713;</span>
+        </div>
         <div className="habit-card-details">
           <h3 className="habit-card-title">{habit.name}</h3>
           <p className="habit-card-amount">${habit.amount}</p>
@@ -111,7 +113,7 @@ const BuildHabitCard = ({ habit }) => {
         </div>
         <div>
           <div className="habit-card-time">{countdown}</div>
-          <p className="habit-card-line">Due In</p>
+          <p className="habit-card-line">Avalaible in</p>
         </div>
         <div>
         <p className="habit-card-days-complete"> {daysComplete}/{totalDays}</p>
@@ -156,4 +158,4 @@ const BuildHabitCard = ({ habit }) => {
   );
 };
 
-export default BuildHabitCard;
+export default CompletedBuildHabits;

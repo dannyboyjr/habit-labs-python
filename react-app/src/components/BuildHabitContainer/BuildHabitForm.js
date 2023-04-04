@@ -150,7 +150,7 @@ const BuildHabitForm = () => {
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              onClick={toggleDropdown}
+              onClick={{toggleDropdown}}
               required
             />
           </label>

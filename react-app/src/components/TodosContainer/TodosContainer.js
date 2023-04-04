@@ -8,7 +8,7 @@ const TodosContainer = ({todos}) => {
             <TodoForm />
             {
                 todos.map((todo) => (
-                <TodoCard todo={todo}/>
+                <TodoCard key={todo.id} todo={todo}/>
                 ))
             }
 

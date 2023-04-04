@@ -24,9 +24,9 @@ const createJournal = (journal) => ({
   journal,
 });
 
-const deleteJournal = (id) => ({
+const deleteJournal = (journal) => ({
   type: DELETE_JOURNAL,
-  id,
+  journal,
 });
 
 export const getAllJournals = () => async (dispatch) => {
@@ -72,8 +72,8 @@ export const createNewJournal = (journal) => async (dispatch) => {
   }
 };
 
-export const editJournalById = (journalId, journal) => async (dispatch) => {
-  const response = await fetch(`/api/journals/${journalId}/`, {
+export const editJournalById = (journal_id, journal) => async (dispatch) => {
+  const response = await fetch(`/api/journals/${journal_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -125,11 +125,13 @@ const journalsReducer = (state = initialState, action) => {
       return newState;
 
     case CREATE_JOURNAL:
-      newState[action.journal.id] = action.journal;
-      return newState;
+      newState = { ...state }
+            newState[action.journal.id] = action.journal
+            return newState;
 
     case DELETE_JOURNAL:
-      delete newState[action.journalId];
+      newState = { ...state};
+      delete newState[action.journal];
       return newState;
 
     default:

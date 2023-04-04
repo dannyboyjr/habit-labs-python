@@ -111,7 +111,7 @@ const BreakHabitForm = () => {
 
       {showDropdown && (
         <div>
-          <div>
+          {/* <div>
             <label>Sicko Mode</label>
             <input
               type="checkbox"
@@ -120,7 +120,7 @@ const BreakHabitForm = () => {
               checked={formData.sickoMode}
               onChange={handleRadioChange}
             />
-          </div>
+          </div> */}
           <button type="submit">Create</button>
         </div>
         
