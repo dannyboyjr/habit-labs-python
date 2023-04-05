@@ -4,6 +4,7 @@ import {createATodo} from '../../store/todo'
 
 const TodoForm = () => {
 
+    //auto sets defualt date to end today at midnight
     const getDefaultDate = () => {
         const date = new Date();
         date.setDate(date.getDate());
@@ -13,62 +14,35 @@ const TodoForm = () => {
   const dispatch = useDispatch()
   // const userTimeZone = useSelector(state => state.session.user.timezone)
   const [showDropdown, setShowDropdown] = useState(false);
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState(1.00)
+  const [lateFee, setLateFee] = useState(1.00)
+  const [dueDate, setDueDate] = useState(getDefaultDate())
+  const [sickoMode, setSickoMode] = useState(JSON.parse(false))
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    amount: 1.00,
-    late_fee: 1.00,
-    due_date: getDefaultDate(),
-    sickoMode: false
 
-  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleAmountChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: parseFloat(value),
-    }));
-  };
-
-  const handleRadioChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: checked,
-    }));
-  };
-
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const newTodo = {
+    name: name,
+    amount: amount,
+    late_fee: lateFee,
+    due_date: dueDate,
+    sicko_mode: sickoMode
+}
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.amount || !formData.late_fee || !formData.due_date) {
+    if (!newTodo.name || !newTodo.amount || !newTodo.late_fee || !newTodo.due_date) {
         setErrorMessage("all inputs are required");
       } else {
-    dispatch(createATodo(formData)).then(()=>{
-        setFormData({
-            name: "",
-            amount: 1.00,
-            late_fee: 1.00,
-            due_date: getDefaultDate(),
-            sickoMode: false
-          });
-          setShowDropdown(false)
+    dispatch(createATodo(newTodo)).then(()=>{
+        setName("");
+        setAmount(1.00);
+        setLateFee(1.00);
+        setDueDate(getDefaultDate());
+        setSickoMode(false);
+        setShowDropdown(false)
         })
     }
   };
@@ -87,7 +61,6 @@ const TodoForm = () => {
     };
   }, [formRef]);
 
-  //! Ask jake why I can't just put setShowDropdown(true) in the onclick function down below?
   const toggleDropdown = () => {
     setShowDropdown((prevShowDropdown) => true);
   };
@@ -97,28 +70,30 @@ const TodoForm = () => {
       {/* name */}
       <div>
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <label>Name</label>
+      <label>
+          Name
         <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          onClick={toggleDropdown}
-          autoComplete="off"
-        />
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onClick={toggleDropdown}
+              required
+            />
+            </label>
       </div>
 
       {/* amount */}
       <div>
-        <label>Amount</label>
-        <input
-          type="number"
-          step="0.01"
-          name="amount"
-          value={formData.amount}
-          onChange={handleAmountChange}
-          onClick={toggleDropdown}
-        />
+      <label>
+            Amount
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              onClick={toggleDropdown}
+              required
+            />
+          </label>
       </div>
 
       {showDropdown && (
@@ -129,29 +104,30 @@ const TodoForm = () => {
           type="number"
           step="0.01"
           name="late_fee"
-          value={formData.late_fee}
-          onChange={handleAmountChange}
+          value={lateFee}
+          onChange={(e) => setLateFee(e.target.value)}
           onClick={toggleDropdown}
         />
       </div>
           <div>
-            <label>Due Date</label>
+          <label>End Date</label>
             <input
               type="date"
-              name="due_date"
-              value={formData.due_date}
-              onChange={handleDateChange}
+              name="end_date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              
             />
           </div>
           <div>
-            <label>Sicko Mode</label>
+          <label>
+            Enable Sicko Mode
             <input
               type="checkbox"
-              id="sickoMode"
-              name="sickoMode"
-              checked={formData.sickoMode}
-              onChange={handleRadioChange}
+              value={sickoMode}
+              onChange={(e) => setSickoMode(e.target.checked)}
             />
+          </label>
           </div>
           <button type="submit">Create</button>
         </div>

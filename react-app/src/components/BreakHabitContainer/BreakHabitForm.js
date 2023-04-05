@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {createAHabit} from '../../store/habit'
-
+import './BreakhabitForm.css'
 
 
 const BreakHabitForm = () => {
@@ -10,53 +10,37 @@ const BreakHabitForm = () => {
   const dispatch = useDispatch()
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    amount: 1.00,
-    sickoMode: false,
-    is_build: false
-  });
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState(1.00)
+  const [cadence, setCadence] = useState(1)
+  const [sickoMode, setSickoMode] = useState(JSON.parse(false))
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   amount: 1.00,
+  //   sickoMode: false,
+  //   is_build: false
+  // });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleAmountChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: parseFloat(value),
-    }));
-  };
-
-  const handleRadioChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: checked,
-    }));
-  };
-
+  const newHabit = {
+    name: name,
+    amount: amount,
+    cadence: cadence,
+    end_date: null,
+    is_build: false,
+    sicko_mode: sickoMode
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.amount) {
+    if (!newHabit.name || !newHabit.amount) {
         setErrorMessage("all inputs are required");
       } else {
-    //! Delete concole log
-    console.log(formData)
-    dispatch(createAHabit(formData)).then(()=>{
-        setFormData({
-            name: "",
-            amount: 1.00,
-            sickoMode: false,
-            is_build: false
-          });
-          setShowDropdown(false)
+    dispatch(createAHabit(newHabit)).then(()=>{
+      setName("");
+      setAmount(1.00);
+      setCadence(1);
+      setSickoMode(false);
+      setShowDropdown(false);
         })
     }
   };
@@ -75,57 +59,41 @@ const BreakHabitForm = () => {
     };
   }, [formRef]);
 
-  //! Ask jake why I can't just put setShowDropdown(true) in the onclick function down below?
   const toggleDropdown = () => {
     setShowDropdown((prevShowDropdown) => true);
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit}>
-      {/* name */}
-      <div>
+    <form ref={formRef} onSubmit={handleSubmit} className="break-habit-form">
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-        <label>Name</label>
+
+      {/* name */}
+      <div className="input-container name-input">
         <input
           type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           onClick={toggleDropdown}
-          autoComplete="off"
+          required
+          placeholder="Name"
         />
       </div>
 
       {/* amount */}
-      <div>
-        <label>Amount</label>
+      <div className="input-container amount-input">
         <input
           type="number"
-          step="0.01"
-          name="amount"
-          value={formData.amount}
-          onChange={handleAmountChange}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
           onClick={toggleDropdown}
+          required
+          placeholder="Amount"
         />
       </div>
 
-      {showDropdown && (
-        <div>
-          {/* <div>
-            <label>Sicko Mode</label>
-            <input
-              type="checkbox"
-              id="sickoMode"
-              name="sickoMode"
-              checked={formData.sickoMode}
-              onChange={handleRadioChange}
-            />
-          </div> */}
-          <button type="submit">Create</button>
-        </div>
-        
-      )}
-      
+      <div className="button-container">
+        <button type="submit">Create</button>
+      </div>
     </form>
   );
 };

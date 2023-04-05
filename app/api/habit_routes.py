@@ -106,7 +106,7 @@ def edit_habit(habit_id):
 @login_required
 def delete_habit(habit_id):
     """
-    DELETE: HABIT BY TODO_ID
+    DELETE: HABIT BY HABIT_ID
     """
     habit = Habit.query.get(habit_id)
 
@@ -174,6 +174,28 @@ def get_current_user_checkins():
     ]
     return jsonify([checkin.to_dict() for checkin in existing_checkin])
 
+
+@habit_routes.route('/checkins/<int:habit_id>', methods=["DELETE"])
+@login_required
+def delete_checkin_by_habit_id(habit_id):
+    """
+    DELETE: A CHECK-IN (only searches todays checkins) BY HABIT_ID
+    """
+    user_id = current_user.id
+    user_timezone = pytz.timezone(current_user.timezone)
+    today_local = datetime.now(user_timezone).date()
+    checkin = CheckIn.query.filter_by(user_id=user_id, habit_id=habit_id).first()
+
+    if not checkin:
+        return jsonify({"error": "Check-in not found"}), 404
+
+    if checkin.created_at.replace(tzinfo=pytz.UTC).astimezone(user_timezone).date() != today_local:
+        return jsonify({"error": "Check-in is not for today"}), 400
+
+    db.session.delete(checkin)
+    db.session.commit()
+
+    return jsonify({"message": "Check-in deleted successfully"})
 
 
 

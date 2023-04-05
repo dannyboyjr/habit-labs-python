@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { deleteHabitById } from '../../store/habit';
-import { createACheckin } from '../../store/checkin';
+import { deleteCheckinByHabitId } from '../../store/checkin'
 import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
 import OpenModalButton from '../OpenModalButton/index'
 import './CompletedBuildHabits.css'
@@ -19,13 +19,11 @@ const CompletedBuildHabits = ({ habit }) => {
   };
 
   const handleDelete = () => {
-    // Perform deletion logic here
     dispatch(deleteHabitById(habit.id)).then(handleDropdownToggle())
   };
 
   const markIncomplete = () => {
-
-    // dispatch(createACheckin(habit.id))
+    dispatch(deleteCheckinByHabitId(habit.id))
   }
 
   //use to calculate days remaining

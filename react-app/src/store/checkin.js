@@ -1,5 +1,6 @@
 const LOAD_HABIT_CHECKINS = "checkins/loadHabitCheckins";
 const CREATE_HABIT_CHECKIN = 'checkins/createHabitCheckin'
+const DELETE_CHECKIN_HABIT_ID = 'checkins/deleteCheckinByHabitId'
 
 const loadAllHabitCheckins = (checkins) => ({
     type: LOAD_HABIT_CHECKINS,
@@ -10,6 +11,12 @@ const createHabitCheckin = (checkin) => ({
     type: CREATE_HABIT_CHECKIN,
     checkin
 })
+
+const deleteCheckin = (habit_id) => ({
+    type: DELETE_CHECKIN_HABIT_ID,
+    habit_id
+})
+
 
 export const getAllHabitCheckins = () => async (dispatch) => {
     const response = await fetch(`/api/habits/checkins`);
@@ -34,6 +41,16 @@ export const createACheckin = (habit_id) => async (dispatch) => {
     return response
 };
 
+export const deleteCheckinByHabitId = (habit_id) => async (dispatch) => {
+    const response = await fetch(`/api/habits/checkins/${habit_id}`, {
+        method: "DELETE",
+    });
+
+    if (response.ok) {
+        dispatch(deleteCheckin(habit_id))
+    }
+};
+
 const initialState = {
 
 };
@@ -50,7 +67,11 @@ const checkinReducer = (state = initialState, action) => {
             newState = { ...state }
             newState[action.checkin.habit_id] = action.checkin
             return newState;
-        
+
+        case DELETE_CHECKIN_HABIT_ID:
+            newState = {...state}
+            delete newState[action.habit_id]
+            return newState
         default:
             return state
 
