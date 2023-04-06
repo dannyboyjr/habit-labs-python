@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./pages/Home";
 import JournalsPage from "./pages/Journals";
+import Profile from "./pages/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path="/journals">
             <JournalsPage />
+          </Route>
+          <Route path="/profile">
+            <Profile />
           </Route>
           
         </Switch>
