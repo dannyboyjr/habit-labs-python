@@ -34,17 +34,14 @@ const BuildHabitCard = ({ habit }) => {
       timeZone: userTz,
     });
     const currentDateObj = new Date(currentDate);
-
     const createdDate = new Date(habit.created_at).toLocaleString("en-US", {
       timeZone: userTz,
     });
     const createdDateObj = new Date(createdDate);
-
     const endDate = new Date(habit.end_date).toLocaleString("en-US", {
       timeZone: userTz,
     });
     const endDateObj = new Date(endDate);
-
     const daysComplete = Math.max(
       1,
       Math.floor((currentDateObj - createdDateObj) / (1000 * 60 * 60 * 24)) + 1
@@ -153,13 +150,14 @@ const BuildHabitCard = ({ habit }) => {
                 <p className="habit-card-line">On the line</p>
               </div>
               <div>
-                <div className="habit-card-time">{countdown}</div>
-                <p className="habit-card-line">Due In</p>
-              </div>
-              <div>
                <div className="habit-card-days-complete" > {daysComplete}/{totalDays} </div>
                <p className="habit-card-line">days remaining</p>
               </div>
+              <div>
+                <div className="habit-card-time">{countdown}</div>
+                <p className="habit-card-line">Due In</p>
+              </div>
+              
           </div>
 
         </div>
