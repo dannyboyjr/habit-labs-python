@@ -1,0 +1,38 @@
+.profile-container {
+    position: relative;
+    background: linear-gradient(135deg, #19294e, #4d4e88);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+.edit-icon {
+  position: absolute;
+  width: 34px;
+  height: 34px; 
+  top: 2.5rem;
+  right: 3rem;
+  cursor: pointer;
+}
+  
+  .profile-header {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .profile-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .profile-info {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  

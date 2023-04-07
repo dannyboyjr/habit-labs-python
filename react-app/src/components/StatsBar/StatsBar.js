@@ -18,22 +18,12 @@ const StatsBar = () => {
 
   useEffect(() => {
     let total = 0;
- 
-    // const currentDate = new Date().toLocaleDateString("en-US", { timeZone: session.user.timezone });
 
 
     Object.values(todos).forEach(todo => {
       if (todo.is_complete) return;
 
       const date = new Date(todo.due_date);
-      // const formattedDate = format(date, 'M/d/yyyy h:mm a', { timeZone: session.user.timezone });
-
-      // console.log("currentDate")
-      // console.log(todo.due_date)
-      // console.log("formatedDate")
-      // console.log(formattedDate)
-
-      // if(currentDate !== formattedDate) return;
 
       const amount = parseFloat(todo.amount);
       if (!isNaN(amount)) {

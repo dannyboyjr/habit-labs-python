@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIncompleteStats } from "../../store/incomplete_log";
-
+import './ProfileStats.css'
 const ProfileStats = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -13,39 +13,39 @@ const ProfileStats = () => {
 
   return (
     <>
-      <div className="stats_container">
+      <div className="stats-container cool-bg">
         {isLoaded && (
           <>
-            <h1> User Stats</h1>
-            <div className="money-lost-stats">
-            <div>
-                <h3>Money Lost</h3>
-                {stats.total_amount}
-                <p>All time</p>
-            </div>
-            <div>
-                {stats.total_year}
-                <p>this year</p>
-            </div>
-              <div>
-                {stats.total_month}
-                <p>this month</p>
-            </div>
-            <div>
-                {stats.total_week}
-                <p>this week</p>
-            </div>
-            <div>
-                {stats.total_today}
-                <p>this today</p>
-            </div>
-
+            <h1 className="cool-header">User Stats🚀</h1>
+            <div className="money-lost-stats cool-stats-grid">
+              <div className="cool-stats-item">
+                <h3 className="cool-stats-header">💸 Money Lost</h3>
+                <span className="cool-stats-value">${stats.total_amount}</span>
+                <p className="cool-stats-timeframe">All time</p>
+              </div>
+              <div className="cool-stats-item">
+                <span className="cool-stats-value">${stats.total_year}</span>
+                <p className="cool-stats-timeframe">this year</p>
+              </div>
+              <div className="cool-stats-item">
+                <span className="cool-stats-value">${stats.total_month}</span>
+                <p className="cool-stats-timeframe">this month</p>
+              </div>
+              <div className="cool-stats-item">
+                <span className="cool-stats-value">${stats.total_week}</span>
+                <p className="cool-stats-timeframe">this week</p>
+              </div>
+              <div className="cool-stats-item">
+                <span className="cool-stats-value">${stats.total_today}</span>
+                <p className="cool-stats-timeframe">today</p>
+              </div>
             </div>
           </>
         )}
       </div>
     </>
   );
+  
 };
 
 export default ProfileStats;

@@ -2,6 +2,7 @@
 
 .general-task-container{
     min-width: 373px;
+    max-width: 373px;
     min-height: 441px;
     background: #E8E8E8;
     border-radius: 5px;

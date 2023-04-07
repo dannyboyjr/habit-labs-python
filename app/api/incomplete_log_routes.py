@@ -1,17 +1,38 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-from app.models import Habit,Journal, IncompleteLog, db
-from sqlalchemy import func
-from datetime import datetime, timedelta
+from app.models import IncompleteLog, CheckIn, db
+from datetime import datetime, timedelta, timezone
 import pytz
+from sqlalchemy.sql import func
+
+
 
 incomplete_log_routes = Blueprint('incomplete_logs', __name__)
 
 @incomplete_log_routes.route('/', methods=['GET'])
 @login_required
 def get_all_incomplete_logs():
+
+    """GET ALL INCOMPLETE LOGS"""
     incomplete_logs = IncompleteLog.query.all()
     return jsonify([log.to_dict() for log in incomplete_logs])
+
+
+
+def get_this_week_incomplete_logs():
+    timezone = pytz.timezone(current_user.timezone)
+    now = datetime.now(timezone)
+    week_start = now - timedelta(days=now.weekday())
+    week_end = week_start + timedelta(days=6)
+
+    logs = IncompleteLog.query.filter(
+        IncompleteLog.user_id == current_user.id,
+        IncompleteLog.created_at >= week_start,
+        IncompleteLog.created_at <= week_end
+    ).all()
+
+    return jsonify([log.to_dict() for log in logs])
+
 
 
 @incomplete_log_routes.route('/', methods=['POST'])
@@ -33,41 +54,36 @@ def create_incomplete_log():
     
     return jsonify(new_log.to_dict())
 
-
 @incomplete_log_routes.route('/summary', methods=['GET'])
 @login_required
 def get_summary_incomplete_logs():
-   timezone = pytz.timezone(current_user.timezone)
-   now = datetime.now(timezone)
-   year_start = datetime(now.year, 1, 1, tzinfo=timezone)
-   month_start = datetime(now.year, now.month, 1, tzinfo=timezone)
-   week_start = now - timedelta(days=now.weekday())
-   today_start = datetime(now.year, now.month, now.day, tzinfo=timezone)
+    timezone = pytz.timezone(current_user.timezone)
+    now = datetime.now(timezone)
+    year_start = datetime(now.year, 1, 1, tzinfo=timezone)
+    month_start = datetime(now.year, now.month, 1, tzinfo=timezone)
+    week_start = now - timedelta(days=now.weekday())
+    today_start = datetime(now.year, now.month, now.day, tzinfo=timezone)
 
+    def get_total_amount(start_date, end_date=None):
+        query = IncompleteLog.query.filter(
+            IncompleteLog.user_id == current_user.id,
+            IncompleteLog.created_at >= start_date
+        )
+        if end_date:
+            query = query.filter(IncompleteLog.created_at <= end_date)
 
-   def get_total_amount(start_date, end_date=None):
-       query = IncompleteLog.query.filter(
-           IncompleteLog.user_id == current_user.id,
-           IncompleteLog.created_at >= start_date
-       )
-       if end_date:
-           query = query.filter(IncompleteLog.created_at <= end_date)
+        return sum(log.amount for log in query.all())
 
+    total_amount_lost = get_total_amount(datetime.min.replace(tzinfo=timezone))
+    total_year_lost = get_total_amount(year_start)
+    total_month_lost = get_total_amount(month_start)
+    total_week_lost = get_total_amount(week_start)
+    total_today_lost = get_total_amount(today_start, datetime.now(timezone))
 
-       return sum(log.amount for log in query.all())
-
-
-   total_amount = get_total_amount(datetime.min.replace(tzinfo=timezone))
-   total_year = get_total_amount(year_start)
-   total_month = get_total_amount(month_start)
-   total_week = get_total_amount(week_start)
-   total_today = get_total_amount(today_start, datetime.now(timezone))
-
-
-   return jsonify({
-       "total_amount": float(total_amount),
-       "total_year": float(total_year),
-       "total_month": float(total_month),
-       "total_week": float(total_week),
-       "total_today": float(total_today),
-   })
+    return jsonify({
+        "total_amount": float(total_amount_lost),
+        "total_year": float(total_year_lost),
+        "total_month": float(total_month_lost),
+        "total_week": float(total_week_lost),
+        "total_today": float(total_today_lost),
+    })
