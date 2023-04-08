@@ -1,0 +1,30 @@
+.lateFee-input input {
+    height: 40px;
+    margin-top: 5px;
+    width: 60px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.submit-button-todo {
+    --hover-color: #111;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 10px 15px;
+    background: white;
+    margin-left: 0px;
+
+    display: flex;
+    transition: 0.2s ;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+  }
+
+  .submit-button-todo:hover {
+    background-color: black;
+    color: white;
+
+  }

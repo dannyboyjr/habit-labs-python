@@ -96,64 +96,75 @@ const CompletedBuildHabits = ({ habit }) => {
     return habit.id == item.habit_id
   })
 
-  return (
-    <div>
-      { isCompleteFilter && habit.is_build &&
-    <div className="habit-card">
-      <div className="habit-card-content">
-      <div onClick={markIncomplete} className="habit-card-button">
-        <span className="checkmark">&#x2713;</span>
-        </div>
-        <div className="habit-card-details">
-          <h3 className="habit-card-title">{habit.name}</h3>
-          <p className="habit-card-amount">${habit.amount}</p>
-          <p className="habit-card-line">On the line</p>
-        </div>
-        <div>
-          <div className="habit-card-time">{countdown}</div>
-          <p className="habit-card-line">Avalaible in</p>
-        </div>
-        <div>
-        <p className="habit-card-days-complete"> {daysComplete}/{totalDays}</p>
-        <p className="habit-card-line">days remaining</p>
-        </div>
-        
-        {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
-        {!habit.sicko_mode && 
-        <div ref={formRef} className="habit-card-dropdown-container">
-          <div
-            className="habit-card-dropdown-button"
-            onClick={handleDropdownToggle}
-          >
-            <div className="habit-card-dropdown-icon"></div>
-            <div className="habit-card-dropdown-icon"></div>
-            <div className="habit-card-dropdown-icon"></div>
+return (
+  <div>
+    {isCompleteFilter && habit.is_build && (
+      <div className="habit-card">
+
+        <div className="button-box">
+          <div onClick={markIncomplete} className="habit-card-button-square">
+          <span className="checkmark">&#x2713;</span>
           </div>
-          {habit.sicko_mode && <p className="">Sicko mode</p>}
-          {!habit.sicko_mode && showDropdown && (
-            <div className="habit-card-dropdown-menu">
-              <div className="habit-card-dropdown-item" >
-              <OpenModalButton
-              buttonText="Edit"
-              // onItemClick={closeMenu}
-              modalComponent={<EditBuildhabitModal habit={habit}/>}
-            />
-              </div>
-              <div
-                className="habit-card-dropdown-item danger"
-                onClick={handleDelete}
-              >
-                Delete
-              </div>
-            </div>
-          )}
         </div>
-}
+
+        <div className="habit-card-content">
+
+          <div className="habit-card-details">
+            <h3 className="habit-card-title">{habit.name}</h3>
+          </div>
+
+        {/* Dropdown */}
+          <div>
+            {habit.sicko_mode && (<p className="habit-card-sicko-mode">Sicko mode</p>)}
+            {!habit.sicko_mode && (
+              <div ref={formRef} className="habit-card-dropdown-container">
+                <div className="habit-card-dropdown-button" onClick={handleDropdownToggle}>
+                  <div className="habit-card-dropdown-icon"></div>
+                  <div className="habit-card-dropdown-icon"></div>
+                  <div className="habit-card-dropdown-icon"></div>
+                </div>
+                {!habit.sicko_mode && showDropdown && (
+                  <div className="habit-card-dropdown-menu">
+                    <div className="habit-card-dropdown-item">
+                      <OpenModalButton
+                        buttonText="Edit"
+                        modalComponent={<EditBuildhabitModal habit={habit} />}
+                      />
+                    </div>
+
+                    <div className="habit-card-dropdown-item danger" onClick={handleDelete}>
+                      Delete
+                    </div>
+
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          {/* Dropdown */}
+        </div> {/*habit-card-content end */}
+
+        <div className="card-bottom-row-status">
+            <div>
+              <div className="habit-card-amount">${habit.amount}</div>
+              <p className="habit-card-line">On the line</p>
+            </div>
+            <div>
+             <div className="habit-card-days-complete" > {daysComplete}/{totalDays} </div>
+             <p className="habit-card-line">days remaining</p>
+            </div>
+            <div>
+              <div className="habit-card-time">{countdown}</div>
+              <p className="habit-card-line">restarts In</p>
+            </div>
+            
+        </div>
+
       </div>
-    </div>
-    }
-    </div>
-  );
+    )}
+  </div>
+);
 };
+
 
 export default CompletedBuildHabits;

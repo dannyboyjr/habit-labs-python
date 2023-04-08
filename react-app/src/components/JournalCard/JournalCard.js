@@ -29,6 +29,9 @@ const JournalCard = ({ journal }) => {
     e.preventDefault()
     dispatch(deleteJournalById(journal.id))
   }
+  //created date formating
+  const createdDate = new Date(journal?.created_at);
+const formattedDate = createdDate.toLocaleDateString();
 
   const onSave = () => {
     const editedJournal = {
@@ -59,33 +62,13 @@ const JournalCard = ({ journal }) => {
 
   return (
     <div className="journal-card">
-      <h3>{habit?.name}</h3>
-      {editing ? (
-        <>
-          <label>
-            Why missed:
-            <input
-              type="text"
-              value={editedWhyMissed}
-              onChange={(e) => setEditedWhyMissed(e.target.value)}
-            />
-          </label>
-          <label>
-            Future action:
-            <input
-              type="text"
-              value={editedFutureAction}
-              onChange={(e) => setEditedFutureAction(e.target.value)}
-            />
-          </label>
-          <button onClick={onSave}>Save</button>
-        </>
-      ) : (
-        <>
-          <p>Why missed: {journal.why_missed}</p>
-          <p>Future action: {journal.future_action}</p>
-        </>
-      )}
+
+      <div className='journal-header'>
+
+      <div className='journal-name-and-date'>
+      <h2>{habit?.name}</h2>
+      <p className="date-stamp">{formattedDate}</p>
+      </div>
 
       <div ref={formRef} className="journal-card-dropdown-container">
         <div className="journal-card-dropdown-button" onClick={handleDropdownToggle}>
@@ -103,6 +86,48 @@ const JournalCard = ({ journal }) => {
           </div>
         )}
       </div>
+      </div>
+      
+      {editing ? (
+        <>
+        <div className='journal-stack'>
+          <label>
+            Why missed:
+            </label>
+            <input
+              type="text"
+              value={editedWhyMissed}
+              onChange={(e) => setEditedWhyMissed(e.target.value)}
+            />
+         
+          </div>
+
+
+
+          <label>
+            Future action:
+            <input
+              type="text"
+              value={editedFutureAction}
+              onChange={(e) => setEditedFutureAction(e.target.value)}
+            />
+          </label>
+          <button onClick={onSave}>Save</button>
+        </>
+      ) : (
+        <>
+          <div className='journal-stack'>
+          <h3>Why missed: </h3>
+          <span> {journal.why_missed}</span>
+          </div>
+
+          <div className='journal-stack'>
+          <h3>Future Action: </h3>
+          <span>{journal.future_action}</span>
+          </div>
+          
+        </>
+      )}
     </div>
   );
 };

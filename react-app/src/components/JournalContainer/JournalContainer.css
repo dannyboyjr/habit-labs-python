@@ -1,0 +1,11 @@
+
+
+
+.journal-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    max-width: 1200px;
+
+}

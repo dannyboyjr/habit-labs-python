@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
+import { logout } from "../../store/session";
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
+  const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [activeLink, setActiveLink] = useState(null);
   const lineRef = useRef(null);
@@ -22,40 +24,40 @@ function Navigation({ isLoaded }) {
     setActiveLink(link);
   };
 
+  const navLinkClass = (link) => {
+    if (link === activeLink) {
+      return "active";
+    }
+    return "";
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
+
   return (
     <nav>
       <ul>
-        <li className="active">
-          <NavLink to="/" onClick={e => handleLinkClick(e, e.target)}>
+        <li className={navLinkClass('/')}>
+          <NavLink to="/" onClick={e => handleLinkClick(e, "/")}>
             Home
           </NavLink>
         </li>
-        <li>
+        <li className={navLinkClass("/journals")}>
           <NavLink
             to="/journals"
             className="navigation-journals"
-			      activeClassName="active"
-            onClick={e => handleLinkClick(e, e.target)}
+            onClick={e => handleLinkClick(e, "/journals")}
           >
             Journals
           </NavLink>
         </li>
-    {/* <li>
-      <NavLink
-        to="/habits"
-        className="navigation-journals"
-        activeClassName="active"
-        onClick={e => handleLinkClick(e, e.target)}
-      >
-        Habits
-      </NavLink>
-    </li> */}
-        <li>
+        <li className={navLinkClass("/profile")}>
           <NavLink
             to="/profile"
             className="navigation-journals"
-			      activeClassName="active"
-            onClick={e => handleLinkClick(e, e.target)}
+            onClick={e => handleLinkClick(e, "/profile")}
           >
             Profile
           </NavLink>
@@ -63,8 +65,8 @@ function Navigation({ isLoaded }) {
         
         {isLoaded && (
           <li>
-            <ProfileButton user={sessionUser} />
-          </li>
+          <button onClick={handleLogout}>Log Out</button>
+        </li>
         )}
       </ul>
       <div className="line" ref={lineRef}></div>

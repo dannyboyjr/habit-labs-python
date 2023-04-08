@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllJournals } from '../store/journal';
 import JournalContainer from '../components/JournalContainer/JournalContainer';
+import './Journals.css'
 
 const JournalsPage = () => {
 
@@ -15,7 +16,9 @@ const JournalsPage = () => {
     return (
       <div className="journals-page">
         <h1>Journals Page</h1>
+        <div className='journal-container-page-layout'>
         <JournalContainer journals={journals} />
+        </div>
       </div>
     );
   };

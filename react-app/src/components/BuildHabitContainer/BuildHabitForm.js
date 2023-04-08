@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {createAHabit} from '../../store/habit'
+import './BuildHabitForm.css'
 
 const BuildHabitForm = () => { 
 
@@ -26,7 +27,7 @@ const BuildHabitForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [name, setName] = useState("")
-  const [amount, setAmount] = useState(1.00)
+  const [amount, setAmount] = useState(null)
   const [cadence, setCadence] = useState(1)
   const [endDate, setEndDate] = useState(getDefaultDate())
   const [sickoMode, setSickoMode] = useState(JSON.parse(false))
@@ -48,7 +49,7 @@ const BuildHabitForm = () => {
    
     dispatch(createAHabit(newHabit)).then(()=>{
             setName("");
-            setAmount(1.00);
+            setAmount(null);
             setCadence(1);
             setEndDate(getDefaultDate());
             setSickoMode(false);
@@ -77,60 +78,69 @@ const BuildHabitForm = () => {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit}>
+    <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
       {/* name */}
-      <div>
+     
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
 
-        <label>
-          Name
+      <div className="name-and-amount-form">
+      <div className="name-input">
         <input
               type="text"
               value={name}
+              placeholder="Add New Habit"
               onChange={(e) => setName(e.target.value)}
               onClick={toggleDropdown}
               required
             />
-            </label>
       </div>
 
       {/* amount */}
-      <div>
-      <label>
-            Amount
+      <div className="amount-input">
             <input
               type="number"
               value={amount}
+              placeholder="Amount"
               onChange={(e) => setAmount(e.target.value)}
               onClick={toggleDropdown}
               required
             />
-          </label>
+      </div>
+
       </div>
 
       {showDropdown && (
-        <div>
-          <div>
-          <label>End Date</label>
+        <div className="dropdown-form-items">
+
+          <div className="form-element form-date-picker">
+         
             <input
               type="date"
               name="end_date"
               value={endDate}
               onChange={(e) => setEndDate(formatDate(e.target.value))}
-              
             />
+             <label>End Date</label>
           </div>
-          <div>
-          <label>
-            Enable Sicko Mode
+
+
+          <div className="form-element sicko-mode-form">
+          <div className="checkbox-apple">
             <input
+              id="check-apple"
               type="checkbox"
               value={sickoMode}
               onChange={(e) => setSickoMode(e.target.checked)}
             />
-          </label>
+            <label for="check-apple"></label>
+            </div>
+            <label>Sicko Mode</label>
           </div>
-          <button type="submit">Create</button>
+
+
+          <button className="submit-button"type="submit">
+            Create
+          </button>
         </div>
         
       )}

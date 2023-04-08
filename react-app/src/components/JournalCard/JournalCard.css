@@ -3,9 +3,9 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    padding: 15px;
-    position: relative;
-    width: 100%;
+    padding: 10px;
+
+
   }
   
   .journal-card h3 {
@@ -13,13 +13,34 @@
     margin-bottom: 10px;
   }
   
-  .journal-card p {
-    margin-bottom: 5px;
-  }
-  
   .journal-card-dropdown-container {
     position: relative;
   }
+
+.journal-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.journal-name-and-date{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.date-stamp{
+  font-size: 14px;
+  color: lightslategray;
+
+}
   
   .journal-card-dropdown-button {
     background-color: transparent;
@@ -30,7 +51,6 @@
     justify-content: space-between;
     height: 16px;
     padding: 0;
-    position: absolute;
     right: 15px;
     top: 15px;
     width: 16px;

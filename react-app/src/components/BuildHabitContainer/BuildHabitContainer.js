@@ -9,7 +9,6 @@ const BuildHabitContainer = ({habits}) => {
         <div className="general-task-container">
             <div>
             < BuildHabitForm />
-            <p>incomplete</p>
             {
                 habits.map((habit) => (
                 <BuildHabitCard key={habit.id} habit={habit}/>
@@ -17,7 +16,7 @@ const BuildHabitContainer = ({habits}) => {
             }
             </div>
             <div>
-                <p>completed</p>
+                <p className="completed-buildhabit-container">completed</p>
 
             {
                 habits.map((habit) => (

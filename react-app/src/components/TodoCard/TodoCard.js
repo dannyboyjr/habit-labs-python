@@ -67,9 +67,9 @@ const TodoCard = ({ todo }) => {
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
     if (days > 0) {
-      setTimeRemaining(`due in ${days}${days === 1 ? ' day' : ' days'}`);
+      setTimeRemaining(`${days}${days === 1 ? ' day' : ' days'}`);
     } else {
-      setTimeRemaining(`due in ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`);
+      setTimeRemaining(`${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`);
     }
   };
   useEffect(() => {
@@ -79,58 +79,73 @@ const TodoCard = ({ todo }) => {
     return () => clearInterval(timerId);
   }, []);
 
+
   return (
     <div>
-    <div className="habit-card">
-      <div className="habit-card-content">
-        <div onClick={handleComplete} className="habit-card-button"></div>
-        <div className="habit-card-details">
-          <h3 className="habit-card-title">{todo.name}</h3>
-          <p className="habit-card-amount">{todo.amount}</p>
-          <p className="habit-card-line">On the line</p>
-          <div className="habit-card-time">{timeRemaining}</div>
-        </div>
-        
-        {todo.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
-        {!todo.sicko_mode && 
-        <div ref={formRef} className="habit-card-dropdown-container">
-          <div
-            className="habit-card-dropdown-button"
-            onClick={handleDropdownToggle}
-          >
-            <div className="habit-card-dropdown-icon"></div>
-            <div className="habit-card-dropdown-icon"></div>
-            <div className="habit-card-dropdown-icon"></div>
+        <div className="habit-card">
+  
+          <div className="button-box">
+            <div onClick={handleComplete} className="habit-card-button-square"></div>
           </div>
-          {todo.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
-          {todo.sicko_mode && <p className="">Sicko mode</p>}
-          {!todo.sicko_mode && showDropdown && (
-            <div className="habit-card-dropdown-menu">
-              <div className="habit-card-dropdown-item" >
-              <OpenModalButton
-              buttonText="Edit"
-              // onItemClick={closeMenu}
-              modalComponent={<EditTodoModal todo={todo}/>}
-            />
-              </div>
-              <div
-                className="habit-card-dropdown-item danger"
-                onClick={handleDelete}
-              >
-                Delete
-              </div>
+  
+          <div className="habit-card-content">
+  
+            <div className="habit-card-details">
+              <h3 className="habit-card-title">{todo.name}</h3>
             </div>
-          )}
+  
+          {/* Dropdown */}
+            <div>
+              {todo.sicko_mode && (<p className="habit-card-sicko-mode">Sicko mode</p>)}
+              {!todo.sicko_mode && (
+                <div ref={formRef} className="habit-card-dropdown-container">
+                  <div className="habit-card-dropdown-button" onClick={handleDropdownToggle}>
+                    <div className="habit-card-dropdown-icon"></div>
+                    <div className="habit-card-dropdown-icon"></div>
+                    <div className="habit-card-dropdown-icon"></div>
+                  </div>
+                  {!todo.sicko_mode && showDropdown && (
+                    <div className="habit-card-dropdown-menu">
+                      <div className="habit-card-dropdown-item">
+                        <OpenModalButton
+                          buttonText="Edit"
+                          modalComponent={<EditTodoModal todo={todo} />}
+                        />
+                      </div>
+  
+                      <div className="habit-card-dropdown-item danger" onClick={handleDelete}>
+                        Delete
+                      </div>
+  
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            {/* Dropdown */}
+          </div> {/*habit-card-content end */}
+  
+          <div className="card-bottom-row-status">
+              <div>
+                <div className="habit-card-amount">${todo.amount}</div>
+                <p className="habit-card-line">On the line</p>
+              </div>
+              <div>
+               <div className="habit-card-days-complete" > {todo.late_fee} </div>
+               <p className="habit-card-line">daily late fee</p>
+              </div>
+              <div>
+                <div className="habit-card-time">{timeRemaining}</div>
+                <p className="habit-card-line">Due In</p>
+              </div>
+              
+          </div>
+  
         </div>
-}
-
-
-
-      </div>
-    </div>
-    
     </div>
   );
-};
+  };
+
+  
 
 export default TodoCard;

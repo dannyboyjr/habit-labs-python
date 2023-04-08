@@ -11,7 +11,7 @@ const BreakHabitForm = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("")
-  const [amount, setAmount] = useState(1.00)
+  const [amount, setAmount] = useState(null)
   const [cadence, setCadence] = useState(1)
   const [sickoMode, setSickoMode] = useState(JSON.parse(false))
   // const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ const BreakHabitForm = () => {
       } else {
     dispatch(createAHabit(newHabit)).then(()=>{
       setName("");
-      setAmount(1.00);
+      setAmount(null);
       setCadence(1);
       setSickoMode(false);
       setShowDropdown(false);
@@ -64,19 +64,20 @@ const BreakHabitForm = () => {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="break-habit-form">
+    <form  className="new-habit-form" ref={formRef} onSubmit={handleSubmit} >
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
 
       {/* name */}
-      <div className="input-container name-input">
+      <div className="name-and-amount-form">
+      <div className="name-input">
         <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onClick={toggleDropdown}
-          required
-          placeholder="Name"
-        />
+              type="text"
+              value={name}
+              placeholder="Add New Habit"
+              onChange={(e) => setName(e.target.value)}
+              onClick={toggleDropdown}
+              required
+            />
       </div>
 
       {/* amount */}
@@ -91,9 +92,14 @@ const BreakHabitForm = () => {
         />
       </div>
 
-      <div className="button-container">
-        <button type="submit">Create</button>
       </div>
+
+      {showDropdown && (
+
+      <div className="dropdown-form-items">
+        <button className="submit-button" id="break-habit-button-form" type="submit">Create</button>
+      </div>
+      )}
     </form>
   );
 };
