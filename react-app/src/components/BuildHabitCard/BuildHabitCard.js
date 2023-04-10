@@ -103,7 +103,7 @@ const BuildHabitCard = ({ habit }) => {
       {!isCompleteFilter && habit.is_build && (
         <div className="habit-card">
 
-          <div className="button-box">
+          <div className="button-box" id="build-btn">
             <div onClick={handleComplete} className="habit-card-button-square"></div>
           </div>
 

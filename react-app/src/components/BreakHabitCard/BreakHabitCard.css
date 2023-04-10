@@ -7,6 +7,10 @@
 
   }
 
+  #break-btn{
+    background-color: rgb(211, 114, 95);
+  }
+
   .break-habit-image:hover {
     cursor: pointer;
     /* box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);

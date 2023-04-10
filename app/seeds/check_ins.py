@@ -6,24 +6,28 @@ def seed_check_ins():
     check_in1 = CheckIn(
         user_id=1, 
         habit_id=1, 
+        amount=20.00,
         check_in=True, 
         is_late=False
         )
     check_in2 = CheckIn(
         user_id=1, 
         todo_id=1, 
+        amount=10.00,
         check_in=True, 
         is_late=False
         )
     check_in3 = CheckIn(
         user_id=1, 
         todo_id=1, 
+        amount=20.00,
         check_in=True, 
         is_late=True
         )
     check_in4 = CheckIn(
         user_id=1, 
         habit_id=1, 
+        amount=20.00,
         check_in=True, 
         is_late=True
         )

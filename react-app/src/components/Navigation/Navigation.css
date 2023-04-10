@@ -4,22 +4,25 @@ body {
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+.nav-bar{
+  width: 100%;
+  margin: 0;
+}
 
 nav {
   display: flex;
-  justify-content: center;
-  height:25px;
-  margin-top: 20px;
-  margin-right: 285px;
-  margin-left: 285px;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  margin-right: 300px;
+  margin-left: 300px;
 
 }
 
-nav .line {
-  height: 2px;
-  position: absolute;
-  bottom: 15px;
-  background: #FF1847;
+.nav-links-container {
+  display: flex;
+  justify-content: center;
+   
 }
 
 nav ul {
@@ -43,9 +46,9 @@ nav ul li.active {
   opacity: 1;
 }
 
-/* nav ul li:last-child {
+nav ul li:last-child {
   margin-right: 0;
-} */
+}
 
 nav ul li a {
   text-decoration: none;
@@ -57,3 +60,11 @@ nav ul li a {
   font-size: 14px;
 }
 
+#logout-btn{
+  opacity: .6;
+
+}
+
+#logout-btn:hover {
+  opacity: 1;
+}

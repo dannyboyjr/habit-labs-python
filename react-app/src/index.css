@@ -1,10 +1,10 @@
 /* TODO Add site wide styles */
 
 .general-task-container{
-    min-width: 373px;
-    max-width: 373px;
-    min-height: 441px;
-    background: #E8E8E8;
+    min-width: 380px;
+    max-width: 380px;
+    min-height: 500px;
+    background: #F8F7F2;
     border-radius: 5px;
     margin: 15px;
 }
@@ -12,4 +12,8 @@
 .home-page-task-layout h3{
 
     margin-left: 25px;
+}
+
+*{
+    font-family: 'Lato', sans-serif;
 }

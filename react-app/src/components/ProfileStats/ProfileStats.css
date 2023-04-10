@@ -1,5 +1,5 @@
-.cool-bg {
-  background: linear-gradient(135deg, #19294e, #4d4e88);
+.profile-bg {
+  background-color: #f8f7f2;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -7,38 +7,46 @@
   margin: 0 auto;
 }
 
-.cool-header {
-  color: #ffffff;
+.profile-header{
   text-align: center;
   margin-bottom: 1rem;
 }
 
-.cool-stats-grid {
+.profile-stats-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
 
-.cool-stats-item {
+.profile-stats-item {
   background: rgba(255, 255, 255, 0.1);
   padding: 1rem;
   border-radius: 0.5rem;
   text-align: center;
+  background-color: white;
 }
 
-.cool-stats-header {
-  color: #ffffff;
+.profile-stats-header {
+  color: black;
   margin-bottom: 0.5rem;
 }
 
-.cool-stats-value {
+.profile-stats-value {
   display: block;
   font-size: 1.5rem;
-  color: #ffffff;
+  color: black;
   font-weight: bold;
 }
 
-.cool-stats-timeframe {
-  color: rgba(255, 255, 255, 0.7);
+.profile-stats-timeframe {
   font-size: 0.9rem;
 }
+
+#saved-stats{
+  color: #6e9887;
+}
+
+#lost-stats{
+  color: #d3725f;
+}
+

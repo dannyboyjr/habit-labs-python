@@ -9,14 +9,12 @@ function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [activeLink, setActiveLink] = useState(null);
-  const lineRef = useRef(null);
+
 
   useEffect(() => {
     if (activeLink) {
       const pos = activeLink.offsetLeft;
       const width = activeLink.offsetWidth;
-      lineRef.current.style.left = `${pos}px`;
-      lineRef.current.style.width = `${width}px`;
     }
   }, [activeLink]);
 
@@ -37,7 +35,9 @@ function Navigation({ isLoaded }) {
   };
 
   return (
+    <div className="nav-bar">
     <nav>
+       <div className="nav-links-container">
       <ul>
         <li className={navLinkClass('/')}>
           <NavLink to="/" onClick={e => handleLinkClick(e, "/")}>
@@ -62,15 +62,14 @@ function Navigation({ isLoaded }) {
             Profile
           </NavLink>
         </li>
-        
-        {isLoaded && (
-          <li>
-          <button onClick={handleLogout}>Log Out</button>
-        </li>
-        )}
+  
       </ul>
-      <div className="line" ref={lineRef}></div>
+      </div>
+      {isLoaded && (
+          <button className="submit-button" id="logout-btn" onClick={handleLogout}>Log Out</button>
+        )}
     </nav>
+    </div>
   );
 }
 

@@ -13,38 +13,69 @@ const ProfileStats = () => {
 
   return (
     <>
-      <div className="stats-container cool-bg">
+      <div className="stats-container profile-bg">
         {isLoaded && (
           <>
-            <h1 className="cool-header">User Stats🚀</h1>
-            <div className="money-lost-stats cool-stats-grid">
-              <div className="cool-stats-item">
-                <h3 className="cool-stats-header">💸 Money Lost</h3>
-                <span className="cool-stats-value">${stats.total_amount}</span>
-                <p className="cool-stats-timeframe">All time</p>
+            <h1 className="profile-header">User Stats</h1>
+            <div>
+            <h3 className="profile-stats-header" id="saved-stats">💸 Money Saved</h3>
+            <div className="money-lost-stats profile-stats-grid">
+              <div className="profile-stats-item">
+                
+                <span className="profile-stats-value">${stats.total_amount}</span>
+                <p className="profile-stats-timeframe">All time</p>
               </div>
-              <div className="cool-stats-item">
-                <span className="cool-stats-value">${stats.total_year}</span>
-                <p className="cool-stats-timeframe">this year</p>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_year}</span>
+                <p className="profile-stats-timeframe">this year</p>
               </div>
-              <div className="cool-stats-item">
-                <span className="cool-stats-value">${stats.total_month}</span>
-                <p className="cool-stats-timeframe">this month</p>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_month}</span>
+                <p className="profile-stats-timeframe">this month</p>
               </div>
-              <div className="cool-stats-item">
-                <span className="cool-stats-value">${stats.total_week}</span>
-                <p className="cool-stats-timeframe">this week</p>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_week}</span>
+                <p className="profile-stats-timeframe">this week</p>
               </div>
-              <div className="cool-stats-item">
-                <span className="cool-stats-value">${stats.total_today}</span>
-                <p className="cool-stats-timeframe">today</p>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_today}</span>
+                <p className="profile-stats-timeframe">today</p>
               </div>
             </div>
+            </div>
+            <div>
+            <h3 className="profile-stats-header" id="lost-stats">💸 Money Lost</h3>
+            <div className="money-lost-stats profile-stats-grid">
+              <div className="profile-stats-item">
+                
+                <span className="profile-stats-value">${stats.total_amount}</span>
+                <p className="profile-stats-timeframe">All time</p>
+              </div>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_year}</span>
+                <p className="profile-stats-timeframe">this year</p>
+              </div>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_month}</span>
+                <p className="profile-stats-timeframe">this month</p>
+              </div>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_week}</span>
+                <p className="profile-stats-timeframe">this week</p>
+              </div>
+              <div className="profile-stats-item">
+                <span className="profile-stats-value">${stats.total_today}</span>
+                <p className="profile-stats-timeframe">today</p>
+              </div>
+            </div>
+            </div>
+
           </>
         )}
       </div>
     </>
   );
+  
   
 };
 

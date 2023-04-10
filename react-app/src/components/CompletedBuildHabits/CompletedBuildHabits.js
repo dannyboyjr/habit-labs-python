@@ -101,7 +101,7 @@ return (
     {isCompleteFilter && habit.is_build && (
       <div className="habit-card">
 
-        <div className="button-box">
+        <div className="button-box" id="build-btn">
           <div onClick={markIncomplete} className="habit-card-button-square">
           <span className="checkmark">&#x2713;</span>
           </div>

@@ -1,8 +1,14 @@
 .journals-page{
     display: flex;
     flex-direction: column;
-    
+   
 }
+    
 .journal-container-page-layout{
     margin: auto;
+}
+
+.journals-page h1 {
+    margin: auto;
+    padding: 35px;
 }

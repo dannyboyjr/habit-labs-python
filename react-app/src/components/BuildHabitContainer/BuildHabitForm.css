@@ -119,7 +119,7 @@ label {
   
   /* background color of toggle */
   .checkbox-apple input[type="checkbox"]:checked + label {
-    background: linear-gradient(to bottom, #2085d3, #0f78d4);
+    background: #D3725F;
   }
   
   /* keeps button togged on or off */
@@ -153,7 +153,7 @@ label {
       }
 
       .submit-button:hover {
-        background-color: black;
+        background-color: rgb(211, 114, 95);
         color: white;
 
       }

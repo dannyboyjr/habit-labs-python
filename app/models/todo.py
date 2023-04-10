@@ -30,6 +30,7 @@ class Todo(db.Model):
             'user_id': self.user_id,
             "name": self.name,
             "amount": self.amount,
+            "created_at": self.created_at,
             "due_date": self.due_date,
             "late_fee": self.late_fee,
             "sicko_mode": self.sicko_mode,

@@ -7,6 +7,7 @@ import OpenModalButton from '../OpenModalButton/index'
 import EditBuildhabitModal from "../EditBuildHabitModal/EditBuildHabitModal";
 import CreateJournalModal from '../CreateJournalModal/CreateJournalModal'
 import IncompleteIcon from '../../assets/IncompleteIcon.png'
+import './BreakHabitCard.css'
 
 const BreakHabitCard = ({ habit }) => {
 
@@ -43,7 +44,7 @@ return (
   <div>
     {!habit.is_build && (
       <div className="habit-card">
-         <div className="button-box">
+         <div className="button-box" id="break-btn">
               <OpenModalButton
                       buttonText={IncompleteIcon}
                       isImage={true}

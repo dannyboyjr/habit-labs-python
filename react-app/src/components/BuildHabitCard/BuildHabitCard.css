@@ -19,17 +19,21 @@
   justify-content: center;
   height: 85px;
   width: 50px; 
-  background-color: #f3f3f3;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+  background-color: rgba(110, 152, 135, .9);
 }
+
+
+
 
 .habit-card-button-square {
   width: 35px;
   height: 35px;
   border-radius: 4px;
   margin-right: 1px;
-  background-color: #e2dfdf;
+  background-color: rgb(248, 247, 242, .7);
+  
 
 }
 
@@ -70,6 +74,7 @@
   
   .habit-card-dropdown-container {
     position: relative;
+
   }
   
   .habit-card-dropdown-button {
@@ -82,7 +87,7 @@
 .habit-card-dropdown-icon {
     width: 3px;
     height:3px;
-    background-color: rgb(143, 141, 141);
+    background-color: black;
     border-radius: 50%;
     margin: 1px;
   }
@@ -168,5 +173,5 @@
 }
 
 .habit-card-button-square:hover {
-  background-color: #c9c9c9;
+  background-color: rgb(248, 247, 242, .9);
 }

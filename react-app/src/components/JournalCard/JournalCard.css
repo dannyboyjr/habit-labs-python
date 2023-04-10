@@ -1,16 +1,18 @@
 .journal-card {
-    background-color: #f5f5f5;
+    background-color: #f8f7f2;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     padding: 10px;
     width: 700px;
     max-width: 700px;
-
-
   }
-  
-  .journal-card h3 {
+
+.journal-name-and-date h2 {
+  color: #d3725f
+}
+
+.journal-card h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
   }
@@ -40,7 +42,7 @@
 
 .date-stamp{
   font-size: 14px;
-  color: lightslategray;
+  color: black;
 
 }
   
@@ -59,7 +61,7 @@
   }
   
   .journal-card-dropdown-icon {
-    background-color: #777;
+    background-color: black;
     height: 2px;
     width: 16px;
   }

@@ -6,6 +6,8 @@ import { createACheckin } from '../../store/checkin';
 import { completeATodo } from "../../store/todo";
 import EditTodoModal from '../EditTodoModal/EditTodoModal'
 import OpenModalButton from '../OpenModalButton/index'
+import './ToDoCard.css'
+
 
 const TodoCard = ({ todo }) => {
   const dispatch = useDispatch()
@@ -14,6 +16,7 @@ const TodoCard = ({ todo }) => {
   const checkinArray = Object.values(checkIns)
   const [showDropdown, setShowDropdown] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState('');
+
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -42,49 +45,36 @@ const TodoCard = ({ todo }) => {
     };
   }, [formRef]);
 
-  const calculateTimeRemaining = () => {
-    const dueDate = new Date(todo.due_date);
-    const dueDateInUserTimezone = new Date(dueDate.toLocaleString('en-US', { timeZone: userTimezone }));
-    dueDateInUserTimezone.setDate(dueDateInUserTimezone.getDate());
-    dueDateInUserTimezone.setHours(23, 59, 59, 0);
+  const date = new Date(todo.due_date)
+  const dateString = date.toISOString().substring(0, 10);
 
-  const now = new Date();
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const targetDate = new Date(`${dateString}T23:59:59`)
+      const targetTime = new Date(targetDate).getTime();
+      const nowTime = new Date().getTime();
+      const remainingTime = targetTime - nowTime;
+      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
   
 
-  const nowInUserTimezone = new Date(now.toLocaleString('en-US', { timeZone: userTimezone }));
+      setTimeRemaining(`${days}:${hours}:${minutes}:${seconds}` );
+    };
 
-  const difference = dueDateInUserTimezone - nowInUserTimezone;
+    const timer = setInterval(() => {
+      calculateTimeLeft();
+    }, 1000);
 
-  // if (difference < 0) {
-  //   setTimeRemaining('time has expired! hurry, your late fee is due tonight!');
-  //   return;
-  // }
-
-    
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-    if (days > 0) {
-      setTimeRemaining(`${days}${days === 1 ? ' day' : ' days'}`);
-    } else {
-      setTimeRemaining(`${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`);
-    }
-  };
-  useEffect(() => {
-    calculateTimeRemaining();
-    
-    const timerId = setInterval(calculateTimeRemaining, 1000);
-    return () => clearInterval(timerId);
-  }, []);
-
+    return () => clearInterval(timer);
+  }, [dateString]);
 
   return (
     <div>
         <div className="habit-card">
   
-          <div className="button-box">
+          <div className="button-box todo-btn">
             <div onClick={handleComplete} className="habit-card-button-square"></div>
           </div>
   

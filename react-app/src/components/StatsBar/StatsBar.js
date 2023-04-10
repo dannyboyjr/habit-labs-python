@@ -11,7 +11,7 @@ const StatsBar = () => {
   const todos = useSelector(state => state.todos);
   const habits = useSelector(state => state.habits);
   const checkins = useSelector(state => state.checkins);
-  const incompleteLogs = useSelector(state => state.incomplete_logs);
+  const incompleteLogs = useSelector(state => state.incomplete_logs.logs);
   const checkinsArr = Object.values(checkins);
   const incompleteLogsArr = Object.values(incompleteLogs);
   const session = useSelector(state => state.session);
@@ -53,13 +53,17 @@ const StatsBar = () => {
   }, [todos, habits, checkins, incompleteLogsArr]);
 
   return(
-    <div >
-        <div className='stats-bar-container'>
-      <div className='money-on-the-line'>
+    <div className="stats-bar" >
+        <div className='stats-bar-container' >
+      <div className='money-on-the-line' id="on-the-line-today">
         <div>${totalOnTheLine}</div>
         <p>On the line Today</p>
       </div>
-      <div className='money-lost'>
+      <div className='money-lost' id="money-lost-id">
+        <div>${moneyLostWeekly}</div>
+        <p>Money saved this week</p>
+      </div>
+      <div className='money-lost'id="money-lost-id">
         <div>${moneyLostWeekly}</div>
         <p>Money lost this week</p>
       </div>

@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify, request
-from app.models import Todo, Journal, db
+from app.models import Todo, Journal,CheckIn, db
 from flask_login import login_required, current_user
 from datetime import datetime
+from pytz import timezone
+import pytz
+from sqlalchemy import func
 
 todo_routes = Blueprint('todo', __name__)
 
@@ -135,8 +138,28 @@ def complete_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id, user_id=current_user.id).first()
     if not todo:
         return jsonify({'error': 'Todo not found'}), 404
-
     todo.is_complete = True
-
     db.session.commit()
-    return jsonify(todo.to_dict()), 200
+
+    today = datetime.utcnow().date()
+    # existing_checkin = CheckIn.query.filter_by(todo_id=todo.id, user_id=current_user.id).filter(func.DATE(CheckIn.created_at)==today).first()
+    # if existing_checkin:
+    #     return jsonify({'error': 'A check-in for this todo already exists today'}), 400
+    
+
+    # check_in = CheckIn(
+    #     user_id=current_user.id,
+    #     todo_id=todo.id,
+    #     amount=todo.amount,
+    #     check_in=True,
+    #     is_late=False,
+    #     created_at=datetime.utcnow(),
+    # )
+
+    # db.session.add(check_in)
+    # db.session.commit()
+
+    return jsonify(todo.to_dict()), 201
+
+
+    

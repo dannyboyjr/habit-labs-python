@@ -144,6 +144,7 @@ def create_habit_checkin(habit_id):
     check_in = CheckIn(
         user_id=current_user.id,
         habit_id=habit_id,
+        amount=habit.amount,
         check_in=True,
         is_late=False,
         created_at=datetime.utcnow(),
@@ -167,7 +168,6 @@ def get_current_user_checkins():
     today_local = datetime.now(user_timezone).date()
     all_checkins = CheckIn.query.filter_by(user_id=user_id).all()
 
-    # existing_checkin = CheckIn.query.filter_by(user_id=user_id).filter(func.DATE(func.convert_tz(CheckIn.created_at,'+00:00',current_user.timezone))==today_local).all()
     existing_checkin = [
         checkin for checkin in all_checkins
         if checkin.created_at.replace(tzinfo=pytz.UTC).astimezone(user_timezone).date() == today_local

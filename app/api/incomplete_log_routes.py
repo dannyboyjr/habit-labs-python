@@ -11,27 +11,25 @@ incomplete_log_routes = Blueprint('incomplete_logs', __name__)
 
 @incomplete_log_routes.route('/', methods=['GET'])
 @login_required
-def get_all_incomplete_logs():
-
-    """GET ALL INCOMPLETE LOGS"""
-    incomplete_logs = IncompleteLog.query.all()
-    return jsonify([log.to_dict() for log in incomplete_logs])
-
-
-
 def get_this_week_incomplete_logs():
     timezone = pytz.timezone(current_user.timezone)
     now = datetime.now(timezone)
-    week_start = now - timedelta(days=now.weekday())
-    week_end = week_start + timedelta(days=6)
 
-    logs = IncompleteLog.query.filter(
-        IncompleteLog.user_id == current_user.id,
-        IncompleteLog.created_at >= week_start,
-        IncompleteLog.created_at <= week_end
-    ).all()
+    incomplete_logs = IncompleteLog.query.filter_by(user_id=current_user.id).all()
+    # Find the previous Sunday
+    # week_start = now - timedelta(days=now.weekday()) # +1 to shift from Monday to Sunday as the start of the week
+    # if week_start.date() == now.date(): # If today is Sunday, reset the week_start to today
+    #     week_start = now
 
-    return jsonify([log.to_dict() for log in logs])
+    # week_end = week_start + timedelta(days=6)
+
+    # logs = IncompleteLog.query.filter(
+    #     IncompleteLog.user_id == current_user.id,
+    #     IncompleteLog.created_at >= week_start,
+    #     IncompleteLog.created_at <= week_end
+    # ).all()
+
+    return jsonify([log.to_dict() for log in incomplete_logs])
 
 
 
@@ -61,25 +59,30 @@ def get_summary_incomplete_logs():
     now = datetime.now(timezone)
     year_start = datetime(now.year, 1, 1, tzinfo=timezone)
     month_start = datetime(now.year, now.month, 1, tzinfo=timezone)
-    week_start = now - timedelta(days=now.weekday())
+    week_start = now - timedelta(days=now.weekday()) # +1 to shift from Monday to Sunday as the start of the week
+
+
+    week_end = week_start + timedelta(days=6)
     today_start = datetime(now.year, now.month, now.day, tzinfo=timezone)
 
     def get_total_amount(start_date, end_date=None):
         query = IncompleteLog.query.filter(
             IncompleteLog.user_id == current_user.id,
-            IncompleteLog.created_at >= start_date
+            IncompleteLog.created_at >= start_date,
+            IncompleteLog.created_at <= week_end
         )
         if end_date:
             query = query.filter(IncompleteLog.created_at <= end_date)
 
         return sum(log.amount for log in query.all())
+    
+
 
     total_amount_lost = get_total_amount(datetime.min.replace(tzinfo=timezone))
     total_year_lost = get_total_amount(year_start)
     total_month_lost = get_total_amount(month_start)
     total_week_lost = get_total_amount(week_start)
     total_today_lost = get_total_amount(today_start, datetime.now(timezone))
-
     return jsonify({
         "total_amount": float(total_amount_lost),
         "total_year": float(total_year_lost),

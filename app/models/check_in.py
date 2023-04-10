@@ -14,6 +14,7 @@ class CheckIn(db.Model):
     todo_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('todos.id')))
     check_in = db.Column(db.Boolean, default=False, nullable=False)
     is_late = db.Column(db.Boolean, nullable=False, default=False)
+    amount = db.Column(db.Numeric(10,2), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", back_populates="check_in")
@@ -25,6 +26,7 @@ class CheckIn(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "habit_id": self.habit_id,
+            "amount": self.amount,
             "todo_id": self.todo_id,
             "check_in": self.check_in,
             "is_late": self.is_late,

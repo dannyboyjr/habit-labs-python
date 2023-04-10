@@ -35,7 +35,6 @@ function EditTodoModal({todo}) {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      //!Need to build out editAHabitThunk
         const data = await dispatch(editTodoById(todo.id, editedTodo))
         if (data) {
             const {error} = await data.json()

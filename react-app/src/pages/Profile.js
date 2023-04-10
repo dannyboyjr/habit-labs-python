@@ -19,11 +19,10 @@ const Profile = () => {
 
     return (
         <div>
-            <h1>Hello</h1>
             <ProfileStats/>
             <ProfileUserInfo/>
             <Elements stripe={stripePromise}>
-            <ProfileCreditCard />
+            {/* <ProfileCreditCard /> */}
         </Elements>
 
         </div>
