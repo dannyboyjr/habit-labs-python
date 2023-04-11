@@ -45,6 +45,9 @@
   color: black;
 
 }
+#edit-journal-input{
+  background-color: white;
+}
   
   .journal-card-dropdown-button {
     background-color: transparent;
@@ -90,4 +93,24 @@
   
   .journal-card-dropdown-item.danger {
     color: #d9534f;
+  }
+
+  #save-journal-btn{
+    --hover-color: #111;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 10px 15px;
+    background: white;
+    display: flex;
+    transition: 0.2s ;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+  }
+
+  #save-journal-btn:hover {
+    background-color: #4F2A93;
+    color: white;
+
   }

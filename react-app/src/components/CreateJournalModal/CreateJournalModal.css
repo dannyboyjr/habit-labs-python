@@ -1,0 +1,70 @@
+.create-journal-modal{
+    display: Flex;
+    flex-direction: column;
+    height: 25em;
+    width: 40em;
+    padding:25px;
+    color: #4F2A93;
+
+}
+
+.questions-and-buttons{
+    height: 19em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.journal-modal-questionaire{
+    display: Flex;
+    flex-direction: column;
+
+}
+
+.journal-header{
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+
+.journal-input{
+    height: 7em;
+    border: none;
+    resize: none;
+  overflow: auto;
+  margin-bottom: .7em;
+  background-color: rgba(67, 40, 116, .1);
+}
+
+
+.modal-journal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+  }
+
+  .modal-journal-buttons button {
+    --hover-color: #111;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 10px 15px;
+    background: white;
+    display: flex;
+    transition: 0.2s ;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+
+  }
+
+
+
+
+  .modal-journal-buttons button:hover {
+    background-color: #4F2A93;
+    color: white;
+
+  }

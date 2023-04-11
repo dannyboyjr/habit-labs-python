@@ -3,7 +3,7 @@ import {createNewJournal} from '../../store/journal'
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal'
 import { createIncompleteLog } from "../../store/incomplete_log";
-
+import './CreateJournalModal.css'
 
 function CreateJournalModal({habit}) {
     const dispatch = useDispatch();
@@ -69,8 +69,10 @@ function CreateJournalModal({habit}) {
 
   
     return (
-      <>
-        <h1>{habit.name} New Journal</h1>
+      <div className="create-journal-modal">
+
+        <h1>{habit.name} -  New Journal</h1>
+
         <form onSubmit={handleSubmit}>
           <ul>
             {errors.map((error, idx) => (
@@ -78,30 +80,40 @@ function CreateJournalModal({habit}) {
             ))}
           </ul>
 
-          <label>
-            Why did you fail?
-            <input
-              type="text"
+          <div className="questions-and-buttons">
+          
+          <div className="journal-modal-questionaire">
+          <label className="journal-header">Why did you fail?</label>
+            <textarea
+              className="journal-input"
+              type="textarea"
               value={whyMissed}
               onChange={(e) => setWhyMissed(e.target.value)}
               required
             />
-          </label>
+          </div>
 
-          <label>
-            What Future Action will you take to succeed?
-            <input
-              type="text"
+            <div className="journal-modal-questionaire">
+          <label className="journal-header"> What Future Action will you take to succeed?</label>
+            <textarea
+            className="journal-input"
+              type="textarea"
               value={futureAction}
               onChange={(e) => setFutureAction(e.target.value)}
               required
             />
-          </label>
+            </div>
+          
+          <div className="modal-journal-buttons">
           <button type="submit">Submit</button>
           <button onClick={skipJournal}>skip and fail</button>
           <button onClick={closeModal}>cancel</button>
+          </div>
+
+          </div>
+
         </form>
-      </>
+      </div>
     );
   }
   

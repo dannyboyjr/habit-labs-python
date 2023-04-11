@@ -6,10 +6,14 @@
 }
     
 .journal-container-page-layout{
-    margin: auto;
+/* background-color: yellow; */
 }
 
 .journals-page h1 {
-    margin: auto;
+margin-left: auto;
+margin-right: auto;
 
+}
+.journal-page-individual-entries{
+    margin-top: 250px;
 }

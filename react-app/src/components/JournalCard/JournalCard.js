@@ -91,10 +91,12 @@ const formattedDate = createdDate.toLocaleDateString();
       {editing ? (
         <>
         <div className='journal-stack'>
-          <label>
+          <label className='journal-header'>
             Why missed:
             </label>
-            <input
+            <textarea
+            className='journal-input'
+            id="edit-journal-input"
               type="text"
               value={editedWhyMissed}
               onChange={(e) => setEditedWhyMissed(e.target.value)}
@@ -103,16 +105,22 @@ const formattedDate = createdDate.toLocaleDateString();
           </div>
 
 
-
-          <label>
+          <div className='journal-stack'>
+          <label className='journal-header'>
             Future action:
-            <input
+            </label>
+            <textarea
+              className='journal-input'
+              id="edit-journal-input"
               type="text"
               value={editedFutureAction}
               onChange={(e) => setEditedFutureAction(e.target.value)}
             />
-          </label>
-          <button onClick={onSave}>Save</button>
+          
+          </div>
+          <div className="modal-journal-buttons">
+          <button id="save-journal-btn" onClick={onSave}>Save</button>
+          </div>
         </>
       ) : (
         <>

@@ -18,7 +18,7 @@ const JournalsPage = () => {
       <div className="journals-page">
         <h1>Journals Page</h1>
         <div className='journal-container-page-layout'>
-        <div >
+        <div className='journal-page-individual-entries'>
         <JournalContainer journals={journals} />
         </div>
         </div>
