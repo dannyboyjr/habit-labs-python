@@ -21,7 +21,7 @@
   width: 50px; 
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
-  background-color: rgba(110, 152, 135, .9);
+  background-color: #558B6E;
 }
 
 
@@ -126,18 +126,18 @@
 }
 
 .habit-card-dropdown-item.danger {
-  color: #ff0000;
+  color: #DE3F3F;
 }
 
 .habit-card-dropdown-item.danger:hover {
-  background-color: #ff0000;
+  background-color: #DE3F3F;
   color: #fff;
 }
 
 .habit-card-sicko-mode {
-  color: red;
+  color: #DE3F3F;
   font-size: 8px;
-  border: 1px solid red;
+  border: 1px solid #DE3F3F;
   display: inline-block;
   padding: 2px 2px;
   border-radius: 4px;

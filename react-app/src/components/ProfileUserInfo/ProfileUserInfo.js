@@ -69,7 +69,7 @@ const ProfileUserInfo = () => {
 </div>
   
           
-          <h2 className="profile-header">
+          <h2 className="profile-header-user">
             {editMode ? (
               <>
                 <input

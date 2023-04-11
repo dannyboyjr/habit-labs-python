@@ -66,13 +66,13 @@ def get_summary_incomplete_logs():
     today_start = datetime(now.year, now.month, now.day, tzinfo=timezone)
 
     def get_total_amount(start_date, end_date=None):
+        if end_date is None:
+            end_date = datetime.now(timezone)
         query = IncompleteLog.query.filter(
             IncompleteLog.user_id == current_user.id,
             IncompleteLog.created_at >= start_date,
             IncompleteLog.created_at <= week_end
         )
-        if end_date:
-            query = query.filter(IncompleteLog.created_at <= end_date)
 
         return sum(log.amount for log in query.all())
     
@@ -84,9 +84,9 @@ def get_summary_incomplete_logs():
     total_week_lost = get_total_amount(week_start)
     total_today_lost = get_total_amount(today_start, datetime.now(timezone))
     return jsonify({
-        "total_amount": float(total_amount_lost),
-        "total_year": float(total_year_lost),
-        "total_month": float(total_month_lost),
-        "total_week": float(total_week_lost),
-        "total_today": float(total_today_lost),
+        "total_lost_all_time": float(total_amount_lost),
+        "total_lost_year": float(total_year_lost),
+        "total_lost_month": float(total_month_lost),
+        "total_lost_week": float(total_week_lost),
+        "total_lost_today": float(total_today_lost),
     })

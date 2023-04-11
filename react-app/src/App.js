@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import HomePage from "./pages/Home";
 import JournalsPage from "./pages/Journals";
 import Profile from "./pages/Profile";
+import Footer from './components/Footer/Footer'
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
           
         </Switch>
       )}
+      <Footer />
     </>
   );
 }

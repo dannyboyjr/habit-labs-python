@@ -1,52 +1,43 @@
 .profile-bg {
-  background-color: #f8f7f2;
-  padding: 2rem;
-  border-radius: 1rem;
+  background-color: #36205D;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 1210px;
-  margin: 0 auto;
+  color: white;
+
+  
 }
+
 
 .profile-header{
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .profile-stats-grid {
   display: grid;
+  width: 800px;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
+  
+
 }
 
 .profile-stats-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
+
   border-radius: 0.5rem;
   text-align: center;
-  background-color: white;
-}
-
-.profile-stats-header {
-  color: black;
-  margin-bottom: 0.5rem;
 }
 
 .profile-stats-value {
   display: block;
   font-size: 1.5rem;
-  color: black;
+  color: white;
   font-weight: bold;
 }
 
-.profile-stats-timeframe {
-  font-size: 0.9rem;
+.money-lost-stats{
+  text-align: center;
 }
 
-#saved-stats{
-  color: #6e9887;
+.money-stats-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-#lost-stats{
-  color: #d3725f;
-}
-

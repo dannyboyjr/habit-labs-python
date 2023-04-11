@@ -1,7 +1,7 @@
 .stats-bar{
   width: 100%;
-  margin: 0;
-  background-color: rgb(248, 247, 242);
+  background-color: rgb(54,32,93);
+  color: white;
 }
 .stats-bar-container {
     display: flex;

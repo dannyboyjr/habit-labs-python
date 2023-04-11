@@ -1,6 +1,6 @@
 const LOAD_INCOMPLETE_LOGS = 'incompleteLogs/LOAD_INCOMPLETE_LOGS';
 const CREATE_INCOMPLETE_LOG = 'incompleteLogs/CREATE_INCOMPLETE_LOG';
-const LOAD_INCOMPLETE_STATS = 'incompleteLogs/LOAD_INCOMPLETE_STATS';
+const LOAD_STATS = 'incompleteLogs/LOAD_INCOMPLETE_STATS';
 
 const loadIncompleteLogs = (logs) => ({
     type: LOAD_INCOMPLETE_LOGS,
@@ -12,8 +12,8 @@ const loadIncompleteLogs = (logs) => ({
     log,
   });
 
-  const loadIncompleteStats = (stats) => ({
-    type: LOAD_INCOMPLETE_STATS,
+  const loadStats = (stats) => ({
+    type: LOAD_STATS,
     stats,
   });
 
@@ -32,7 +32,16 @@ export const getIncompleteStats = () => async (dispatch) => {
   const response = await fetch('/api/incomplete_logs/summary');
   if (response.ok) {
     const data = await response.json();
-    dispatch(loadIncompleteStats(data));
+    dispatch(loadStats(data));
+    return data;
+  }
+};
+
+export const getSavedStats = () => async (dispatch) => {
+  const response = await fetch('/api/check_in/summary');
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(loadStats(data));
     return data;
   }
 };
@@ -69,9 +78,9 @@ const incompleteLogsReducer = (state = initialState, action) => {
       newState = { ...state };
       newState.logs[action.log.id] = action.log;
       return newState;
-    case LOAD_INCOMPLETE_STATS:
+    case LOAD_STATS:
       newState = { ...state };
-      newState.stats = {...action.stats}
+      newState.stats = {...state.stats,...action.stats}
       return newState
     default:
       return state;

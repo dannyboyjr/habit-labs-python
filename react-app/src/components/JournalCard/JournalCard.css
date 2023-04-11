@@ -1,5 +1,5 @@
 .journal-card {
-    background-color: #f8f7f2;
+    background-color: #EDECEE;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -9,7 +9,7 @@
   }
 
 .journal-name-and-date h2 {
-  color: #d3725f
+  color: #4F2A93;
 }
 
 .journal-card h3 {

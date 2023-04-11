@@ -1,11 +1,12 @@
 .profile-container {
   position: relative;
-  background-color: #f8f7f2;
+  background-color: #EDECEE;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 500px;
-  margin: 0 auto;
+  margin: 5px auto;
+
 }
 
 .edit-icon {
@@ -15,9 +16,9 @@
   cursor: pointer;
 }
 
-.profile-header {
+.profile-header-user {
   color: black;
-  text-align: center;
+  text-align: flex-start;
   margin-bottom: 1rem;
 }
 

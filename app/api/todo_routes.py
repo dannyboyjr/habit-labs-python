@@ -139,27 +139,21 @@ def complete_todo(todo_id):
     if not todo:
         return jsonify({'error': 'Todo not found'}), 404
     todo.is_complete = True
+
+    # Create a new CheckIn instance
+    check_in = CheckIn(
+        user_id=current_user.id,
+        todo_id=todo.id,
+        check_in=True,
+        amount=todo.amount
+    )
+
+    # Add the CheckIn instance to the session and commit the changes
+    db.session.add(check_in)
     db.session.commit()
 
-    today = datetime.utcnow().date()
-    # existing_checkin = CheckIn.query.filter_by(todo_id=todo.id, user_id=current_user.id).filter(func.DATE(CheckIn.created_at)==today).first()
-    # if existing_checkin:
-    #     return jsonify({'error': 'A check-in for this todo already exists today'}), 400
-    
-
-    # check_in = CheckIn(
-    #     user_id=current_user.id,
-    #     todo_id=todo.id,
-    #     amount=todo.amount,
-    #     check_in=True,
-    #     is_late=False,
-    #     created_at=datetime.utcnow(),
-    # )
-
-    # db.session.add(check_in)
-    # db.session.commit()
-
     return jsonify(todo.to_dict()), 201
+
 
 
     

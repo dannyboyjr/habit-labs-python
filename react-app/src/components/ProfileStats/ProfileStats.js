@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getIncompleteStats } from "../../store/incomplete_log";
+import { getIncompleteStats, getSavedStats } from "../../store/incomplete_log";
 import './ProfileStats.css'
 const ProfileStats = () => {
   const dispatch = useDispatch();
@@ -8,7 +8,8 @@ const ProfileStats = () => {
   const stats = useSelector((state) => state.incomplete_logs.stats);
 
   useEffect(() => {
-    dispatch(getIncompleteStats()).then(() => setIsLoaded(true));
+
+    dispatch(getIncompleteStats()).then(()=> dispatch(getSavedStats())).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
@@ -18,54 +19,59 @@ const ProfileStats = () => {
           <>
             <h1 className="profile-header">User Stats</h1>
             <div>
-            <h3 className="profile-stats-header" id="saved-stats">💸 Money Saved</h3>
+            <h3 className="profile-header">💸 Money Saved</h3>
+            <div className="money-stats-container">
             <div className="money-lost-stats profile-stats-grid">
               <div className="profile-stats-item">
                 
-                <span className="profile-stats-value">${stats.total_amount}</span>
+                <span className="profile-stats-value">${stats.total_saved_all_time}</span>
                 <p className="profile-stats-timeframe">All time</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_year}</span>
+                <span className="profile-stats-value">${stats.total_saved_year}</span>
                 <p className="profile-stats-timeframe">this year</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_month}</span>
+                <span className="profile-stats-value">${stats.total_saved_month}</span>
                 <p className="profile-stats-timeframe">this month</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_week}</span>
+                <span className="profile-stats-value">${stats.total_saved_week}</span>
                 <p className="profile-stats-timeframe">this week</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_today}</span>
+                <span className="profile-stats-value">${stats.total_saved_today}</span>
                 <p className="profile-stats-timeframe">today</p>
               </div>
+            </div>
             </div>
             </div>
             <div>
-            <h3 className="profile-stats-header" id="lost-stats">💸 Money Lost</h3>
+
+            <h3 className="profile-header">💸 Money Lost</h3>
+            <div className="money-stats-container">
             <div className="money-lost-stats profile-stats-grid">
               <div className="profile-stats-item">
                 
-                <span className="profile-stats-value">${stats.total_amount}</span>
+                <span className="profile-stats-value">${stats.total_lost_all_time}</span>
                 <p className="profile-stats-timeframe">All time</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_year}</span>
+                <span className="profile-stats-value">${stats.total_saved_year}</span>
                 <p className="profile-stats-timeframe">this year</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_month}</span>
+                <span className="profile-stats-value">${stats.total_lost_month}</span>
                 <p className="profile-stats-timeframe">this month</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_week}</span>
+                <span className="profile-stats-value">${stats.total_lost_week}</span>
                 <p className="profile-stats-timeframe">this week</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_today}</span>
+                <span className="profile-stats-value">${stats.total_lost_today}</span>
                 <p className="profile-stats-timeframe">today</p>
+              </div>
               </div>
             </div>
             </div>

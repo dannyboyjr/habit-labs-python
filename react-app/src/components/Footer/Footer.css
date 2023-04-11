@@ -1,0 +1,37 @@
+.footer {
+  background-color: #E1E0E3;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  width: 100%;
+  margin: auto;
+
+}
+
+.social-icons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-icons li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.social-icons li:last-child {
+  margin-right: 0;
+}
+
+.social-icons a img{
+  display: block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 10%;
+}
+
+.social-icons a:hover {
+  background-color: #222;
+}
