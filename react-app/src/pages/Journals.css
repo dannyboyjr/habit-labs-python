@@ -1,7 +1,8 @@
 .journals-page{
     display: flex;
     flex-direction: column;
-   
+    min-height: 95vh;
+
 }
     
 .journal-container-page-layout{
@@ -10,5 +11,5 @@
 
 .journals-page h1 {
     margin: auto;
-    padding: 35px;
+
 }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllJournals } from '../store/journal';
 import JournalContainer from '../components/JournalContainer/JournalContainer';
+import Footer from '../components/Footer/Footer'
 import './Journals.css'
 
 const JournalsPage = () => {
@@ -21,6 +22,7 @@ const JournalsPage = () => {
         <JournalContainer journals={journals} />
         </div>
         </div>
+        <Footer />
       </div>
     );
   };

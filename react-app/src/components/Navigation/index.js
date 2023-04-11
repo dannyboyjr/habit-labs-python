@@ -65,10 +65,12 @@ function Navigation({ isLoaded }) {
   
       </ul>
       </div>
-      {isLoaded && (
+      
+    </nav>
+    {isLoaded && (
           <button className="submit-button" id="logout-btn" onClick={handleLogout}>Log Out</button>
         )}
-    </nav>
+
     </div>
   );
 }

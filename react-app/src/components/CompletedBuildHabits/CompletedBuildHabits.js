@@ -5,6 +5,7 @@ import { deleteHabitById } from '../../store/habit';
 import { deleteCheckinByHabitId } from '../../store/checkin'
 import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
 import OpenModalButton from '../OpenModalButton/index'
+import CheckMark from '../../assets/check.png'
 import './CompletedBuildHabits.css'
 
 const CompletedBuildHabits = ({ habit }) => {
@@ -103,7 +104,7 @@ return (
 
         <div className="button-box" id="build-btn">
           <div onClick={markIncomplete} className="habit-card-button-square">
-          <span className="checkmark">&#x2713;</span>
+          <img className="checkmark" src={CheckMark}/>
           </div>
         </div>
 
