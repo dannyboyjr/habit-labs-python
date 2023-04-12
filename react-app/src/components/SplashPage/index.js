@@ -20,7 +20,7 @@ function SplashPage({isLoaded}) {
         <>
             <div className='splash-container'>
                 <p className='splash-welcome-text'>
-                    Welcome to Habit Labs!  You can log in to your account from here. Don't have one? You can register below to sign up!
+                    Welcome to Habit Labs! Change your life by putting your money where your mouth is!
                 </p>
                 
                 <div  className='splash-container-links'>

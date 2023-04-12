@@ -32,9 +32,9 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: white;
     border: none;
-    border-radius: 40px;
+    border-radius: 10px;
     color: #202123;
-    padding: 25px 35px;
+    padding: 15px 35px;
     text-align: center;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -47,9 +47,9 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: white;
     border: none;
-    border-radius: 40px;
+    border-radius: 10px;
     color: #202123;
-    padding: 25px 35px;
+    padding: 15px 35px;
     text-align: center;
     text-decoration: none;
     transition: all 0.3s ease;
