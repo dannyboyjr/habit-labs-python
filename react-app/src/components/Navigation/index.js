@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logout } from "../../store/session";
 import './Navigation.css';
@@ -9,6 +9,7 @@ function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [activeLink, setActiveLink] = useState(null);
+ 
 
 
   useEffect(() => {
@@ -32,9 +33,11 @@ function Navigation({ isLoaded }) {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
+    window.location.href = "/";
+
   };
 
-  return (
+  return sessionUser ? (
     <div className="nav-bar">
     <nav>
        <div className="nav-links-container">
@@ -72,7 +75,9 @@ function Navigation({ isLoaded }) {
         )}
 
     </div>
-  );
+  ): (
+    <div></div>
+  )
 }
 
 export default Navigation;
