@@ -49,6 +49,26 @@ def edit_user(id):
 
     new_username = data.get('username', user.username)
     new_email = data.get('email', user.email)
+    new_first_name = data.get('first_name', user.first_name)
+    new_last_name = data.get('last_name', user.last_name)
+    new_timezone = data.get('timezone', user.timezone)
+
+    missing_fields = []
+
+    if not new_first_name:
+        missing_fields.append("First Name")
+    if not new_last_name:
+        missing_fields.append("Last Name")
+    if not new_email:
+        missing_fields.append("Email")
+    if not new_username:
+        missing_fields.append("Username")
+    if not new_timezone:
+        missing_fields.append("Timezone")
+
+    if missing_fields:
+        return jsonify({"Error": f"Values for {', '.join(missing_fields)} cannot be empty or None"}), 400
+
 
     if not EMAIL_REGEX.match(new_email):
         return jsonify({"Error": "Invalid email format"}), 400
@@ -62,11 +82,11 @@ def edit_user(id):
     if existing_email:
         return jsonify({"Error": "Email already exists"}), 400
 
-    user.first_name = data.get('first_name', user.first_name)
-    user.last_name = data.get('last_name', user.last_name)
+    user.first_name = new_first_name
+    user.last_name = new_last_name
     user.username = new_username
     user.email = new_email
-    user.timezone = data.get('timezone', user.timezone)
+    user.timezone = new_timezone
 
     db.session.commit()
 

@@ -113,7 +113,10 @@ export const editUserById = (id, user) => async (dispatch) => {
     if (response.ok) {
         const user = await response.json();
         dispatch(editUser(user));
-    }
+    } else {
+		const errorData = await response.json();
+		return errorData.Error.split(", ");
+	  }
 };
 
 export default function reducer(state = initialState, action) {

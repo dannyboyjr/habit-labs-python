@@ -32,3 +32,8 @@ html {
     overflow-y: inherit;
   }
 
+  .error-ul{
+    list-style-type: none;
+    color: black;
+  }
+

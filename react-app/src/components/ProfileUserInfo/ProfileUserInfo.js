@@ -13,6 +13,7 @@ const ProfileUserInfo = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [timezone, setTimezone] = useState("");
+  const [errors, setErrors] = useState([]);
   const user = useSelector((state) => state.session.user);
 
   const timezones = [
@@ -32,7 +33,6 @@ const ProfileUserInfo = () => {
       setEmail(user.email);
       setTimezone(user.timezone);
     }
-    // dispatch(getIncompleteStats()).then(() => setIsLoaded(true));
   }, [dispatch, user]);
 
   const handleEditMode = () => {
@@ -40,8 +40,8 @@ const ProfileUserInfo = () => {
   };
 
 
-  const handleUpdate = async () => {
-
+  const handleUpdate = async (e) => {
+  e.preventDefault();
   let updatedUser = {
     first_name: firstName,
     last_name: lastName,
@@ -50,9 +50,16 @@ const ProfileUserInfo = () => {
     timezone
   }
   
-  await dispatch(editUserById(user.id, updatedUser)).then(()=>setEditMode(false))
+  const data = await dispatch(editUserById(user.id, updatedUser))
+  if (data) {
+    setErrors(data);
+  }else{
+    setErrors([])
+    setEditMode(false)
+  }
 
   };
+
 
   return (
     isLoaded && (
@@ -66,7 +73,12 @@ const ProfileUserInfo = () => {
   ):(
   <img className="edit-icon" src={editIcon} onClick={handleEditMode} />
   )}
-</div>
+</div>    
+        <ul className="error-ul">
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+            ))}
+        </ul>
   
           
           <h2 className="profile-header-user">
