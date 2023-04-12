@@ -20,7 +20,7 @@ function OpenModalButton({
   return  (
     <>
       {isImage ? (
-        <img onClick={onClick} className={className} src={buttonText} alt="Bad Image" />
+        <img onClick={onClick} className={className} src={buttonText} alt="oops" />
       ) : (
         <button onClick={onClick}>{buttonText}</button>
       )}

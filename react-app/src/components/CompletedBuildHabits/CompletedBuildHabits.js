@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { deleteHabitById } from '../../store/habit';
 import { deleteCheckinByHabitId } from '../../store/checkin'
+import { getSavedStats } from '../../store/incomplete_log';
+
 import EditBuildhabitModal from '../EditBuildHabitModal/EditBuildHabitModal';
 import OpenModalButton from '../OpenModalButton/index'
 import CheckMark from '../../assets/check.png'
@@ -24,7 +26,7 @@ const CompletedBuildHabits = ({ habit }) => {
   };
 
   const markIncomplete = () => {
-    dispatch(deleteCheckinByHabitId(habit.id))
+    dispatch(deleteCheckinByHabitId(habit.id)).then(()=>  dispatch(getSavedStats()));
   }
 
   //use to calculate days remaining
@@ -94,7 +96,7 @@ const CompletedBuildHabits = ({ habit }) => {
   
 
   const isCompleteFilter = checkinArray.find((item) => {
-    return habit.id == item.habit_id
+    return habit.id === item.habit_id
   })
 
 return (
@@ -104,7 +106,7 @@ return (
 
         <div className="button-box" id="build-btn">
           <div onClick={markIncomplete} className="habit-card-button-square">
-          <img className="checkmark" src={CheckMark}/>
+          <img className="checkmark" src={CheckMark} alt="-"/>
           </div>
         </div>
 

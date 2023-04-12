@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {createAHabit} from '../../store/habit'
 import './BuildHabitForm.css'
 

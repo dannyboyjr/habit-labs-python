@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns-tz';
 
 
 import './StatsBar.css';
 
 const StatsBar = ({stats}) => {
   const [totalOnTheLine, setTotalOnTheLine] = useState(0);
-  const [moneyLostWeekly, setMoneyLostWeekly] = useState(0);
   const todos = useSelector(state => state.todos);
   const habits = useSelector(state => state.habits);
   const checkins = useSelector(state => state.checkins);
   const incompleteLogs = useSelector(state => state.incomplete_logs.logs);
   const checkinsArr = Object.values(checkins);
   const incompleteLogsArr = Object.values(incompleteLogs);
-  const session = useSelector(state => state.session);
 
   useEffect(() => {
+
+    //ALL this calcualtes the Online line today
     let total = 0;
     const today = new Date();
     today.setHours(0, 0, 0, 0); 
-    
-
 
     Object.values(todos).forEach(todo => {
       if (todo.is_complete) return;
@@ -35,7 +32,7 @@ const StatsBar = ({stats}) => {
     }
     });
     Object.values(habits).forEach(habit => {
-      if (habit.is_build == false) return;
+      if (habit.is_build === false) return;
       const checkedHabit = checkinsArr.find(checkin => checkin.habit_id === habit.id);
       if (!checkedHabit) {
         const amount = parseFloat(habit.amount);
@@ -46,15 +43,8 @@ const StatsBar = ({stats}) => {
     });
     setTotalOnTheLine(total);
 
-    let lost = 0;
-    incompleteLogsArr.forEach(log => {
-      const amount = parseFloat(log.amount);
-      if (!isNaN(amount)) {
-        lost += amount;
-      }
-    });
-    setMoneyLostWeekly(lost);
-  }, [todos, habits, checkins, incompleteLogsArr]);
+ 
+  }, [todos, habits, checkins, incompleteLogsArr ]);
 
   return(
     <div className="stats-bar" >
@@ -68,7 +58,7 @@ const StatsBar = ({stats}) => {
         <p>Money saved this week</p>
       </div>
       <div className='money-lost'id="money-lost-id">
-        <div>${moneyLostWeekly}</div>
+        <div>${stats.total_lost_week}</div>
         <p>Money lost this week</p>
       </div>
       </div>

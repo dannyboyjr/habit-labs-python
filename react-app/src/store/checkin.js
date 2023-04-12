@@ -60,7 +60,11 @@ const checkinReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD_HABIT_CHECKINS:
             action.checkins.forEach(checkin => {
-                newState[checkin.habit_id] = checkin;
+                if (checkin.habit_id === null) {
+                    newState[checkin.todo_id] = checkin;
+                } else {
+                    newState[checkin.habit_id] = checkin;
+                }
             });
             return newState;
         case CREATE_HABIT_CHECKIN:

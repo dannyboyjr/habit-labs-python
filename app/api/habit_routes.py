@@ -148,16 +148,6 @@ def create_habit_checkin(habit_id):
             return jsonify({'error': 'A check-in for this habit already exists today'}), 400
 
     
-    # today = datetime.utcnow()
-    # two_days_ago = today - timedelta(hours=48)
-    # existing_checkin = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).filter(CheckIn.created_at>=two_days_ago).all()
-    # if existing_checkin:
-    #     for checkin in existing_checkin:
-    #         print("HELLO")
-    #         print("HELLO")
-    #         print(checkin.created_at)
-    #         return jsonify({'error': 'A check-in for this habit already exists today'}), 400
-    
     check_in = CheckIn(
         user_id=current_user.id,
         habit_id=habit_id,

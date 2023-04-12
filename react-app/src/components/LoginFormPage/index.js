@@ -12,7 +12,13 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [isDemo, setIsDemo] =useState(false)
-  useEffect(() => {if ((isDemo) && (email === 'demo@aa.io') && (password === 'password')) {makeLoginRequest()}}, [isDemo, email, password] )
+
+  useEffect(() => {
+    if (isDemo && email === 'demo@aa.io' && password === 'password') {
+      makeLoginRequest();
+    }
+  }, [isDemo, email, password]);
+
 
   if (sessionUser) return <Redirect to="/home" />;
 

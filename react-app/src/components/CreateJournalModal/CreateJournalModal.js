@@ -2,7 +2,7 @@ import { useState } from "react";
 import {createNewJournal} from '../../store/journal'
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal'
-import { createIncompleteLog } from "../../store/incomplete_log";
+import { createIncompleteLog, getIncompleteStats } from "../../store/incomplete_log";
 import './CreateJournalModal.css'
 
 function CreateJournalModal({habit}) {
@@ -10,23 +10,11 @@ function CreateJournalModal({habit}) {
 
     const [whyMissed, setWhyMissed] = useState("")
     const [futureAction, setFutureAction] = useState("")
-    const [habitId, setHabitId] = useState(null)
-    const [todoId, setTodoId] = useState(null)
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
-    // if(task.is_complete !== undefined){
-    //     setTodoId(task.id)
-    // }else{
-    //     setHabitId(task.id)
-    // }
-    const onBreakSubmit = (e) => {
-        e.preventDefault()
-        
-        // I need to add CreateJournalModal here. 
-        dispatch(createIncompleteLog(slipUp))
-    
-      }
+  
+   
     
     const newJournalEntry = {
         why_missed: whyMissed,
@@ -44,22 +32,23 @@ function CreateJournalModal({habit}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const data = await dispatch(createNewJournal(newJournalEntry))
-        .then(()=>{
+        const data = await dispatch(createNewJournal(newJournalEntry)).then(()=>dispatch(getIncompleteStats()))
+        .then( ()=>{
             if(!habit.is_build){
-            dispatch(createIncompleteLog(slipUp))
+             dispatch(createIncompleteLog(slipUp))
             }
         })
         if (data && data.error) {
           setErrors(data.error);
         } else {
+
           closeModal();
         }
       };
       const skipJournal = async (e) => {
         e.preventDefault();
         
-        const data = await dispatch(createIncompleteLog(slipUp))
+        const data = await dispatch(createIncompleteLog(slipUp)).then(()=>dispatch(getIncompleteStats()))
         if (data && data.error) {
           setErrors(data.error);
         } else {

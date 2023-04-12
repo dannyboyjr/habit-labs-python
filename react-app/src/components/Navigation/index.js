@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logout } from "../../store/session";
 import './Navigation.css';
@@ -10,15 +10,6 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const [activeLink, setActiveLink] = useState(null);
  
-
-
-  useEffect(() => {
-    if (activeLink) {
-      const pos = activeLink.offsetLeft;
-      const width = activeLink.offsetWidth;
-    }
-  }, [activeLink]);
-
   const handleLinkClick = (e, link) => {
     setActiveLink(link);
   };

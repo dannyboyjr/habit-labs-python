@@ -7,7 +7,7 @@ import TodosContainer from "../components/TodosContainer/TodosContainer";
 import {getAllUserHabits} from "../store/habit";
 import {getAllHabitCheckins} from '../store/checkin'
 import { getAllUserTodos } from '../store/todo'
-import { getIncompleteLogs, getSavedStats } from '../store/incomplete_log'
+import { getIncompleteLogs, getSavedStats, getIncompleteStats } from '../store/incomplete_log'
 import Footer from '../components/Footer/Footer'
 import "./Home.css";
 const HomePage = () => {
@@ -24,6 +24,7 @@ const HomePage = () => {
     dispatch(getAllUserTodos())
     dispatch(getIncompleteLogs())
     dispatch(getSavedStats())
+    dispatch(getIncompleteStats())
     dispatch(getAllUserHabits()).then(()=>setIsLoaded(true))
 	}, [dispatch])
 

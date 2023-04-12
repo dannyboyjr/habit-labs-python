@@ -1,8 +1,7 @@
 import "./BreakHabitCard.css";
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { deleteHabitById } from '../../store/habit';
-import { createIncompleteLog } from "../../store/incomplete_log";
 import OpenModalButton from '../OpenModalButton/index'
 import EditBuildhabitModal from "../EditBuildHabitModal/EditBuildHabitModal";
 import CreateJournalModal from '../CreateJournalModal/CreateJournalModal'

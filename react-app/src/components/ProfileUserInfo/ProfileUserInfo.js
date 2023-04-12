@@ -6,7 +6,6 @@ import "./ProfileUserInfo.css";
 
 const ProfileUserInfo = () => {
   const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -48,7 +47,7 @@ const ProfileUserInfo = () => {
       if (data) {
         setErrors(data);
       } else {
-        // Perform any additional actions after the account has been deleted
+        return 
       }
     }
   };
@@ -75,7 +74,7 @@ const ProfileUserInfo = () => {
 
 
   return (
-    isLoaded && (
+   (
       <>
         <div className="profile-container profile-bg">
           <div className="edit-buttons-container">
@@ -84,7 +83,7 @@ const ProfileUserInfo = () => {
       Save
     </button>
   ):(
-  <img className="edit-icon" src={editIcon} onClick={handleEditMode} />
+  <img className="edit-icon" src={editIcon} onClick={handleEditMode} alt="Edit Profile" />
   )}
 </div>    
         <ul className="error-ul">

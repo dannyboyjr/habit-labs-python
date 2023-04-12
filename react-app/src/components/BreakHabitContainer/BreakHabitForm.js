@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {createAHabit} from '../../store/habit'
 import './BreakhabitForm.css'
 
@@ -14,12 +14,6 @@ const BreakHabitForm = () => {
   const [amount, setAmount] = useState(null)
   const [cadence, setCadence] = useState(1)
   const [sickoMode, setSickoMode] = useState(JSON.parse(false))
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   amount: 1.00,
-  //   sickoMode: false,
-  //   is_build: false
-  // });
 
   const newHabit = {
     name: name,

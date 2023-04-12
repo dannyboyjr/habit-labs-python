@@ -1,8 +1,8 @@
 // import './TodoCard.css'
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { deleteTodoById } from '../../store/todo';
-import { createACheckin } from '../../store/checkin';
+import { getSavedStats } from '../../store/incomplete_log';
 import { completeATodo } from "../../store/todo";
 import EditTodoModal from '../EditTodoModal/EditTodoModal'
 import OpenModalButton from '../OpenModalButton/index'
@@ -11,9 +11,6 @@ import './ToDoCard.css'
 
 const TodoCard = ({ todo }) => {
   const dispatch = useDispatch()
-  const userTimezone = useSelector(state => state.session.user.timezone)
-  const checkIns = useSelector(state => state.checkins)
-  const checkinArray = Object.values(checkIns)
   const [showDropdown, setShowDropdown] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState('');
 
@@ -22,14 +19,14 @@ const TodoCard = ({ todo }) => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleDelete = () => {
-    dispatch(deleteTodoById(todo.id)).then(handleDropdownToggle())
+  const handleDelete = async () => {
+    await dispatch(deleteTodoById(todo.id)).then(handleDropdownToggle())
   };
 
-  const handleComplete = () => {
-
-    dispatch(completeATodo(todo.id))
+  const handleComplete = async () => {
+    await dispatch(completeATodo(todo.id)).then(()=> dispatch(getSavedStats()))
   }
+
 
   const formRef = useRef(null);
   useEffect(() => {
@@ -74,7 +71,8 @@ const TodoCard = ({ todo }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [dateString]);
+
+  }, [dateString ]);
 
   return (
     <div>

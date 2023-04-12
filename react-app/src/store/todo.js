@@ -2,11 +2,7 @@ const LOAD_USER_TODOS = "todos/loadUserTodo";
 const LOAD_TODO_BY_ID = 'todos/loadTodoById'
 const CREATE_TODO = 'todos/createTodo'
 const DELETE_TODO = 'todos/deleteTodo'
-const LOAD_JOURNALS_BY_TODO_ID = 'todos/loadJournalsByTodoId'
 const COMPLETE_TODO = 'todos/completeTodo'
-// ! const LOAD_JOURNAL_BY_ID = 'todos/loadJournalById'
-// ! const CREATE_JOURNAL = 'todos/createJournal'
-// ! const DELETE_JOURNAL = 'todos/deleteJournal'
 
 const loadUsertodos = (todos) => ({
     type: LOAD_USER_TODOS,
@@ -25,12 +21,6 @@ const createTodo = (todo) => ({
 const completeTodo = (todo) => ({
     type: COMPLETE_TODO,
     todo
-});
-
-
-const loadTodoJournals = (todos) => ({
-    type: LOAD_JOURNALS_BY_TODO_ID,
-    todos
 });
 
 const deleteTodo = (todo) => ({

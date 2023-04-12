@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import JournalCard from '../JournalCard/JournalCard';
 import './JournalContainer.css'
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { editTodoById } from "../../store/todo";
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal'
-import { useParams } from 'react-router-dom';
 
 function EditTodoModal({todo}) {
     const dispatch = useDispatch();

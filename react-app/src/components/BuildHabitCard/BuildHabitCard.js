@@ -2,6 +2,7 @@ import "./BuildHabitCard.css";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteHabitById } from "../../store/habit";
+import { getSavedStats } from '../../store/incomplete_log';
 import { createACheckin } from "../../store/checkin";
 import EditBuildhabitModal from "../EditBuildHabitModal/EditBuildHabitModal";
 import OpenModalButton from "../OpenModalButton/index";
@@ -23,7 +24,7 @@ const BuildHabitCard = ({ habit }) => {
   };
 
   const handleComplete = () => {
-    dispatch(createACheckin(habit.id));
+    dispatch(createACheckin(habit.id)).then(()=>  dispatch(getSavedStats()));
   };
 
   //use to
@@ -95,7 +96,7 @@ const BuildHabitCard = ({ habit }) => {
   }, []);
 
   const isCompleteFilter = checkinArray.find((item) => {
-    return habit.id == item.habit_id;
+    return habit.id === item.habit_id;
   });
 
   return (
