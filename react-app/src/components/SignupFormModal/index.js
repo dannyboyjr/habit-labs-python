@@ -14,11 +14,13 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      
+
       const data = await dispatch(signUp(first_name, last_name, username, email, password, timezone));
       if (data) {
         setErrors(data);
@@ -95,6 +97,7 @@ function SignupFormModal() {
             required
           />
         </label>
+        <input type="hidden" name="timezone" value={timezone} />
         <button type="submit">Sign Up</button>
       </form>
     </>

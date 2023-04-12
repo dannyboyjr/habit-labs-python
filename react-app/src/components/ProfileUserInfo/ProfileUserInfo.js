@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import editIcon from "../../assets/pencil.png";
-import {editUserById} from '../../store/session'
+import {editUserById, deleteUserById} from '../../store/session'
 import "./ProfileUserInfo.css";
 
 const ProfileUserInfo = () => {
@@ -39,6 +39,19 @@ const ProfileUserInfo = () => {
     setEditMode(!editMode);
   };
 
+  const deleteUser = async (e) => {
+    e.preventDefault();
+    const confirmation = window.confirm("Are you sure you want to delete your account?");
+  
+    if (confirmation) {
+      const data = await dispatch(deleteUserById(user.id));
+      if (data) {
+        setErrors(data);
+      } else {
+        // Perform any additional actions after the account has been deleted
+      }
+    }
+  };
 
   const handleUpdate = async (e) => {
   e.preventDefault();
@@ -142,6 +155,7 @@ const ProfileUserInfo = () => {
               timezone
             )}
           </p>
+          <button id="delete-user-btn"onClick={deleteUser}>delete account</button>
         </div>
       </>
     )

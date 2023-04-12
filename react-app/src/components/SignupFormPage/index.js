@@ -39,7 +39,7 @@ function SignupFormPage() {
       <div className='signup-wrapper'>
       <div className='signup-framing'>
       <div className="signup-header">Sign Up</div>
-        <ul>
+        <ul className="error-ul-sign-in">
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}

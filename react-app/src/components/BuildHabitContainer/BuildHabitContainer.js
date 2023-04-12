@@ -5,6 +5,14 @@ import CompletedBuildHabits from '../CompletedBuildHabits/CompletedBuildHabits'
 
 const BuildHabitContainer = ({habits}) => {
 
+    const isBuildExist = habits.filter((habit)=> {
+        return habit.is_build 
+    })
+    console.log("TEST")
+    console.log("TEST")
+    console.log("TEST")
+    console.log(isBuildExist)
+
     return (
         <div className="general-task-container">
             <div>
@@ -16,7 +24,7 @@ const BuildHabitContainer = ({habits}) => {
             }
             </div>
             <div>
-                <p className="completed-buildhabit-container">completed</p>
+              { isBuildExist.length > 0 && <p className="completed-buildhabit-container">completed</p>}
 
             {
                 habits.map((habit) => (

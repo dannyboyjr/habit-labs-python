@@ -30,3 +30,5 @@ class SignUpForm(FlaskForm):
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])
     password = StringField('password', validators=[DataRequired()])
+    timezone = StringField('timezone', validators=[DataRequired(), AnyOf(timezone_list, message="Invalid timezone")])
+

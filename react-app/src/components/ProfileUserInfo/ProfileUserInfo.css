@@ -47,3 +47,14 @@ border-radius: 1px;
 border-width: .5px;
 font-size: 16px;
 }
+
+#delete-user-btn{
+  color: rgb(222, 63, 63);
+  border:none;
+  margin-top: 15px;
+
+}
+
+#delete-user-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

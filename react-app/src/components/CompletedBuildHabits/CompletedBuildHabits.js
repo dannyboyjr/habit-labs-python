@@ -100,7 +100,7 @@ const CompletedBuildHabits = ({ habit }) => {
 return (
   <div>
     {isCompleteFilter && habit.is_build && (
-      <div className="habit-card">
+      <div className="habit-card" id="is-complete-habit">
 
         <div className="button-box" id="build-btn">
           <div onClick={markIncomplete} className="habit-card-button-square">

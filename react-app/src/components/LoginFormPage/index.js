@@ -48,7 +48,7 @@ function LoginFormPage() {
     <form className="login-form-container" onSubmit={handleSubmit}>
       <h3 className="welcome-login-text">Welcome back!</h3>
       <p className="excited-login-text" >We're so excited to see you again!</p>
-      <ul>
+      <ul className="error-ul-sign-in">
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
         ))}
