@@ -17,17 +17,17 @@ def get_this_week_incomplete_logs():
 
     incomplete_logs = IncompleteLog.query.filter_by(user_id=current_user.id).all()
     # Find the previous Sunday
-    # week_start = now - timedelta(days=now.weekday()) # +1 to shift from Monday to Sunday as the start of the week
-    # if week_start.date() == now.date(): # If today is Sunday, reset the week_start to today
-    #     week_start = now
+    week_start = now - timedelta(days=now.weekday()) # +1 to shift from Monday to Sunday as the start of the week
+    if week_start.date() == now.date(): # If today is Sunday, reset the week_start to today
+        week_start = now
 
-    # week_end = week_start + timedelta(days=6)
+    week_end = week_start + timedelta(days=6)
 
-    # logs = IncompleteLog.query.filter(
-    #     IncompleteLog.user_id == current_user.id,
-    #     IncompleteLog.created_at >= week_start,
-    #     IncompleteLog.created_at <= week_end
-    # ).all()
+    logs = IncompleteLog.query.filter(
+        IncompleteLog.user_id == current_user.id,
+        IncompleteLog.created_at >= week_start,
+        IncompleteLog.created_at <= week_end
+    ).all()
 
     return jsonify([log.to_dict() for log in incomplete_logs])
 

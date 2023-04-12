@@ -5,7 +5,7 @@ import { format } from 'date-fns-tz';
 
 import './StatsBar.css';
 
-const StatsBar = () => {
+const StatsBar = ({stats}) => {
   const [totalOnTheLine, setTotalOnTheLine] = useState(0);
   const [moneyLostWeekly, setMoneyLostWeekly] = useState(0);
   const todos = useSelector(state => state.todos);
@@ -60,7 +60,7 @@ const StatsBar = () => {
         <p>On the line Today</p>
       </div>
       <div className='money-lost' id="money-lost-id">
-        <div>${moneyLostWeekly}</div>
+        <div>${stats.total_saved_week}</div>
         <p>Money saved this week</p>
       </div>
       <div className='money-lost'id="money-lost-id">

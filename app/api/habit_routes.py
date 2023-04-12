@@ -135,12 +135,29 @@ def create_habit_checkin(habit_id):
     if not habit:
         return jsonify({'error': 'Habit not found'}), 404
     
-    today = datetime.utcnow().date()
-    existing_checkin = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).filter(func.DATE(CheckIn.created_at)==today).first()
-    if existing_checkin:
-        return jsonify({'error': 'A check-in for this habit already exists today'}), 400
-    
 
+    user_id = current_user.id
+    user_timezone = pytz.timezone(current_user.timezone)
+    today_local = datetime.now(user_timezone).date()
+    all_checkins = CheckIn.query.filter_by(user_id=user_id).all()
+
+    existing_checkins = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).all()
+
+    for checkin in existing_checkins:
+        if checkin.created_at.replace(tzinfo=pytz.UTC).astimezone(user_timezone).date() == today_local:
+            return jsonify({'error': 'A check-in for this habit already exists today'}), 400
+
+    
+    # today = datetime.utcnow()
+    # two_days_ago = today - timedelta(hours=48)
+    # existing_checkin = CheckIn.query.filter_by(habit_id=habit_id, user_id=current_user.id).filter(CheckIn.created_at>=two_days_ago).all()
+    # if existing_checkin:
+    #     for checkin in existing_checkin:
+    #         print("HELLO")
+    #         print("HELLO")
+    #         print(checkin.created_at)
+    #         return jsonify({'error': 'A check-in for this habit already exists today'}), 400
+    
     check_in = CheckIn(
         user_id=current_user.id,
         habit_id=habit_id,
