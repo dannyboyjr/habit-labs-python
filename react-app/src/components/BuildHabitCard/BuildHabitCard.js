@@ -76,7 +76,7 @@ const BuildHabitCard = ({ habit }) => {
     const userDate = new Date();
     const userTime = userDate.toLocaleString("en-US", { timeZone: userTz });
     const userMidnight = new Date(userTime);
-    userMidnight.setHours(24, 0, 0, 0);
+    userMidnight.setHours(23, 59, 59, 59);
 
     const countdownInterval = setInterval(() => {
       const timeDiff = userMidnight - new Date();
@@ -87,7 +87,7 @@ const BuildHabitCard = ({ habit }) => {
         const hoursLeft = Math.floor(timeDiff / 1000 / 60 / 60);
         const minutesLeft = Math.floor((timeDiff / 1000 / 60) % 60);
         const secondsLeft = Math.floor((timeDiff / 1000) % 60);
-        setCountdown(`${hoursLeft}:${minutesLeft}:${secondsLeft}`);
+        setCountdown(`${String(hoursLeft).padStart(2, "0")}:${String(minutesLeft).padStart(2, "0")}:${String(secondsLeft).padStart(2, "0")}`);
       }
     }, 1000);
 

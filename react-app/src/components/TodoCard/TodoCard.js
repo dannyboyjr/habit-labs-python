@@ -60,7 +60,13 @@ const TodoCard = ({ todo }) => {
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
   
 
-      setTimeRemaining(`${days}:${hours}:${minutes}:${seconds}` );
+      if (remainingTime <= 0) {
+        setTimeRemaining("Past Due");
+      } else if (days > 0) {
+        setTimeRemaining(`${days}d${days > 1 ? "s" : ""} ${hours}h${hours > 1 ? "s" : ""}`);
+      } else {
+        setTimeRemaining(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
+      }
     };
 
     const timer = setInterval(() => {

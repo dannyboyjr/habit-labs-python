@@ -11,6 +11,11 @@ const BuildHabitForm = () => {
         date.setDate(date.getDate() + 66);
         return date.toISOString().split("T")[0];
       }
+      const getTodaysDate = () => {
+        const date = new Date();
+        date.setDate(date.getDate());
+        return date.toISOString().split("T")[0];
+      }
 
       // formats date for submition
     const formatDate = (dateString) => {
@@ -49,7 +54,7 @@ const BuildHabitForm = () => {
    
     dispatch(createAHabit(newHabit)).then(()=>{
             setName("");
-            setAmount(null);
+            setAmount("");
             setCadence(1);
             setEndDate(getDefaultDate());
             setSickoMode(false);
@@ -76,6 +81,8 @@ const BuildHabitForm = () => {
   const toggleDropdown = () => {
     setShowDropdown((prevShowDropdown) => true);
   };
+
+  const today = getTodaysDate()
 
   return (
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
@@ -118,6 +125,7 @@ const BuildHabitForm = () => {
               type="date"
               name="end_date"
               value={endDate}
+              min={today}
               onChange={(e) => setEndDate(formatDate(e.target.value))}
             />
              <label>End Date</label>

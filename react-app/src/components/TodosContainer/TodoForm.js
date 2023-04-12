@@ -38,7 +38,7 @@ const TodoForm = () => {
       } else {
     dispatch(createATodo(newTodo)).then(()=>{
         setName("");
-        setAmount(null);
+        setAmount('');
         setLateFee(10);
         setDueDate(getDefaultDate());
         setSickoMode(false);
@@ -64,6 +64,8 @@ const TodoForm = () => {
   const toggleDropdown = () => {
     setShowDropdown((prevShowDropdown) => true);
   };
+
+  const today = getDefaultDate()
 
   return (
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
@@ -104,6 +106,7 @@ const TodoForm = () => {
            type="date"
            name="due_date"
            value={dueDate}
+           min={today}
            onChange={(e) => setDueDate(e.target.value)}
          />
           <label>Due Date</label>
