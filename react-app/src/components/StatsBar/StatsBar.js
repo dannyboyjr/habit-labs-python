@@ -18,17 +18,21 @@ const StatsBar = ({stats}) => {
 
   useEffect(() => {
     let total = 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    
 
 
     Object.values(todos).forEach(todo => {
       if (todo.is_complete) return;
 
-      const date = new Date(todo.due_date);
+      const dueDate = new Date(todo.due_date);
+      if (dueDate > today) return;
 
       const amount = parseFloat(todo.amount);
       if (!isNaN(amount)) {
         total += amount;
-      }
+    }
     });
     Object.values(habits).forEach(habit => {
       if (habit.is_build == false) return;

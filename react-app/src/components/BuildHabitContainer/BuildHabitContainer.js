@@ -8,10 +8,7 @@ const BuildHabitContainer = ({habits}) => {
     const isBuildExist = habits.filter((habit)=> {
         return habit.is_build 
     })
-    console.log("TEST")
-    console.log("TEST")
-    console.log("TEST")
-    console.log(isBuildExist)
+
 
     return (
         <div className="general-task-container">
