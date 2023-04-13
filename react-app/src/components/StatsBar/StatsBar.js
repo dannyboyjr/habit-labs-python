@@ -44,7 +44,7 @@ const StatsBar = ({stats}) => {
     setTotalOnTheLine(total);
 
  
-  }, [todos, habits, checkins, incompleteLogsArr ]);
+  }, [todos, habits, checkins, incompleteLogsArr, checkinsArr ]);
 
   return(
     <div className="stats-bar" >

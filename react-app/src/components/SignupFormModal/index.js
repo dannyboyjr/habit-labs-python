@@ -35,7 +35,7 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <ul>
@@ -100,7 +100,7 @@ function SignupFormModal() {
         <input type="hidden" name="timezone" value={timezone} />
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

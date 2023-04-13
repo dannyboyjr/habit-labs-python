@@ -1,7 +1,7 @@
 
 
 .splash-container{
-    background-color: #36205D;
+    background-color: #573498;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +33,7 @@
     background-color: white;
     border: none;
     border-radius: 10px;
-    color: #202123;
+    color: black;
     padding: 15px 35px;
     text-align: center;
     text-decoration: none;
@@ -59,27 +59,23 @@
 }
 
 .login-button:hover{
-    color: #3805e1;
     transform: scale(1.1);
     border-color: black;
 
 }
 
 .signup-button:hover{
-    color: #3805e1;
     transform: scale(1.1);
     border-color: black;
 }
 
 .login-button:active{
-    color: #3805e1;
     transform: scale(1.1);
     border-color: black;
 
 }
 
 .signup-button:active{
-    color: #3805e1;
     transform: scale(1.1);
     border-color: black;
 }

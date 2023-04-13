@@ -1,9 +1,14 @@
+.signup-background{
+  background-color: black;
+  height: 2000px;
+}
 .signup-location{
     position: absolute;
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
     display: grid;
     place-items: center;
+    background-color: #573498;
   }
 
 .signup-container{
@@ -118,8 +123,6 @@
   margin-bottom: 1em;
   border-radius: 0.2em;
   border: none;
-
-
   }
 
   .signup-input input:focus{
@@ -129,7 +132,7 @@
 
   .signup-input-name{
     margin-bottom: 10px;
-    font-size: small;
+    font-size: medium;
   }
 
   .signup-btn{
@@ -151,13 +154,13 @@
     text-align: center;
     border: none;
     outline: none;
-    background-color: #4f2a93;
-    color: white;
+    background-color: #edecee;
+    color: black;
     cursor: pointer;
   }
 
   .signup-btn:hover{
-    background-color: #edecee;
-    color:black;
+    background-color: #573498;
+    color:white;
     box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
   }

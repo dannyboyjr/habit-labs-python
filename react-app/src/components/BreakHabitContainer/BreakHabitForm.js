@@ -11,7 +11,7 @@ const BreakHabitForm = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("")
-  const [amount, setAmount] = useState(null)
+  const [amount, setAmount] = useState("")
   const [cadence, setCadence] = useState(1)
   const [sickoMode, setSickoMode] = useState(JSON.parse(false))
 
