@@ -42,7 +42,7 @@ function LoginFormPage() {
     setErrors([]);
     setIsDemo(true)
 
-  setEmail('ryker@aa.io')
+  setEmail('demo@aa.io')
   setPassword('password')
 
   }

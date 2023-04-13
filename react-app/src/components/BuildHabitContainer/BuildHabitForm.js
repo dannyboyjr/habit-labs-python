@@ -13,9 +13,11 @@ const BuildHabitForm = () => {
       }
       const getTodaysDate = () => {
         const date = new Date();
-        date.setDate(date.getDate());
-        return date.toISOString().split("T")[0];
-      }
+        const timezoneOffsetInMilliseconds = date.getTimezoneOffset() * 60 * 1000;
+        const userTimezoneDate = new Date(date.getTime() - timezoneOffsetInMilliseconds);
+        return userTimezoneDate.toISOString().split("T")[0];
+      };
+      
 
       // formats date for submition
     const formatDate = (dateString) => {
@@ -83,7 +85,7 @@ const BuildHabitForm = () => {
   };
 
   const today = getTodaysDate()
-
+console.log(today)
   return (
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
       {/* name */}

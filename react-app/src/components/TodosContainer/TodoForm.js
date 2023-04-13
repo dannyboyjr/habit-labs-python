@@ -11,6 +11,14 @@ const TodoForm = () => {
         return date.toISOString().split("T")[0];
       }
 
+      const getTodaysDate = () => {
+        const date = new Date();
+        const timezoneOffsetInMilliseconds = date.getTimezoneOffset() * 60 * 1000;
+        const userTimezoneDate = new Date(date.getTime() - timezoneOffsetInMilliseconds);
+        return userTimezoneDate.toISOString().split("T")[0];
+      };
+      
+
   const dispatch = useDispatch()
   // const userTimeZone = useSelector(state => state.session.user.timezone)
   const [showDropdown, setShowDropdown] = useState(false);
@@ -65,7 +73,7 @@ const TodoForm = () => {
     setShowDropdown((prevShowDropdown) => true);
   };
 
-  const today = getDefaultDate()
+  const today = getTodaysDate()
 
   return (
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
