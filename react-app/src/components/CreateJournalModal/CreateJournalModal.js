@@ -83,7 +83,7 @@ function CreateJournalModal({habit}) {
           </div>
 
             <div className="journal-modal-questionaire">
-          <label className="journal-header"> What Future Action will you take to succeed?</label>
+          <label className="journal-header"> What future action will you take to succeed?</label>
             <textarea
             className="journal-input"
               type="textarea"
