@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-from app.models import IncompleteLog, CheckIn, db
+from application.models import IncompleteLog, CheckIn, db
 from datetime import datetime, timedelta, timezone
 import pytz
 from sqlalchemy.sql import func

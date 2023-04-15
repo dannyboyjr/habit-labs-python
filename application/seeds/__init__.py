@@ -5,7 +5,7 @@ from .todos import seed_todos, undo_todos
 from .journals import seed_journals, undo_journals
 from .check_ins import seed_check_ins, undo_check_ins
 from .incomplete_logs import seed_incomplete_logs, undo_incomplete_logs
-from app.models.db import db, environment, SCHEMA
+from application.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
 # So we can type `flask seed --help`

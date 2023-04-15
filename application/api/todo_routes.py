@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Todo, Journal,CheckIn, db
+from application.models import Todo, Journal,CheckIn, db
 from flask_login import login_required, current_user
 from datetime import datetime
 from pytz import timezone

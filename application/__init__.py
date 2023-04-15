@@ -19,10 +19,10 @@ from .config import Config
 import stripe
 
 
-app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+application = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
 # Setup login manager
-login = LoginManager(app)
+login = LoginManager(application)
 login.login_view = 'auth.unauthorized'
 
 
@@ -32,22 +32,22 @@ def load_user(id):
 
 
 # Tell flask about our seed commands
-app.cli.add_command(seed_commands)
+application.cli.add_command(seed_commands)
 
-app.config.from_object(Config)
-app.register_blueprint(user_routes, url_prefix='/api/users')
-app.register_blueprint(auth_routes, url_prefix='/api/auth')
-app.register_blueprint(habit_routes, url_prefix='/api/habits')
-app.register_blueprint(todo_routes, url_prefix='/api/todos')
-app.register_blueprint(journal_routes, url_prefix='/api/journals')
-app.register_blueprint(incomplete_log_routes, url_prefix='/api/incomplete_logs')
-app.register_blueprint(check_in_routes, url_prefix='/api/check_in')
-app.register_blueprint(stripe_routes, url_prefix='/api/stripe')
-db.init_app(app)
-Migrate(app, db)
+application.config.from_object(Config)
+application.register_blueprint(user_routes, url_prefix='/api/users')
+application.register_blueprint(auth_routes, url_prefix='/api/auth')
+application.register_blueprint(habit_routes, url_prefix='/api/habits')
+application.register_blueprint(todo_routes, url_prefix='/api/todos')
+application.register_blueprint(journal_routes, url_prefix='/api/journals')
+application.register_blueprint(incomplete_log_routes, url_prefix='/api/incomplete_logs')
+application.register_blueprint(check_in_routes, url_prefix='/api/check_in')
+application.register_blueprint(stripe_routes, url_prefix='/api/stripe')
+db.init_app(application)
+Migrate(application, db)
 
 # Application Security
-CORS(app)
+CORS(application)
 
 
 # Since we are deploying with Docker and Flask,
@@ -55,7 +55,7 @@ CORS(app)
 # Therefore, we need to make sure that in production any
 # request made over http is redirected to https.
 # Well.........
-@app.before_request
+@application.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
         if request.headers.get('X-Forwarded-Proto') == 'http':
@@ -64,7 +64,7 @@ def https_redirect():
             return redirect(url, code=code)
 
 
-@app.after_request
+@application.after_request
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
@@ -76,20 +76,20 @@ def inject_csrf_token(response):
     return response
 
 
-@app.route("/api/docs")
+@application.route("/api/docs")
 def api_help():
     """
     Returns all API routes and their doc strings
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
-                    app.view_functions[rule.endpoint].__doc__ ]
-                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+                    application.view_functions[rule.endpoint].__doc__ ]
+                    for rule in application.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@application.route('/', defaults={'path': ''})
+@application.route('/<path:path>')
 def react_root(path):
     """
     This route will direct to the public directory in our
@@ -101,10 +101,10 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    application.run()

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import User, db
+from application.models import User, db
 import re
 import stripe
 

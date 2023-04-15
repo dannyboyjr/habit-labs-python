@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired, Email, ValidationError, AnyOf
-from app.models import User
+from application.models import User
 import pytz
 
 timezone_list = pytz.all_timezones

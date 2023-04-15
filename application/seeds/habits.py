@@ -1,4 +1,4 @@
-from app.models import db, Habit, environment, SCHEMA
+from application.models import db, Habit, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime, timedelta
 

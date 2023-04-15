@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-from app.models import Habit,Journal, CheckIn, db
+from application.models import Habit,Journal, CheckIn, db
 from datetime import datetime, date, timedelta
 from pytz import timezone
 import pytz

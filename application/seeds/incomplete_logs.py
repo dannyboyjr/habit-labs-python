@@ -1,4 +1,4 @@
-from app.models import db, IncompleteLog, environment, SCHEMA
+from application.models import db, IncompleteLog, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
