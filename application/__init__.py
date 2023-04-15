@@ -97,13 +97,13 @@ def react_root(path):
     or index.html requests
     """
     if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
-    return app.send_static_file('index.html')
+        return application.send_from_directory('public', 'favicon.ico')
+    return application.send_static_file('index.html')
 
 
 @application.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return application.send_static_file('index.html')
 
 
 if __name__ == '__main__':
