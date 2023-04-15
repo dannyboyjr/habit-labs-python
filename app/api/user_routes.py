@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
 from app.models import User, db
 import re
+import stripe
 
 
 user_routes = Blueprint('users', __name__)
@@ -112,3 +113,18 @@ def delete_user(id):
     db.session.commit()
 
     return {'message': f'User {id} successfully deleted'}
+
+
+
+
+# @user_routes.route('/test-stripe', methods=["GET"])
+# @login_required
+# def get_setup_intent_stuff(payment_intent_id):
+        
+#         retrieved = stripe.SetupIntent.retrieve(
+#         ,
+# )   
+#         current_user.stripe_payment_id = retrieved['payment_method']
+#         current_user.has_payment_info = True
+#         db.session.commit()
+

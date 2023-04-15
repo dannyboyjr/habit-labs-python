@@ -1,74 +1,115 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import './ProfileCreditCard.css';
+import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
 
-const ProfileCreditCard = () => {
+import {  useDispatch, useSelector } from "react-redux";
+
+const SaveCardForm = () => {
+  const [firstName, setFirstName] = useState('Dan');
+  const [lastName, setLastName] = useState('Kimball');
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  let hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
+  const reduxCardInfo = useSelector((state) => state.stripe.card_details)
   const stripe = useStripe();
   const elements = useElements();
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
+  const dispatch = useDispatch()
 
-  const cardElementOptions = {
-    style: {
-      base: {
-        color: '#ffffff',
-        '::placeholder': {
-          color: 'rgba(255, 255, 255, 0.7)',
-        },
-      },
-      invalid: {
-        color: '#ff4d4d',
-      },
-    },
+  const fetchUpdatedCardDetails = () => {
+    setIsLoaded(false);
+    dispatch(getCardDetails()).then(() => setIsLoaded(true));
   };
+
+  const handleDeleteCard = () => {
+    dispatch(deleteCardDetails()).then(() => {
+      setIsLoaded(false);
+      hasPaymentInfo = false;
+      fetchUpdatedCardDetails();
+    });
+  };
+
+  useEffect(()=>{
+    dispatch(getCardDetails()).then(() => setIsLoaded(true));
+  },[dispatch])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSaving(true);
-    setMessage('');
 
     if (!stripe || !elements) {
       return;
     }
 
+    setProcessing(true);
+
+    const { data } = await axios.post('http://localhost:8000/api/stripe/create-setup-intent', 
+    {
+      firstName,
+      lastName,
+    }
+  );
     const cardElement = elements.getElement(CardElement);
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
+    const { error } = await stripe.confirmCardSetup(data.clientSecret, {
+      payment_method: { card: cardElement },
     });
 
     if (error) {
-      setMessage(error.message);
-      setSaving(false);
+      setError(error.message);
+      setProcessing(false);
     } else {
-      const response = await axios.post('/api/save_payment_method', {
-        paymentMethodId: paymentMethod.id,
-      });
-
-      if (response.data.success) {
-        setMessage('Credit card information saved successfully.');
-      } else {
-        setMessage('Error saving credit card information.');
-      }
-
-      setSaving(false);
+      setError(null);
+      setProcessing(false);
     }
+      const input = data.clientSecret;
+      const output = input.split("_secret_")[0];
+      dispatch(addPaymentInfo(output)).then(()=>{
+        setIsLoaded(false)
+        hasPaymentInfo = true
+        dispatch(getCardDetails())}).then(() => setIsLoaded(true));
+        fetchUpdatedCardDetails();
   };
 
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="credit-card-container cool-bg">
-      <h2 className="cool-header">Credit Card Information</h2>
-      <form className="stripe-form" onSubmit={handleSubmit}>
-        <CardElement options={cardElementOptions} />
-        <button className="save-btn" type="submit" disabled={!stripe || saving}>
-          Save Card
-        </button>
-      </form>
-      {message && <p className="message">{message}</p>}
+    <div>
+      {hasPaymentInfo && reduxCardInfo ? (
+        <div>
+          <p>card details</p>
+          <p>Last 4 digits: {reduxCardInfo.last4}</p>
+          <p>Experation: {reduxCardInfo.exp_month}/{reduxCardInfo.exp_year}</p>
+          <button onClick={handleDeleteCard}>Delete Card</button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <CardElement />
+          <button type="submit" disabled={!stripe || processing}>
+            Save Card 
+          </button>
+          {error && <div>{error}</div>}
+          {success && <div>Card saved successfully</div>}
+        </form>
+      )}
     </div>
   );
 };
 
-export default ProfileCreditCard;
+export default SaveCardForm;
+

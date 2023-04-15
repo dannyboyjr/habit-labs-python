@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify, abort
+from flask_login import login_required, current_user
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -12,8 +13,11 @@ from .api.todo_routes import todo_routes
 from .api.journal_routes import journal_routes
 from .api.incomplete_log_routes import incomplete_log_routes
 from .api.checkin_routes import check_in_routes
+from .api.stripe import stripe_routes
 from .seeds import seed_commands
 from .config import Config
+import stripe
+
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -38,6 +42,7 @@ app.register_blueprint(todo_routes, url_prefix='/api/todos')
 app.register_blueprint(journal_routes, url_prefix='/api/journals')
 app.register_blueprint(incomplete_log_routes, url_prefix='/api/incomplete_logs')
 app.register_blueprint(check_in_routes, url_prefix='/api/check_in')
+app.register_blueprint(stripe_routes, url_prefix='/api/stripe')
 db.init_app(app)
 Migrate(app, db)
 
@@ -99,3 +104,7 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+
+if __name__ == '__main__':
+    app.run()
