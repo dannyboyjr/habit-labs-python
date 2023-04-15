@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
-
 import {  useDispatch, useSelector } from "react-redux";
+import './ProfileCreditCard.css'
 
 const SaveCardForm = () => {
-  const [firstName, setFirstName] = useState('Dan');
-  const [lastName, setLastName] = useState('Kimball');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -65,11 +65,10 @@ const SaveCardForm = () => {
     }
       const input = data.clientSecret;
       const output = input.split("_secret_")[0];
-      dispatch(addPaymentInfo(output)).then(()=>{
-        setIsLoaded(false)
-        hasPaymentInfo = true
-        dispatch(getCardDetails())}).then(() => setIsLoaded(true));
-        fetchUpdatedCardDetails();
+      setIsLoaded(false)
+      dispatch(addPaymentInfo(output)).then(()=>fetchUpdatedCardDetails())
+      
+        
   };
 
   if (!isLoaded) {
@@ -77,34 +76,38 @@ const SaveCardForm = () => {
   }
 
   return (
-    <div>
+    <div className="card-form-container">
       {hasPaymentInfo && reduxCardInfo ? (
-        <div>
-          <p>card details</p>
+        <div className="card-details">
+          <p>Card Details</p>
           <p>Last 4 digits: {reduxCardInfo.last4}</p>
-          <p>Experation: {reduxCardInfo.exp_month}/{reduxCardInfo.exp_year}</p>
-          <button onClick={handleDeleteCard}>Delete Card</button>
+          <p>Expiration: {reduxCardInfo.exp_month}/{reduxCardInfo.exp_year}</p>
+          <button className="delete-card-btn" onClick={handleDeleteCard}>Delete Card</button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form className="card-form" onSubmit={handleSubmit}>
           <input
+            className="input-field"
             type="text"
             placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <input
+            className="input-field"
             type="text"
             placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
-          <CardElement />
-          <button type="submit" disabled={!stripe || processing}>
+          <div className="card-element-container">
+            <CardElement className="card-element" />
+          </div>
+          <button className="save-card-btn" type="submit" disabled={!stripe || processing}>
             Save Card 
           </button>
-          {error && <div>{error}</div>}
-          {success && <div>Card saved successfully</div>}
+          {error && <div className="error-message">{error}</div>}
+          {success && <div className="success-message">Card saved successfully</div>}
         </form>
       )}
     </div>

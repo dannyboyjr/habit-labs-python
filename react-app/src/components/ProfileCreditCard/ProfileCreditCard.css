@@ -1,49 +1,56 @@
-.credit-card-container {
-    background: linear-gradient(135deg, #19294e, #4d4e88);
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  .cool-header {
-    color: #ffffff;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .StripeElement {
-    background-color: transparent;
-    padding: 15px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-  }
-  
+.card-form-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-color: #EDECEE;
+  border-radius: 5px;
+}
 
-  .stripe-form {
-    margin-top: 1rem;
-  }
-  
-  .save-btn {
-    background-color: #4d4e88;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: block;
-    margin: 1rem auto;
-    transition: background-color 0.3s;
-  }
-  
-  .save-btn:hover {
-    background-color: #3c3d76;
-  }
-  
-  .message {
-    color: #ffffff;
-    text-align: center;
-    margin-top: 1rem;
-  }
+.card-details {
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #432874;
+  border-radius: 5px;
+}
+
+.card-element-container {
+  margin-bottom: 15px;
+  border: 1px solid #432874;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.card-element {
+  width: 100%;
+  color: #36205D;
+}
+
+.save-card-btn,
+.delete-card-btn {
+  background-color: #432874;
+  color: #EDECEE;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-card-btn:disabled {
+  background-color: #36205D;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+}
