@@ -20,7 +20,7 @@ def create_setup_intent():
 
 
 
-@stripe_routes.route('/test-stripe/<string:paymentIntentId>', methods=["GET"])
+@stripe_routes.route('/save-stripe-details/<string:paymentIntentId>', methods=["GET"])
 @login_required
 def get_setup_intent_stuff(paymentIntentId):
         retrieved = stripe.SetupIntent.retrieve(

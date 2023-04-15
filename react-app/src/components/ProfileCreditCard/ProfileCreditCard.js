@@ -3,9 +3,16 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
 import {  useDispatch, useSelector } from "react-redux";
+import dotenv from 'dotenv';
+
 import './ProfileCreditCard.css'
 
+dotenv.config();
+
 const SaveCardForm = () => {
+
+  const apiUrl = process.env.REACT_APP_BASE_URL;
+  
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
@@ -17,10 +24,11 @@ const SaveCardForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch()
+  
 
-  const fetchUpdatedCardDetails = () => {
+  const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
-    dispatch(getCardDetails()).then(() => setIsLoaded(true));
+    await dispatch(getCardDetails()).then(() => setIsLoaded(true));
   };
 
   const handleDeleteCard = () => {
@@ -37,14 +45,12 @@ const SaveCardForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!stripe || !elements) {
       return;
     }
-
     setProcessing(true);
 
-    const { data } = await axios.post('http://localhost:8000/api/stripe/create-setup-intent', 
+    const { data } = await axios.post(`${apiUrl}/api/stripe/create-setup-intent`, 
     {
       firstName,
       lastName,

@@ -1,9 +1,10 @@
-const LOAD_STRIPE = "stripe/loadStripe";
+const SAVE_STRIPE_DETAILS = "stripe/loadStripe";
 const LOAD_STRIPE_DETAILS = 'stripe/loadDetails'
+// const CREATE_STRIPE_INTENT = 'stripe/createStripeIntent'
 const DELETE_CARD = 'stripe/deleteCard'
 
-const loadStripe = (body) => ({
-    type: LOAD_STRIPE,
+const saveDetails = (body) => ({
+    type: SAVE_STRIPE_DETAILS,
     body
 });
 const loadStripeDetails = (cardDetails) => ({
@@ -16,12 +17,16 @@ const deleteCard = (body) => ({
     body
 })
 
+// const createIntent = (body) => ({
+//     type: CREATE_STRIPE_INTENT,
+//     body
+// })
 
 export const addPaymentInfo = (paymentIntentId) => async (dispatch) => {
-    const response = await fetch(`/api/stripe/test-stripe/${paymentIntentId}`);
+    const response = await fetch(`/api/stripe/save-stripe-details/${paymentIntentId}`);
     if (response.ok) {
         const data = await response.json();
-        dispatch(loadStripe(data));
+        dispatch(saveDetails(data));
         return data;
     } 
 }
@@ -34,7 +39,20 @@ export const getCardDetails = () => async (dispatch) => {
         return data;
     } 
 }
-// 
+
+// export const createStripeIntent = (body) => async (dispatch) => {
+//     const response = await fetch("/api/stripe/create-setup-intent", {
+//         headers: { "Content-Type": "application/json" },
+//         method: "POST",
+//         body: JSON.stringify(body)
+//     });
+//     if (response.ok) {
+//         const response = await response.json();
+//         return dispatch(createIntent(body))
+//     }
+//     return response
+// };
+
 
 export const deleteCardDetails = () => async (dispatch) => {
     const response = await fetch(`/api/stripe/delete_payment_method`, {
