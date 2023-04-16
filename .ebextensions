@@ -1,5 +1,9 @@
 option_settings:
   aws:elasticbeanstalk:container:python:
-    WSGIPath: app/application.py
-  aws:elasticbeanstalk:environment:proxy:
-    ProxyServer: nginx
+    WSGIPath: application/__init__.py
+  aws:elasticbeanstalk:container:python:staticfiles:
+    "/static/": "build/static/"
+container_commands:
+  01_build_react_app:
+    command: "cd react-app && npm ci && npm run build"
+    ignoreErrors: false
