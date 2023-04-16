@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-deploy": "PUBLIC_URL=/static/react/ npm run build && rm -rf ../app/static/react && mkdir -p ../app/static/react && cp -R build/* ../app/static/react/"
   },
   "eslintConfig": {
     "extends": "react-app"
