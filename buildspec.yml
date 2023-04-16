@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - npm install -g aws-cdk
+  build:
+    commands:
+      - npm install --prefix react-app
+      - npm run build --prefix react-app
+      - pip install -r requirements.txt
+      - pip install psycopg2
+      - flask db upgrade
+      - flask seed all
+  post_build:
+    commands:
+      - aws cloudformation package --template-file template.yaml --s3-bucket $ARTIFACT_BUCKET --output-template-file outputtemplate.yaml
+
+artifacts:
+  type: zip
+  files:
+    - '**/*'
