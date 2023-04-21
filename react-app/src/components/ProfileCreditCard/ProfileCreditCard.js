@@ -28,7 +28,9 @@ const SaveCardForm = () => {
 
   const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
-    await dispatch(getCardDetails()).then(() => setIsLoaded(true));
+    await dispatch(getCardDetails()).then(() =>{ 
+      setIsLoaded(true)});
+      hasPaymentInfo = true;
   };
 
   const handleDeleteCard = () => {
