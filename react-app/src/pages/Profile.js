@@ -1,7 +1,8 @@
 import ProfileStats from "../components/ProfileStats/ProfileStats";
 import ProfileUserInfo from '../components/ProfileUserInfo/ProfileUserInfo'
-import { loadStripe } from '@stripe/stripe-js';
+import ProfileCreditCard from '../components/ProfileCreditCard/ProfileCreditCard'
 import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import Footer from '../components/Footer/Footer'
 import './Profile.css'
 
@@ -14,7 +15,7 @@ const Profile = () => {
             <ProfileStats/>
             <ProfileUserInfo/>
             <Elements stripe={stripePromise}>
-            {/* <ProfileCreditCard /> */}
+            <ProfileCreditCard />
         </Elements>
         <Footer />
         </div>

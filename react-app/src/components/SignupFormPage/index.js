@@ -17,12 +17,13 @@ function SignupFormPage() {
   const [errors, setErrors] = useState([]);
 
   if (sessionUser) return <Redirect to="/" />;
-  if (timezone ==="") setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  if (timezone === "") setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     if (password === confirmPassword) {
+      
       const data = await dispatch(signUp(first_name, last_name, username, email, password, timezone));
       if (data) {
         setErrors(data);

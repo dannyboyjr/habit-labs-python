@@ -18,6 +18,8 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     timezone = db.Column(db.String, nullable=False, default='UTC')
+    stripe_payment_id = db.Column(db.String())
+    has_payment_info = db.Column(db.Boolean, default=False)
 
 
     #relationships
@@ -45,5 +47,6 @@ class User(db.Model, UserMixin):
             'last_name': self.last_name,
             'username': self.username,
             'email': self.email,
-            'timezone': self.timezone
+            'timezone': self.timezone,
+            "has_payment_info": self.has_payment_info,
         }

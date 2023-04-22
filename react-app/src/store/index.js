@@ -6,6 +6,7 @@ import checkinReducer from './checkin';
 import todosReducer from './todo';
 import journalsReducer from './journal';
 import incompleteLogsReducer from './incomplete_log';
+import StripeReducer from './stripe'
 
 const rootReducer = combineReducers({
   session,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   checkins: checkinReducer,
   todos: todosReducer,
   journals: journalsReducer,
-  incomplete_logs: incompleteLogsReducer
+  incomplete_logs: incompleteLogsReducer,
+  stripe: StripeReducer,
 });
 
 
