@@ -88,6 +88,7 @@ function EditBuildhabitModal({habit}) {
             />
             </label>
           }
+          { habit.is_build &&
           <label>
             Enable Sicko Mode
             <input
@@ -96,6 +97,7 @@ function EditBuildhabitModal({habit}) {
               onChange={(e) => setSickoMode(e.target.checked)}
             />
           </label>
+}
           <button type="submit">Update</button>
         </form>
       </>

@@ -57,7 +57,7 @@ const ProfileStats = () => {
                 <p className="profile-stats-timeframe">All time</p>
               </div>
               <div className="profile-stats-item">
-                <span className="profile-stats-value">${stats.total_saved_year}</span>
+                <span className="profile-stats-value">${stats.total_lost_year}</span>
                 <p className="profile-stats-timeframe">this year</p>
               </div>
               <div className="profile-stats-item">
