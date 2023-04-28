@@ -1,3 +1,4 @@
+import { getUser } from "./session";
 const SAVE_STRIPE_DETAILS = "stripe/loadStripe";
 const LOAD_STRIPE_DETAILS = 'stripe/loadDetails'
 // const CREATE_STRIPE_INTENT = 'stripe/createStripeIntent'
@@ -17,16 +18,15 @@ const deleteCard = (body) => ({
     body
 })
 
-// const createIntent = (body) => ({
-//     type: CREATE_STRIPE_INTENT,
-//     body
-// })
-
-export const addPaymentInfo = (paymentIntentId) => async (dispatch) => {
+export const addPaymentInfo = (paymentIntentId) => async (dispatch, getState) => {
     const response = await fetch(`/api/stripe/save-stripe-details/${paymentIntentId}`);
     if (response.ok) {
         const data = await response.json();
         dispatch(saveDetails(data));
+
+        const currentUserId = getState().session.user.id; // Get the current user ID from the session state
+        dispatch(getUser(currentUserId)); // Fetch the updated user data and update the session state
+
         return data;
     } 
 }
@@ -39,19 +39,6 @@ export const getCardDetails = () => async (dispatch) => {
         return data;
     } 
 }
-
-// export const createStripeIntent = (body) => async (dispatch) => {
-//     const response = await fetch("/api/stripe/create-setup-intent", {
-//         headers: { "Content-Type": "application/json" },
-//         method: "POST",
-//         body: JSON.stringify(body)
-//     });
-//     if (response.ok) {
-//         const response = await response.json();
-//         return dispatch(createIntent(body))
-//     }
-//     return response
-// };
 
 
 export const deleteCardDetails = () => async (dispatch) => {

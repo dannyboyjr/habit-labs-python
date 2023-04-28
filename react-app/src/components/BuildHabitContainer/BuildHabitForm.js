@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {createAHabit} from '../../store/habit'
 import './BuildHabitForm.css'
 
@@ -30,6 +30,7 @@ const BuildHabitForm = () => {
       }
 
   const dispatch = useDispatch()
+  const user = useSelector(state => state.session.user)
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -52,6 +53,9 @@ const BuildHabitForm = () => {
     e.preventDefault();
     if (!newHabit.name || !newHabit.amount || !newHabit.cadence || !newHabit.end_date) {
         setErrorMessage("all inputs are required");
+      }
+      else if(!user.has_payment_info) {
+        alert("You need to enter payment info!")
       } else {
    
     dispatch(createAHabit(newHabit)).then(()=>{

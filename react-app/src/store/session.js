@@ -13,7 +13,7 @@ const removeUser = () => ({
 	type: REMOVE_USER,
 });
 
-const editUser = (user) => ({
+export const editUser = (user) => ({
     type: EDIT_USER,
      user,
 })
@@ -22,6 +22,7 @@ const deleteUser = (user) => ({
      user,
 })
 const initialState = { user: null };
+
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/", {
@@ -38,6 +39,24 @@ export const authenticate = () => async (dispatch) => {
 		dispatch(setUser(data));
 	}
 };
+
+export const getUser = (id) => async (dispatch) => {
+	const response = await fetch(`/api/users/${id}`, {
+	  headers: {
+		"Content-Type": "application/json",
+	  },
+	});
+	if (response.ok) {
+	  const data = await response.json();
+	  if (data.errors) {
+		return;
+	  }
+  
+	  dispatch(setUser(data));
+	}
+  };
+  
+
 
 export const login = (email, password) => async (dispatch) => {
 	const response = await fetch("/api/auth/login", {

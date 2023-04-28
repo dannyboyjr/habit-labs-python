@@ -3,6 +3,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
 import {  useDispatch, useSelector } from "react-redux";
+import { getUser } from '../../store/session'
 import dotenv from 'dotenv';
 
 import './ProfileCreditCard.css'
@@ -19,27 +20,26 @@ const SaveCardForm = () => {
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  let hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
-  const reduxCardInfo = useSelector((state) => state.stripe.card_details)
+  const user = useSelector((state) => state.session.user);
+  const hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
+  let reduxCardInfo = useSelector((state) => state.stripe.card_details)
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch()
   
-
   const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
-    await dispatch(getCardDetails()).then(() =>{ 
-      setIsLoaded(true)});
-      hasPaymentInfo = true;
+    await dispatch(getCardDetails())
+    setIsLoaded(true)
   };
 
   const handleDeleteCard = () => {
-    dispatch(deleteCardDetails()).then(() => {
-      setIsLoaded(false);
-      hasPaymentInfo = false;
-      fetchUpdatedCardDetails();
-    });
+    dispatch(deleteCardDetails())
   };
+
+  useEffect(() => {
+    setIsLoaded(hasPaymentInfo);
+  }, [hasPaymentInfo]);
 
   useEffect(()=>{
     dispatch(getCardDetails()).then(() => setIsLoaded(true));
@@ -73,8 +73,7 @@ const SaveCardForm = () => {
     }
       const input = data.clientSecret;
       const output = input.split("_secret_")[0];
-      setIsLoaded(false)
-      dispatch(addPaymentInfo(output)).then(()=>fetchUpdatedCardDetails())
+      dispatch(addPaymentInfo(output)).then(()=>fetchUpdatedCardDetails().then(()=> setIsLoaded(true)))
       
         
   };
