@@ -94,15 +94,6 @@ return (
               <div className="habit-card-amount">${habit.amount}</div>
               <p className="habit-card-line">On the line</p>
             </div>
-            <div>
-             {/* <div className="habit-card-days-complete" > {daysComplete}/{totalDays} </div>
-             <p className="habit-card-line">days remaining</p> */}
-            </div>
-            <div>
-              {/* <div className="habit-card-time">{countdown}</div>
-              <p className="habit-card-line">Due In</p> */}
-            </div>
-            
         </div>
 
       </div>
@@ -111,67 +102,3 @@ return (
 );
 };
 export default BreakHabitCard;
-
-// return (
-//   <div>
-//     {!habit.is_build && (
-//       <div className="habit-card">
-//         <div className="habit-card-content">
-//           {/* <img className="incompleteImg" onClick={onBreakSubmit} src={IncompleteIcon} /> */}
-
-//           <OpenModalButton
-//                     buttonText={IncompleteIcon}
-//                     isImage={true}
-//                     className="break-habit-image"
-//                     modalComponent={<CreateJournalModal habit={habit} />}
-//                   />
-
-
-//           <div className="habit-card-details">
-//             <h3 className="habit-card-title">{habit.name}</h3>
-//             <p className="habit-card-amount">{habit.amount}</p>
-//             <p className="habit-card-line">On the line</p>
-//             <div className="habit-card-time">time placeholder</div>
-//           </div>
-
-//           {habit.sicko_mode && <p className="habit-card-sicko-mode">Sicko mode</p>}
-//           {!habit.sicko_mode &&
-//           <div ref={formRef} className="habit-card-dropdown-container">
-//             <div
-//               className="habit-card-dropdown-button"
-//               onClick={handleDropdownToggle}
-//             >
-//               <div className="habit-card-dropdown-icon"></div>
-//               <div className="habit-card-dropdown-icon"></div>
-//               <div className="habit-card-dropdown-icon"></div>
-//             </div>
-            
-//             {showDropdown && (
-//               <div className="habit-card-dropdown-menu">
-//                 <div
-//                   className="habit-card-dropdown-item">
-//                   <OpenModalButton
-//                     buttonText="Edit"
-//                     modalComponent={<EditBuildhabitModal habit={habit} />}
-//                   />
-//                 </div>
-//                 <div
-//                   className="habit-card-dropdown-item danger"
-//                   onClick={handleDelete}
-//                 >
-//                   Delete
-//                 </div>
-//               </div>
-//             )}
-//           </div>
-// }
-
-
-//         </div>
-//       </div>
-//     )}
-//   </div>
-// );
-// };
-
-// export default BreakHabitCard;

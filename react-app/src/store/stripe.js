@@ -41,7 +41,7 @@ export const getCardDetails = () => async (dispatch) => {
 }
 
 
-export const deleteCardDetails = () => async (dispatch) => {
+export const deleteCardDetails = () => async (dispatch, getState) => {
     const response = await fetch(`/api/stripe/delete_payment_method`, {
         method: "DELETE",
     });
@@ -49,6 +49,8 @@ export const deleteCardDetails = () => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         dispatch(deleteCard(data));
+        const currentUserId = getState().session.user.id; // Get the current user ID from the session state
+        dispatch(getUser(currentUserId)); // Fetch the updated user data and update the session state
         return data;
     }
 };

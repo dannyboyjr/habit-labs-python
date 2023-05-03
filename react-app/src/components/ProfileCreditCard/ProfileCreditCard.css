@@ -54,3 +54,14 @@
   color: green;
   margin-top: 10px;
 }
+
+.first-last-name-stripe-form {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+.first-last-name-stripe-form .input-field {
+  padding-left: 10px;
+}

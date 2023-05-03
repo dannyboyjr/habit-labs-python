@@ -1,7 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import {createAHabit} from '../../store/habit'
+import OpenModal from '../OpenModal'
+import EnterCardInfoModal from '../EnterCardInfoModal/EnterCardInfoModal'
 import './BuildHabitForm.css'
+
+
+//!put into env - also found on /pages/profile.js
+const stripePromise = loadStripe('pk_test_51MRsbnKjQQj6FDkFdswvvgQHKPd9FikpeTwVIxeGyvDuLFqvcmqRvNq7f3SxBO04DqIvd3PrEcKePAa4Yb6PWzfK004l1twuBq');
+
 
 const BuildHabitForm = () => { 
 
@@ -33,9 +42,9 @@ const BuildHabitForm = () => {
   const user = useSelector(state => state.session.user)
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [enterPaymentDetails, setEnterPaymentDetails] = useState(false)
   const [name, setName] = useState("")
-  const [amount, setAmount] = useState(null)
+  const [amount, setAmount] = useState("")
   const [cadence, setCadence] = useState(1)
   const [endDate, setEndDate] = useState(getDefaultDate())
   const [sickoMode, setSickoMode] = useState(JSON.parse(false))
@@ -55,7 +64,7 @@ const BuildHabitForm = () => {
         setErrorMessage("all inputs are required");
       }
       else if(!user.has_payment_info) {
-        alert("You need to enter payment info!")
+        setEnterPaymentDetails(true)
       } else {
    
     dispatch(createAHabit(newHabit)).then(()=>{
@@ -76,6 +85,7 @@ const BuildHabitForm = () => {
     const handleClickOutside = (event) => {
       if (formRef.current && !formRef.current.contains(event.target)) {
         setShowDropdown(false);
+        setEnterPaymentDetails(false)
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -89,8 +99,22 @@ const BuildHabitForm = () => {
   };
 
   const today = getTodaysDate()
-console.log(today)
   return (
+    
+    <div> 
+      {enterPaymentDetails && (
+        
+        <OpenModal
+        autoOpen={true}
+        modalComponent={
+          <Elements stripe={stripePromise}>
+        <EnterCardInfoModal />
+        </Elements>
+        }
+            />  
+          
+      )}
+     
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
       {/* name */}
      
@@ -160,6 +184,7 @@ console.log(today)
       )}
       
     </form>
+    </div>
   );
 };
 

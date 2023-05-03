@@ -20,8 +20,7 @@ const SaveCardForm = () => {
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const user = useSelector((state) => state.session.user);
-  const hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
+  let hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
   let reduxCardInfo = useSelector((state) => state.stripe.card_details)
   const stripe = useStripe();
   const elements = useElements();
@@ -33,8 +32,12 @@ const SaveCardForm = () => {
     setIsLoaded(true)
   };
 
-  const handleDeleteCard = () => {
-    dispatch(deleteCardDetails())
+  const handleDeleteCard = async (e) => {
+    e.preventDefault();
+    await dispatch(deleteCardDetails());
+    setIsLoaded(false); // set isLoaded to false while fetching updated card details
+    await fetchUpdatedCardDetails(); // wait for the updated card details to be fetched
+    setIsLoaded(true); // set isLoaded to true after fetching updated card details
   };
 
   useEffect(() => {
@@ -78,10 +81,6 @@ const SaveCardForm = () => {
         
   };
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="card-form-container">
       {hasPaymentInfo && reduxCardInfo ? (
@@ -93,6 +92,7 @@ const SaveCardForm = () => {
         </div>
       ) : (
         <form className="card-form" onSubmit={handleSubmit}>
+          <div className='first-last-name-stripe-form'>
           <input
             className="input-field"
             type="text"
@@ -107,6 +107,7 @@ const SaveCardForm = () => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
+          </div>
           <div className="card-element-container">
             <CardElement className="card-element" />
           </div>

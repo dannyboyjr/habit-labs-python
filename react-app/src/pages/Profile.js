@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Footer from '../components/Footer/Footer'
 import './Profile.css'
 
+//!put into env - also found on /components/BuildhabitFroms.js
 const stripePromise = loadStripe('pk_test_51MRsbnKjQQj6FDkFdswvvgQHKPd9FikpeTwVIxeGyvDuLFqvcmqRvNq7f3SxBO04DqIvd3PrEcKePAa4Yb6PWzfK004l1twuBq');
 
 const Profile = () => {

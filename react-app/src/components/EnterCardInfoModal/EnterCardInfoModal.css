@@ -1,0 +1,30 @@
+.enter-card-modal{
+    padding: 2em;
+    border-radius:25px;
+    max-width: 550px;
+}
+
+.holdupthere {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .holdupthere img {
+    height: 14em;
+    margin-bottom: 15px;
+}
+ 
+  .holdupthere h3 {
+    word-wrap: break-word;
+  }
+
+
+  .cancel-btn {
+    color: grey;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 15px;
+
+  }
