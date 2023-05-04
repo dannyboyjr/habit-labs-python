@@ -1,49 +1,58 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
-import {  useDispatch, useSelector } from "react-redux";
+import { addPaymentInfo, getCardDetails } from '../../store/stripe'
+import { useDispatch, useSelector } from "react-redux";
 import dotenv from 'dotenv';
 import { useModal } from "../../context/Modal";
 import holdupthere from '../../assets/holdupthere.jpg'
 import "./EnterCardInfoModal.css";
+
 dotenv.config();
 
 const EnterCardInfoModal = () => {
 
   const apiUrl = process.env.REACT_APP_BASE_URL;
+
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
+  const { closeModal } = useModal();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState([]);
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const user = useSelector((state) => state.session.user);
-  const hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
-  let reduxCardInfo = useSelector((state) => state.stripe.card_details)
-
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvc, setCvc] = useState("");
-  const [errors, setErrors] = useState([]);
-  const { closeModal } = useModal();
-
+  
   const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
     await dispatch(getCardDetails())
     setIsLoaded(true)
   };
 
-  const handleDeleteCard = () => {
-    dispatch(deleteCardDetails())
-  };
+  const validateInput = () => {
+  const newErrors = [];
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  if (!firstName.trim()) {
+    newErrors.push("First name is required.");
+  }
+  if (!lastName.trim()) {
+    newErrors.push("Last name is required.");
+  }
+
+  setErrors(newErrors);
+  return newErrors.length === 0;
+};
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateInput()) {
+    return;
+  }
+    
     if (!stripe || !elements) {
       return;
     }
@@ -64,6 +73,7 @@ const EnterCardInfoModal = () => {
     if (error) {
       setError(error.message);
       setProcessing(false);
+      return
     } else {
       setError(null);
       setProcessing(false);
@@ -77,7 +87,12 @@ const EnterCardInfoModal = () => {
 
   return (
     <div class="enter-card-modal">
-
+{errors.map((error, idx) => (
+      <div key={idx} className="error-message">
+        {error}
+      </div>
+    ))}
+    {error && <div className="error-message">{error}</div>}
       <div className="holdupthere">
         <img src={holdupthere} />
         <div>
@@ -109,7 +124,6 @@ const EnterCardInfoModal = () => {
         Save Card 
       </button>
       <button className="cancel-btn" onClick={closeModal}>Cancel</button>
-      {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">Card saved successfully</div>}
     </form>
     </div>

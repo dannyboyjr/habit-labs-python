@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { addPaymentInfo, getCardDetails, deleteCardDetails } from '../../store/stripe'
-import {  useDispatch, useSelector } from "react-redux";
-import { getUser } from '../../store/session'
+import { useDispatch, useSelector } from "react-redux";
 import dotenv from 'dotenv';
 
 import './ProfileCreditCard.css'
@@ -13,6 +12,10 @@ dotenv.config();
 const SaveCardForm = () => {
 
   const apiUrl = process.env.REACT_APP_BASE_URL;
+
+  const stripe = useStripe();
+  const elements = useElements();
+  const dispatch = useDispatch()
   
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -22,10 +25,7 @@ const SaveCardForm = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   let hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
   let reduxCardInfo = useSelector((state) => state.stripe.card_details)
-  const stripe = useStripe();
-  const elements = useElements();
-  const dispatch = useDispatch()
-  
+
   const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
     await dispatch(getCardDetails())
@@ -48,8 +48,9 @@ const SaveCardForm = () => {
     dispatch(getCardDetails()).then(() => setIsLoaded(true));
   },[dispatch])
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (!stripe || !elements) {
       return;
     }
@@ -70,6 +71,7 @@ const SaveCardForm = () => {
     if (error) {
       setError(error.message);
       setProcessing(false);
+      return
     } else {
       setError(null);
       setProcessing(false);
