@@ -1,15 +1,24 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {createAHabit} from '../../store/habit'
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import OpenModal from '../OpenModal'
+import EnterCardInfoModal from '../EnterCardInfoModal/EnterCardInfoModal'
 import './BreakhabitForm.css'
+
+//!put into env - also found on /pages/profile.js / BuildhabitForm / TodoForm
+const stripePromise = loadStripe('pk_test_51MRsbnKjQQj6FDkFdswvvgQHKPd9FikpeTwVIxeGyvDuLFqvcmqRvNq7f3SxBO04DqIvd3PrEcKePAa4Yb6PWzfK004l1twuBq');
 
 
 const BreakHabitForm = () => {
    
 
   const dispatch = useDispatch()
+  const user = useSelector(state => state.session.user)
   const [showDropdown, setShowDropdown] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [enterPaymentDetails, setEnterPaymentDetails] = useState(false)
   const [name, setName] = useState("")
   const [amount, setAmount] = useState("")
   const [cadence, setCadence] = useState(1)
@@ -28,6 +37,9 @@ const BreakHabitForm = () => {
     e.preventDefault();
     if (!newHabit.name || !newHabit.amount) {
         setErrorMessage("all inputs are required");
+    }
+    else if(!user.has_payment_info) {
+          setEnterPaymentDetails(true)
       } else {
     dispatch(createAHabit(newHabit)).then(()=>{
       setName("");
@@ -45,6 +57,7 @@ const BreakHabitForm = () => {
     const handleClickOutside = (e) => {
       if (formRef.current && !formRef.current.contains(e.target)) {
         setShowDropdown(false);
+        setEnterPaymentDetails(false)
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -58,6 +71,20 @@ const BreakHabitForm = () => {
   };
 
   return (
+    <dv>
+       {enterPaymentDetails && (
+        
+        <OpenModal
+        autoOpen={true}
+        modalComponent={
+          <Elements stripe={stripePromise}>
+        <EnterCardInfoModal />
+        </Elements>
+        }
+            />  
+          
+      )}
+
     <form  className="new-habit-form" ref={formRef} onSubmit={handleSubmit} >
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
 
@@ -95,6 +122,7 @@ const BreakHabitForm = () => {
       </div>
       )}
     </form>
+    </dv>
   );
 };
 

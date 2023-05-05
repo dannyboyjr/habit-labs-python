@@ -1,7 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import {createATodo} from '../../store/todo'
+import OpenModal from '../OpenModal'
+import EnterCardInfoModal from '../EnterCardInfoModal/EnterCardInfoModal'
 import './TodoForm.css'
+
+//!put into env - also found on /pages/profile.js / BreakhabitForm / Buildhabitform
+const stripePromise = loadStripe('pk_test_51MRsbnKjQQj6FDkFdswvvgQHKPd9FikpeTwVIxeGyvDuLFqvcmqRvNq7f3SxBO04DqIvd3PrEcKePAa4Yb6PWzfK004l1twuBq');
+
 const TodoForm = () => {
 
     //auto sets defualt date to end today at midnight
@@ -20,8 +28,9 @@ const TodoForm = () => {
       
 
   const dispatch = useDispatch()
-  // const userTimeZone = useSelector(state => state.session.user.timezone)
+  const user = useSelector(state => state.session.user)
   const [showDropdown, setShowDropdown] = useState(false);
+  const [enterPaymentDetails, setEnterPaymentDetails] = useState(false)
   const [name, setName] = useState("")
   const [amount, setAmount] = useState(null)
   const [lateFee, setLateFee] = useState(10)
@@ -43,6 +52,9 @@ const TodoForm = () => {
     e.preventDefault();
     if (!newTodo.name || !newTodo.amount || !newTodo.late_fee || !newTodo.due_date) {
         setErrorMessage("all inputs are required");
+      }
+      else if(!user.has_payment_info) {
+        setEnterPaymentDetails(true)
       } else {
     dispatch(createATodo(newTodo)).then(()=>{
         setName("");
@@ -61,6 +73,7 @@ const TodoForm = () => {
     const handleClickOutside = (event) => {
       if (formRef.current && !formRef.current.contains(event.target)) {
         setShowDropdown(false);
+        setEnterPaymentDetails(false);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -76,6 +89,20 @@ const TodoForm = () => {
   const today = getTodaysDate()
 
   return (
+    <div>
+      {enterPaymentDetails && (
+        
+        <OpenModal
+        autoOpen={true}
+        modalComponent={
+          <Elements stripe={stripePromise}>
+        <EnterCardInfoModal />
+        </Elements>
+        }
+            />  
+          
+      )}
+   
     <form className="new-habit-form" ref={formRef} onSubmit={handleSubmit}>
       {/* name */}
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
@@ -150,6 +177,7 @@ const TodoForm = () => {
       )}
       
     </form>
+    </div>
   );
 };
 

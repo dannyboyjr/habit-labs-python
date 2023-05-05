@@ -130,7 +130,7 @@ const formattedDate = createdDate.toLocaleDateString();
           </div>
 
           <div className='journal-stack'>
-          <h3>Future Action: </h3>
+          <h3>Future action: </h3>
           <span>{journal.future_action}</span>
           </div>
           
