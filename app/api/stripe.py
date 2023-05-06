@@ -2,17 +2,21 @@ from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
 from app.models import User, db
 import stripe
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 stripe_routes = Blueprint('stripe', __name__)
 
 
-stripe.api_key = "sk_test_51MRsbnKjQQj6FDkF9qdqgcNngB174beRP0Zl0Z0CPFTMEe97g9wiDcBHUBUovaPW8U6pvrjTILkiT0lApxbX7TBw004E5Fte1u"
+stripe.api_key = os.getenv('STRIPE_SECRET_API_KEY')
 
 @stripe_routes.route('/create-setup-intent', methods=['POST'])
 def create_setup_intent():
     data = request.get_json()
     customer = stripe.Customer.create(
         name=f"{data['firstName']} {data['lastName']}",
+        email=data['email'],
         )
     setup_intent = stripe.SetupIntent.create(customer=customer['id'])
     return jsonify({'clientSecret': setup_intent['client_secret']})
@@ -54,7 +58,7 @@ def charge_customer():
     # Create a new PaymentIntent to charge the customer
     try:
         payment_intent = stripe.PaymentIntent.create(
-            amount=7979,
+            amount=1000,
             currency="usd",
             customer=customer_id,
             payment_method=payment_method_id,

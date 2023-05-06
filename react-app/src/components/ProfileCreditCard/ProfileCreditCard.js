@@ -16,6 +16,8 @@ const SaveCardForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch()
+  let user = useSelector((state) => state.session.user);
+  let reduxCardInfo = useSelector((state) => state.stripe.card_details)
   
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -23,8 +25,7 @@ const SaveCardForm = () => {
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  let hasPaymentInfo = useSelector((state) => state.session.user.has_payment_info);
-  let reduxCardInfo = useSelector((state) => state.stripe.card_details)
+ 
 
   const fetchUpdatedCardDetails = async () => {
     setIsLoaded(false);
@@ -41,8 +42,8 @@ const SaveCardForm = () => {
   };
 
   useEffect(() => {
-    setIsLoaded(hasPaymentInfo);
-  }, [hasPaymentInfo]);
+    setIsLoaded(user.has_payment_info);
+  }, [user.has_payment_info]);
 
   useEffect(()=>{
     dispatch(getCardDetails()).then(() => setIsLoaded(true));
@@ -60,6 +61,7 @@ const SaveCardForm = () => {
     {
       firstName,
       lastName,
+      email: user.email
     }
   );
     const cardElement = elements.getElement(CardElement);
@@ -85,7 +87,7 @@ const SaveCardForm = () => {
 
   return (
     <div className="card-form-container">
-      {hasPaymentInfo && reduxCardInfo ? (
+      {user.has_payment_info && reduxCardInfo ? (
         <div className="card-details">
           <p>Card Details</p>
           <p>Last 4 digits: {reduxCardInfo.last4}</p>

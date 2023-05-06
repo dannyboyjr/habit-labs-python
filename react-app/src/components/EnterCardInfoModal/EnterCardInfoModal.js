@@ -18,6 +18,8 @@ const EnterCardInfoModal = () => {
   const elements = useElements();
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const user = useSelector((state) => state.session.user);
+
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -62,6 +64,7 @@ const EnterCardInfoModal = () => {
     {
       firstName,
       lastName,
+      email: user.email
     }
   );
     const cardElement = elements.getElement(CardElement);

@@ -8,7 +8,7 @@ import EnterCardInfoModal from '../EnterCardInfoModal/EnterCardInfoModal'
 import './BreakhabitForm.css'
 
 //!put into env - also found on /pages/profile.js / BuildhabitForm / TodoForm
-const stripePromise = loadStripe('pk_test_51MRsbnKjQQj6FDkFdswvvgQHKPd9FikpeTwVIxeGyvDuLFqvcmqRvNq7f3SxBO04DqIvd3PrEcKePAa4Yb6PWzfK004l1twuBq');
+const stripePromise = loadStripe('pk_live_51MRsbnKjQQj6FDkFTahjONsHu4fA6Za4RJW8aWTPkN6NNMfbUmlncRe44o3kz6ekptfAPzntRDn8xCvoclcpI4PP00yuIDKRwn');
 
 
 const BreakHabitForm = () => {
