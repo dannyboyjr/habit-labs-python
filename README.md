@@ -12,6 +12,7 @@ Put your money where your mouth is! Build or break habits, and get your todos do
 ![signin](signin.png)
 ![home](home.png)
 ![forms](forms.png)
+![stripemodal](stripemodal.png)
 ![newjournal](newjournal.png)
 ![profile](profile.png)
 
