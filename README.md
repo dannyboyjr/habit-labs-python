@@ -53,4 +53,4 @@ Please note that the above instructions assume that you have the necessary depen
 
 <h3>Road Map</h3>
 
-<p> Stripe integration for billing users - Hosted on AWS - Scripts to automatically bill failed tasks</p>
+<p> CronJob to automatically bill failed tasks</p>
