@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    image: dannyboyjr/habit_labs_backend
+    environment:
+      - SECRET_KEY=lkasjdf09ajsdkfljalsiorj12n3490re9485309irefvn,u90818734902139489230
+      - DATABASE_URL=sqlite:///dev.db
+      - SCHEMA=habit_labs_schema
+      - STRIPE_SECRET_API_KEY=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
+    ports:
+      - "8000:8000"
+    container_name: habit_labs_backend_container
+    restart: always
+
+  frontend:
+    build: ./react-app
+    image: dannyboyjr/habit_labs_frontend
+    environment:
+    - REACT_APP_BASE_URL=http://backend:5000
+    ports:
+      - "3000:3000"
+    container_name: habit_labs_frontend_container
+    restart: always
+   
+
+
+  # database:
+  #   image: postgres:13
+  #   environment:
+  #     - POSTGRES_USER=your_username
+  #     - POSTGRES_PASSWORD=your_password
+  #     - POSTGRES_DB=your_database_name
+    # volumes:
+    #   - ./data:/var/lib/postgresql/data
