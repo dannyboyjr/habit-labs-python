@@ -7,7 +7,7 @@ services:
       - SECRET_KEY=lkasjdf09ajsdkfljalsiorj12n3490re9485309irefvn,u90818734902139489230
       - DATABASE_URL=sqlite:///dev.db
       - SCHEMA=habit_labs_schema
-      - STRIPE_SECRET_API_KEY=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
+      - STRIPE_SECRET_API_KEY=
     ports:
       - "8000:8000"
     container_name: habit_labs_backend_container
